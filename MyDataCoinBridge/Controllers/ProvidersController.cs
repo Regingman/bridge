@@ -609,7 +609,7 @@ namespace MyDataCoinBridge.Controllers
         }
 
         /// <summary>
-        /// CRUD Create Data Provider
+        /// CRUD Create Reward Category
         /// </summary>
         /// <response code="200">Returns Success</response>
         /// <response code="400">Returns Bad Request</response>
@@ -635,7 +635,7 @@ namespace MyDataCoinBridge.Controllers
         }
 
         /// <summary>
-        /// CRUD Edit Data Provider
+        /// CRUD Edit Reward Category
         /// </summary>
         /// <response code="200">Returns Success</response>
         /// <response code="400">Returns Bad Request</response>
@@ -661,7 +661,7 @@ namespace MyDataCoinBridge.Controllers
         }
 
         /// <summary>
-        /// CRUD Get Data Provider by Id
+        /// CRUD Get Reward Category by Id
         /// </summary>
         /// <response code="200">Returns Success</response>
         /// <response code="400">Returns Bad Request</response>
@@ -687,7 +687,7 @@ namespace MyDataCoinBridge.Controllers
         }
 
         /// <summary>
-        /// CRUD Get Data Provider List
+        /// CRUD Get Reward Category List
         /// </summary>
         /// <response code="200">Returns Success</response>
         /// <response code="400">Returns Bad Request</response>
@@ -713,7 +713,7 @@ namespace MyDataCoinBridge.Controllers
         }
 
         /// <summary>
-        /// CRUD Delete Data Provider by Id
+        /// CRUD Delete Reward Category by Id
         /// </summary>
         /// <response code="200">Returns Success</response>
         /// <response code="400">Returns Bad Request</response>
@@ -738,7 +738,7 @@ namespace MyDataCoinBridge.Controllers
             }
         }
         /// <summary>
-        /// CRUD Create Data Provider
+        /// CRUD Create Transaction
         /// </summary>
         /// <response code="200">Returns Success</response>
         /// <response code="400">Returns Bad Request</response>
@@ -764,7 +764,7 @@ namespace MyDataCoinBridge.Controllers
         }
 
         /// <summary>
-        /// CRUD Edit Data Provider
+        /// CRUD Edit Transaction
         /// </summary>
         /// <response code="200">Returns Success</response>
         /// <response code="400">Returns Bad Request</response>
@@ -790,7 +790,7 @@ namespace MyDataCoinBridge.Controllers
         }
 
         /// <summary>
-        /// CRUD Get Data Provider by Id
+        /// CRUD Get Transaction by Id
         /// </summary>
         /// <response code="200">Returns Success</response>
         /// <response code="400">Returns Bad Request</response>
@@ -816,7 +816,7 @@ namespace MyDataCoinBridge.Controllers
         }
 
         /// <summary>
-        /// CRUD Get Data Provider List
+        /// CRUD Get Transaction List
         /// </summary>
         /// <response code="200">Returns Success</response>
         /// <response code="400">Returns Bad Request</response>
@@ -842,7 +842,7 @@ namespace MyDataCoinBridge.Controllers
         }
 
         /// <summary>
-        /// CRUD Delete Data Provider by Id
+        /// CRUD Delete Transaction by Id
         /// </summary>
         /// <response code="200">Returns Success</response>
         /// <response code="400">Returns Bad Request</response>
