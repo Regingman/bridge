@@ -42,6 +42,11 @@ namespace MyDataCoinBridge.Interfaces
         public Task<List<TransactionRequest>> TransactionGETLIST();
         public Task<TransactionRequest> TransactionPUT(Guid id, TransactionRequest model);
         public Task<TransactionRequest> TransactionDELETE(Guid id);
+
+        public Task<TermOfUse> TermOfUseStatus(string userFIO, Guid userId, Guid provaiderId);
+        public Task<bool> TermOfUseApply(Guid userId, Guid provaiderId);
+        public Task<bool> TermOfUseCancel(Guid userId, Guid provaiderId);
+        public Task<List<TransactionRequest>> GetStatistics(Guid userId);
     }
 }
 

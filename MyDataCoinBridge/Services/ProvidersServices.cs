@@ -492,6 +492,157 @@ namespace MyDataCoinBridge.Services
                 return new TransactionRequest();
             }
         }
+
+        public async Task<TermOfUse> TermOfUseStatus(string userFIO, Guid userId, Guid provaiderId)
+        {
+            var provaider = await _context.DataProviders.FirstOrDefaultAsync(e => e.Id == provaiderId);
+            if (provaider == null)
+            {
+                return null;
+            }
+            var termResponse = new TermOfUse()
+            {
+                Flag = false,
+                Text = GetTerms(userFIO, provaider.Name)
+            };
+            var useTerm = await _context.UserTermsOfUses.FirstOrDefaultAsync(e => e.UserId == userId && e.DataProviderId == provaiderId);
+            if (useTerm == null)
+            {
+                useTerm = new UserTermsOfUse()
+                {
+                    UserId = userId,
+                    DataProviderId = provaiderId,
+                    IsRegistered = false
+                };
+                await _context.UserTermsOfUses.AddAsync(useTerm);
+                await _context.SaveChangesAsync();
+            }
+            else if (useTerm.IsRegistered == false)
+            {
+                termResponse.Flag = false;
+            }
+            else
+            {
+                termResponse.Flag = true;
+            }
+            return termResponse;
+        }
+
+        public async Task<bool> TermOfUseApply(Guid userId, Guid provaiderId)
+        {
+            try
+            {
+                var useTerm = await _context.UserTermsOfUses.FirstOrDefaultAsync(e => e.UserId == userId && e.DataProviderId == provaiderId);
+                if (useTerm == null)
+                {
+                    useTerm = new UserTermsOfUse()
+                    {
+                        UserId = userId,
+                        DataProviderId = provaiderId,
+                        IsRegistered = true
+                    };
+                    await _context.UserTermsOfUses.AddAsync(useTerm);
+                    await _context.SaveChangesAsync();
+                }
+                else
+                {
+                    useTerm.IsRegistered = true;
+                    _context.UserTermsOfUses.Update(useTerm);
+                    await _context.SaveChangesAsync();
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+
+        public async Task<bool> TermOfUseCancel(Guid userId, Guid provaiderId)
+        {
+            try
+            {
+                var useTerm = await _context.UserTermsOfUses.FirstOrDefaultAsync(e => e.UserId == userId && e.DataProviderId == provaiderId);
+                if (useTerm == null)
+                {
+                    useTerm = new UserTermsOfUse()
+                    {
+                        UserId = userId,
+                        DataProviderId = provaiderId,
+                        IsRegistered = false
+                    };
+                    await _context.UserTermsOfUses.AddAsync(useTerm);
+                    await _context.SaveChangesAsync();
+                }
+                else
+                {
+                    useTerm.IsRegistered = false;
+                    _context.UserTermsOfUses.Update(useTerm);
+                    await _context.SaveChangesAsync();
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+
+        public async Task<List<TransactionRequest>> GetStatistics(Guid userId)
+         => await _context.Transactions.Where(e => Guid.Parse(e.To) == userId).Select(e => new TransactionRequest()
+         {
+             Amount = e.Amount,
+             From = e.From,
+             To = e.To,
+             TxDate = e.TxDate,
+             TxId = e.TxId,
+             Type = e.Type,
+         }).ToListAsync();
+
+
+        public string GetTerms(string fio, string provaiderName)
+        {
+            return @"<html><body>
+
+                    <h4>Terms</h4>
+                    <p>By accessing the website at mydatacoin.io, you agree to be bound by these terms of service, all applicable laws, and regulations and agree that you are responsible for compliance with any applicable local laws. If you do not agree with these terms, you are prohibited from using or accessing this site. In addition, the materials contained in this website are protected by applicable copyright and trademark law.</p>
+
+
+                    <br/><p></p>
+                    <h4>Use License</h4>
+                    <p>Permission is granted to temporarily download one copy of the materials (information or software) on myData.coin's website for only personal, non-commercial transitory viewing. This is the grant of a license, not a transfer of title, and under this license, you may not:</p>
+                    <p>• Modify or copy the materials</p>
+                    <p>• Use the materials for any commercial purpose, or any public display (commercial or non-commercial)</p>
+                    <p>• Attempt to decompile or reverse engineer any software contained on MyDataCoin's website;</p>
+                    <p>• Transfer the materials to another person or “mirror” the materials on any other server</p>
+                    <p>This license shall automatically terminate if you violate any of these restrictions and may be terminated by myData.coin at any time. Upon terminating your viewing of these materials or upon the termination of this license, you must destroy any downloaded materials in your possession whether in electronic or printed format.</p>
+
+                    <br/><p></p>
+                    <h4>Disclaimer</h4>
+                    <p>The materials on MyDataCoin's website are provided on an 'as is' basis. myData.coin makes no warranties, expressed or implied, and hereby disclaims and negates all other warranties including, without limitation, implied warranties or conditions of merchantability, fitness for a particular purpose, or non-infringement of intellectual property or other violation of rights.</p>
+                    <p>Further, MyDataCoin does not warrant or make any representations concerning the accuracy, likely results, or reliability of the use of the materials on its website or otherwise relating to such materials or on any sites linked to this site.</p>
+                    
+                    <br/><p></p>
+                    <h4>Limitations</h4>
+                    <p>In no event shall myData.coin or its suppliers be liable for any damages (including, without limitation, damages for loss of data or profit, or due to business interruption) arising out of the use or inability to use the materials on MyDataCoin's website, even if myData.coin or a myData.coin authorised representative has been notified orally or in writing of the possibility of such damage. Because some jurisdictions do not allow limitations on implied warranties, or limitations of liability for consequential or incidental damages, these limitations may not apply to you.</p>
+
+                    <br/><p></p>
+                    <h4>Links</h4>
+                    <p>MyDataCoin has not reviewed all of the sites linked to its website and is not responsible for the contents of any such linked site. The inclusion of any link does not imply endorsement by MyDataCoin of the site. Use of any such linked website is at the user's own risk. </p>
+
+                    <br/><p></p>
+                    <h4>Modifications</h4>
+                    <p>MyDataCoin may revise these terms of service for its website at any time without notice. By using this website, you agree to be bound by the then current version of these terms of service.</p>
+                    
+                    <br/><p></p>
+                    <h4>Governing Law</h4>
+                    <p>MyDataCoin may revise these terms of service for its website at any time without notice. By using this website, you agree to be bound by the then current version of these terms of service.</p>
+
+                    <br/><p></p><p>Latest update: 1 April 2022</p>
+
+                    </body></html>";
+        }
+        
     }
 }
 
