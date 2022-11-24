@@ -31,6 +31,7 @@ namespace MyDataCoinBridge.DataAccess
         public DbSet<DataProvider> DataProviders { get; set; }
 
         public DbSet<RewardCategory> RewardCategories { get; set; }
+        public DbSet<UserTermsOfUse> UserTermsOfUses { get; set; }
 
     }
 }

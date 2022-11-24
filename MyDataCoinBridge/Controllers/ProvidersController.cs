@@ -866,6 +866,100 @@ namespace MyDataCoinBridge.Controllers
                 return Ok(response);
             }
         }
+
+        /// <summary>
+        /// Get term of use status for user from provaider
+        /// </summary>
+        /// <response code="200">Returns Success</response>
+        /// <response code="400">Returns Bad Request</response>
+        /// <response code="401">Returns Unauthorized</response>
+        /// <response code="415">Returns Unsupported Media Type</response>
+        /// <response code="421">Returns User Not Found</response>
+        /// <response code="500">Returns Internal Server Error</response>
+        [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(Models.GeneralResponse))]
+        [Authorize]
+        [HttpGet]
+        [Route("TermOfUseStatus")]
+        public async Task<ActionResult<List<TransactionRequest>>> TermOfUseStatus(string fio, Guid userId, Guid provaiderId)
+        {
+            var response = await _provider.TermOfUseStatus(fio, userId, provaiderId);
+            if (response == null)
+            {
+                return BadRequest();
+            }
+            else
+            {
+                return Ok(response);
+            }
+        }
+
+        /// <summary>
+        /// Set Apply status term of use status for user from provaider
+        /// </summary>
+        /// <response code="200">Returns Success</response>
+        /// <response code="400">Returns Bad Request</response>
+        /// <response code="401">Returns Unauthorized</response>
+        /// <response code="415">Returns Unsupported Media Type</response>
+        /// <response code="421">Returns User Not Found</response>
+        /// <response code="500">Returns Internal Server Error</response>
+        [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(Models.GeneralResponse))]
+        [Authorize]
+        [HttpGet]
+        [Route("TermOfUseApply")]
+        public async Task<ActionResult<List<TransactionRequest>>> TermOfUseApply(Guid userId, Guid provaiderId)
+        {
+            var response = await _provider.TermOfUseApply(userId, provaiderId);
+            if (response == false)
+            {
+                return BadRequest();
+            }
+            else
+            {
+                return Ok(response);
+            }
+        }
+
+        /// <summary>
+        /// Set Apply status term of use status for user from provaider
+        /// </summary>
+        /// <response code="200">Returns Success</response>
+        /// <response code="400">Returns Bad Request</response>
+        /// <response code="401">Returns Unauthorized</response>
+        /// <response code="415">Returns Unsupported Media Type</response>
+        /// <response code="421">Returns User Not Found</response>
+        /// <response code="500">Returns Internal Server Error</response>
+        [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(Models.GeneralResponse))]
+        [Authorize]
+        [HttpGet]
+        [Route("TermOfUseCancel")]
+        public async Task<ActionResult<List<TransactionRequest>>> TermOfUseCancel(Guid userId, Guid provaiderId)
+        {
+            var response = await _provider.TermOfUseCancel(userId, provaiderId);
+            if (response == false)
+            {
+                return BadRequest();
+            }
+            else
+            {
+                return Ok(response);
+            }
+        }
+
+        /// <summary>
+        /// Get statistic for user
+        /// </summary>
+        /// <response code="200">Returns Success</response>
+        /// <response code="400">Returns Bad Request</response>
+        /// <response code="401">Returns Unauthorized</response>
+        /// <response code="415">Returns Unsupported Media Type</response>
+        /// <response code="421">Returns User Not Found</response>
+        /// <response code="500">Returns Internal Server Error</response>
+        [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(Models.GeneralResponse))]
+        [Authorize]
+        [HttpGet]
+        [Route("GetStatistics")]
+        public async Task<ActionResult<List<TransactionRequest>>> TermOfUseCancel(Guid userId)
+                            => await _provider.GetStatistics(userId);
     }
 }
 
