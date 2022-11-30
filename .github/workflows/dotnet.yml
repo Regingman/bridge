@@ -1,0 +1,54 @@
+name: .NET Core
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+    
+jobs:
+  Deploy:
+    runs-on: ubuntu-latest
+    steps:
+    
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 6.0.x
+        
+    - name: DotNet Restore
+      run: dotnet restore
+
+    - name: DotNet Build
+      run: dotnet build --no-restore
+   
+    - name: DotNet Run Tests
+      run: dotnet test --no-build --verbosity normal
+        
+    - name: DotNet Publish
+      run: dotnet publish -c Release
+    
+    - name: Copy to Server via SCP
+      uses: appleboy/scp-action@master
+      with:
+        source: /home/runner/work/bridge/bridge/MyDataCoinBridge/bin/Release/net6.0/publish/
+        rm: true
+        target: ${{ secrets.REMOTE_TARGET }}
+        host: ${{ secrets.SSH_HOST }}
+        username: ${{ secrets.SSH_USER }}
+        passphrase: ${{ secrets.SSH_PASSPHRASE }}
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        port: ${{ secrets.SSH_PORT }}
+
+    - name: Start ServiceName Service
+      uses: appleboy/ssh-action@master
+      with:
+          script: sudo systemctl restart api.service
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          passphrase: ${{ secrets.SSH_PASSPHRASE }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: ${{ secrets.SSH_PORT }}
