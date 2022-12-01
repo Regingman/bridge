@@ -10,7 +10,7 @@ namespace MyDataCoinBridge.Interfaces
     {
         Task<DataProvider> GetProviderByIdAsync(Guid id);
 
-        Task<List<Country>> GetUsersProvidersAsync(string country);
+        Task<List<ProvaidersRequest>> GetUsersProvidersAsync(string country, string userId);
 
         Task<string> GetMashinaKgUserAsync(string email, string jwtToken);
 

@@ -35,12 +35,35 @@ namespace MyDataCoinBridge.Services
             return await _context.DataProviders.SingleOrDefaultAsync(x => x.Id == id);
         }
 
-        public async Task<List<Country>> GetUsersProvidersAsync(string countryCode)
+        public async Task<List<ProvaidersRequest>> GetUsersProvidersAsync(string countryCode, string userId)
         {
-            return await _context.Countries
+            var prodavaders = await _context.UserTermsOfUses.Where(e => e.UserId == Guid.Parse(userId)).ToListAsync();
+            var country = await _context.Countries
                 .Include(provider => provider.DataProviders)
                 .Where(x => x.CountryCode == countryCode)
+                .Select(x => new ProvaidersRequest(
+                    )
+                {
+                    Connected = false,
+                    CountryCode = x.CountryCode,
+                    CountryName = x.CountryName,
+                    DataProviders = x.DataProviders,
+                    PhoneCode = x.PhoneCode
+                })
                 .ToListAsync();
+            country.ForEach(e =>
+            {
+                if (e.DataProviders.Count() > 0)
+                {
+                    bool flag = false;
+                    prodavaders.ForEach(x =>
+                    {
+                        flag = e.DataProviders.Where(e => e.Id == x.DataProviderId).Count() > 0;
+                    });
+                    e.Connected = flag;
+                }
+            });
+            return country;
         }
 
         public async Task<string> GetDataFromFacebookAsync(string jwtToken)
@@ -642,7 +665,7 @@ namespace MyDataCoinBridge.Services
 
                     </body></html>";
         }
-        
+
     }
 }
 
