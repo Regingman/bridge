@@ -61,10 +61,10 @@ namespace MyDataCoinBridge.Controllers
         [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(List<Country>))]
         [Authorize]
         [HttpGet]
-        [Route("get-users-providers/{countryCode}")]
-        public async Task<IActionResult> GetUsersProviders(string countryCode)
+        [Route("get-users-providers/{countryCode}/{userId}")]
+        public async Task<IActionResult> GetUsersProviders(string countryCode, string userId)
         {
-            var result = await _provider.GetUsersProvidersAsync(countryCode);
+            var result = await _provider.GetUsersProvidersAsync(countryCode, userId);
             return Ok(result);
         }
 
@@ -566,7 +566,7 @@ namespace MyDataCoinBridge.Controllers
         /// <response code="421">Returns User Not Found</response>
         /// <response code="500">Returns Internal Server Error</response>
         [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(Models.GeneralResponse))]
-        [Authorize]
+        //[Authorize]
         [HttpGet]
         [Route("DataProviderGetList")]
         public async Task<ActionResult<List<DataProviderRequest>>> DataProviderGetList()
@@ -879,7 +879,7 @@ namespace MyDataCoinBridge.Controllers
         [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(Models.GeneralResponse))]
         [Authorize]
         [HttpGet]
-        [Route("TermOfUseStatus")]
+        [Route("TermOfUse")]
         public async Task<ActionResult<List<TransactionRequest>>> TermOfUseStatus(string fio, Guid userId, Guid provaiderId)
         {
             var response = await _provider.TermOfUseStatus(fio, userId, provaiderId);
