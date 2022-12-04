@@ -48,8 +48,8 @@ builder.Logging.AddConsole();
             ValidateAudience = false, // on production make it true
             ValidateLifetime = true,
             ValidateIssuerSigningKey = true,
-            ValidIssuer = "mydatacoin.io",
-            ValidAudience = "mydatacoin.io",
+            ValidIssuer = "bridge.mydatacoin.io",
+            ValidAudience = "bridge.mydatacoin.io",
             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(DotNetEnv.Env.GetString("JWT_KEY", "Variable not found"))),
             ClockSkew = TimeSpan.Zero
         };

@@ -39,7 +39,7 @@ bld/
 #wwwroot/
 
 .env
-appsettings.json
+data_coin.json
 
 # Visual Studio 2017 auto generated files
 Generated\ Files/
