@@ -1,0 +1,37 @@
+﻿<Properties StartupConfiguration="{17946292-2259-4FB2-A02D-F0F933B6A5E3}|Default">
+  <MonoDevelop.Ide.Workbench ActiveDocument="MyDataCoinBridge/Program.cs">
+    <Files>
+      <File FileName="MyDataCoinBridge/Controllers/ProvidersController.cs" Line="504" Column="10" />
+      <File FileName="MyDataCoinBridge/DataAccess/WebApiDbContext.cs" />
+      <File FileName="MyDataCoinBridge/Program.cs" Line="105" Column="1" />
+      <File FileName="MyDataCoinBridge/data_coin.json" />
+      <File FileName="MyDataCoinBridge/Services/ProvidersServices.cs" />
+      <File FileName="MyDataCoinBridge/Entities/Country.cs" />
+      <File FileName="MyDataCoinBridge/Entities/DataProvider.cs" />
+      <File FileName="MyDataCoinBridge/Entities/RewardCategory.cs" Line="40" Column="1" />
+      <File FileName="MyDataCoinBridge/Entities/Transaction.cs" />
+      <File FileName="MyDataCoinBridge/Interfaces/IProviders.cs" />
+      <File FileName="MyDataCoinBridge/appsettings.json" Line="20" Column="1" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="MyDataCoinBridge" expanded="True">
+            <Node name="MyDataCoinBridge" expanded="True">
+              <Node name="Controllers" expanded="True" />
+              <Node name="Properties" expanded="True" />
+              <Node name=".env" selected="True" />
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MultiItemStartupConfigurations />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.ItemProperties.MyDataCoinBridge PreferredExecutionTarget="/System/Volumes/Preboot/Cryptexes/App/System/Applications/Safari.app" />
+</Properties>
