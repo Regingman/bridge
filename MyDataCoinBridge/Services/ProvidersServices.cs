@@ -478,6 +478,7 @@ namespace MyDataCoinBridge.Services
             var termResponse = new TermOfUse()
             {
                 Flag = false,
+                ProviderName = provaider.Name,
                 Text = GetTerms(userFIO, provaider.Name)
             };
             var useTerm = await _context.UserTermsOfUses.FirstOrDefaultAsync(e => e.UserId == userId && e.DataProviderId == provaiderId);
