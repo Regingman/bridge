@@ -12,11 +12,11 @@ namespace MyDataCoinBridge.Interfaces
 
         Task<List<ProvaidersRequest>> GetUsersProvidersAsync(string country, string userId);
 
-        Task<string> GetMashinaKgUserAsync(string email, string jwtToken);
+        //Task<string> GetMashinaKgUserAsync(string email, string jwtToken);
 
-        Task<string> GetMashinaKgUserTransactionHistoryAsync(string email, string jwtToken);
+        //<string> GetMashinaKgUserTransactionHistoryAsync(string email, string jwtToken);
 
-        Task<string> GetMashinaKgUserStatsAsync(string email, string jwtToken);
+        //Task<string> GetMashinaKgUserStatsAsync(string email, string jwtToken);
 
         Task<GeneralResponse> GetDataFromGoogleAsync(string jwtToken);
 
