@@ -44,10 +44,30 @@ namespace MyDataCoinBridge.Services
                 .Select(x => new ProvaidersRequest(
                     )
                 {
-                    Connected = false,
                     CountryCode = x.CountryCode,
                     CountryName = x.CountryName,
-                    DataProviders = x.DataProviders,
+                    DataProviders = x.DataProviders.Select(e => new DataProviderRequest()
+                    {
+                        Id = e.Id,
+                        Address = e.Address,
+                        CreatedAt = e.CreatedAt,
+                        Countries = e.Countries.Select(e => new CountryRequest()
+                        {
+                            CountryCode = e.CountryCode,
+                            CountryName = e.CountryName,
+                            PhoneCode = e.PhoneCode
+                        }).ToList(),
+                        Email = e.Email,
+                        Icon = e.Icon,
+                        Name = e.Name,
+                        Phone = e.Phone,
+                        RewardCategories = e.RewardCategories.Select(e => new RewardCategoryRequest()
+                        {
+                            Description = e.Description,
+                            Name = e.Name
+                        }).ToList(),
+
+                    }).ToList(),
                     PhoneCode = x.PhoneCode
                 })
                 .ToListAsync();
@@ -56,11 +76,11 @@ namespace MyDataCoinBridge.Services
                 if (e.DataProviders.Count() > 0)
                 {
                     bool flag = false;
-                    prodavaders.ForEach(x =>
+                    foreach (var temp in e.DataProviders)
                     {
-                        flag = e.DataProviders.Where(e => e.Id == x.DataProviderId).Count() > 0;
-                    });
-                    e.Connected = flag;
+                        flag = prodavaders.Where(x => x.DataProviderId == temp.Id).Count() > 0;
+                        temp.Connected = flag;
+                    }
                 }
             });
             return country;
@@ -611,8 +631,8 @@ namespace MyDataCoinBridge.Services
             }
         }
 
-        public async Task<List<TransactionRequest>> GetStatistics(Guid userId)
-         => await _context.Transactions.Where(e => Guid.Parse(e.To) == userId).Select(e => new TransactionRequest()
+        public async Task<List<TransactionRequest>> GetStatistics(string userId)
+         => await _context.Transactions.Where(e => e.To == userId).Select(e => new TransactionRequest()
          {
              Amount = e.Amount,
              From = e.From,

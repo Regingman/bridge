@@ -22,6 +22,8 @@ namespace MyDataCoinBridge.Models
 
         public string Email { get; set; }
 
+        public bool Connected { get; set; }
+
         public DateTime CreatedAt { get; set; }
 
         public ICollection<RewardCategoryRequest> RewardCategories { get;  set; }
