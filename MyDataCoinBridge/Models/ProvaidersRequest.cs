@@ -7,7 +7,7 @@ namespace MyDataCoinBridge.Models
     {
         public ProvaidersRequest()
         {
-            this.DataProviders = new HashSet<DataProvider>();
+            this.DataProviders = new HashSet<DataProviderRequest>();
         }
 
         /// <summary>
@@ -27,8 +27,7 @@ namespace MyDataCoinBridge.Models
         /// <example>+996</example>
         /// </summary>
         public string PhoneCode { get; set; }
-        public bool Connected { get; set; }
 
-        public virtual ICollection<DataProvider> DataProviders { get; set; }
+        public virtual ICollection<DataProviderRequest> DataProviders { get; set; }
     }
 }

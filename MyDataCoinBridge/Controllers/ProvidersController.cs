@@ -958,7 +958,7 @@ namespace MyDataCoinBridge.Controllers
         [Authorize]
         [HttpGet]
         [Route("GetStatistics")]
-        public async Task<ActionResult<List<TransactionRequest>>> TermOfUseCancel(Guid userId)
+        public async Task<ActionResult<List<TransactionRequest>>> TermOfUseCancel(string userId)
                             => await _provider.GetStatistics(userId);
     }
 }
