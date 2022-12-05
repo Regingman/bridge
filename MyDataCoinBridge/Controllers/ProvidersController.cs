@@ -155,7 +155,7 @@ namespace MyDataCoinBridge.Controllers
             }
             else
             {
-                return NotFound("������ �����������!!");
+                return NotFound("Error occured!!");
             }
 
             //using (client = new HttpClient())
@@ -282,7 +282,6 @@ namespace MyDataCoinBridge.Controllers
 
             return Ok(me);
         }
-
 
 
         /// <summary>
