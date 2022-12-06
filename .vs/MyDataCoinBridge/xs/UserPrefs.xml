@@ -1,17 +1,21 @@
 ﻿<Properties StartupConfiguration="{17946292-2259-4FB2-A02D-F0F933B6A5E3}|Default">
-  <MonoDevelop.Ide.Workbench ActiveDocument="MyDataCoinBridge/Program.cs">
+  <MultiItemStartupConfigurations />
+  <MonoDevelop.Ide.ItemProperties.MyDataCoinBridge PreferredExecutionTarget="/System/Volumes/Preboot/Cryptexes/App/System/Applications/Safari.app" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="MyDataCoinBridge/.env">
     <Files>
-      <File FileName="MyDataCoinBridge/Controllers/ProvidersController.cs" Line="504" Column="10" />
+      <File FileName="MyDataCoinBridge/Controllers/ProvidersController.cs" />
       <File FileName="MyDataCoinBridge/DataAccess/WebApiDbContext.cs" />
-      <File FileName="MyDataCoinBridge/Program.cs" Line="105" Column="1" />
       <File FileName="MyDataCoinBridge/data_coin.json" />
       <File FileName="MyDataCoinBridge/Services/ProvidersServices.cs" />
       <File FileName="MyDataCoinBridge/Entities/Country.cs" />
       <File FileName="MyDataCoinBridge/Entities/DataProvider.cs" />
-      <File FileName="MyDataCoinBridge/Entities/RewardCategory.cs" Line="40" Column="1" />
+      <File FileName="MyDataCoinBridge/Entities/RewardCategory.cs" />
       <File FileName="MyDataCoinBridge/Entities/Transaction.cs" />
       <File FileName="MyDataCoinBridge/Interfaces/IProviders.cs" />
-      <File FileName="MyDataCoinBridge/appsettings.json" Line="20" Column="1" />
+      <File FileName="MyDataCoinBridge/appsettings.json" />
+      <File FileName="MyDataCoinBridge/.gitignore" />
+      <File FileName="MyDataCoinBridge/Program.cs" Line="101" Column="1" />
+      <File FileName="MyDataCoinBridge/.env" Line="1" Column="112" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -27,11 +31,9 @@
       </Pad>
     </Pads>
   </MonoDevelop.Ide.Workbench>
-  <MultiItemStartupConfigurations />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.ItemProperties.MyDataCoinBridge PreferredExecutionTarget="/System/Volumes/Preboot/Cryptexes/App/System/Applications/Safari.app" />
 </Properties>
