@@ -478,6 +478,7 @@ namespace MyDataCoinBridge.Services
             var termResponse = new TermOfUse()
             {
                 Flag = false,
+                Logo = provaider.Icon,
                 ProviderName = provaider.Name,
                 Text = GetTerms(userFIO, provaider.Name)
             };
