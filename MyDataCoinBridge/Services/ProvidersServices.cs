@@ -78,7 +78,7 @@ namespace MyDataCoinBridge.Services
                     bool flag = false;
                     foreach (var temp in e.DataProviders)
                     {
-                        flag = prodavaders.Where(x => x.DataProviderId == temp.Id && x.IsRegistered).Count() > 0;
+                        flag = prodavaders.Where(x => x.DataProviderId == temp.Id).Count() > 0;
                         temp.Connected = flag;
                     }
                 }
