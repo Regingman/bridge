@@ -46,7 +46,7 @@ namespace MyDataCoinBridge.Interfaces
         public Task<TermOfUse> TermOfUseStatus(string userFIO, Guid userId, Guid provaiderId);
         public Task<bool> TermOfUseApply(Guid userId, Guid provaiderId);
         public Task<bool> TermOfUseCancel(Guid userId, Guid provaiderId);
-        public Task<List<TransactionRequest>> GetStatistics(string userId);
+        public Task<AllDataFromStatisticRequest> GetStatistics(string userId);
     }
 }
 

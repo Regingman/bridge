@@ -396,7 +396,7 @@ namespace MyDataCoinBridge.Services
                         From = model.From,
                         To = model.To,
                         TxDate = model.TxDate,
-                        Type = model.Type,
+                        Type = TransactionHelpers.TransactionTypeToInt(model.Type),
                     };
                     await _context.Transactions.AddAsync(tr);
                     await _context.SaveChangesAsync();
@@ -417,7 +417,7 @@ namespace MyDataCoinBridge.Services
                From = e.From,
                To = e.To,
                TxDate = e.TxDate,
-               Type = e.Type,
+               Type = TransactionHelpers.TransactionType(e.Type),
                TxId = e.TxId
            }).FirstOrDefaultAsync(e => e.TxId == id);
 
@@ -428,7 +428,7 @@ namespace MyDataCoinBridge.Services
                 From = e.From,
                 To = e.To,
                 TxDate = e.TxDate,
-                Type = e.Type,
+                Type = TransactionHelpers.TransactionType(e.Type),
                 TxId = e.TxId
             })
             .ToListAsync();
@@ -446,7 +446,7 @@ namespace MyDataCoinBridge.Services
                 tr.From = model.From;
                 tr.To = model.To;
                 tr.TxDate = model.TxDate;
-                tr.Type = model.Type;
+                tr.Type = TransactionHelpers.TransactionTypeToInt(model.Type);
                 _context.Transactions.Update(tr);
                 await _context.SaveChangesAsync();
                 return model;
@@ -565,16 +565,42 @@ namespace MyDataCoinBridge.Services
             }
         }
 
-        public async Task<List<TransactionRequest>> GetStatistics(string userId)
-         => await _context.Transactions.Where(e => e.To == userId).Select(e => new TransactionRequest()
-         {
-             Amount = e.Amount,
-             From = e.From,
-             To = e.To,
-             TxDate = e.TxDate,
-             TxId = e.TxId,
-             Type = e.Type,
-         }).ToListAsync();
+        public async Task<AllDataFromStatisticRequest> GetStatistics(string userId)
+        {
+            var transactions = await _context.Transactions
+                .Where(e => e.To == userId)
+                .Select(e => new TransactionRequest()
+                {
+                    Amount = e.Amount,
+                    From = e.From,
+                    To = e.To,
+                    TxDate = e.TxDate,
+                    TxId = e.TxId,
+                    Type = TransactionHelpers.TransactionType(e.Type),
+                })
+                .ToListAsync();
+
+            var earnsList
+                = transactions
+                .GroupBy(e => e.Type)
+                .Select(e => new TotalEarned()
+                {
+                    Amount = 0,
+                    Name = e.Key
+                })
+                .ToList();
+
+            foreach (var temp in earnsList)
+            {
+                temp.Amount += transactions.Where(e => e.Type == temp.Name).Sum(e => e.Amount);
+            }
+
+            return new AllDataFromStatisticRequest
+            {
+                TotalEarneds = earnsList,
+                TotalTransactions = transactions
+            };
+        }
 
 
         public string GetTerms(string fio, string provaiderName)
