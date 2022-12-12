@@ -96,25 +96,12 @@ builder.Logging.AddConsole();
 
 var app = builder.Build();
 {
-    if (app.Environment.IsDevelopment())
-    {
-        app.UseSwagger(options => { options.SerializeAsV2 = true; });
-        app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "MyDataCoinBridge.io v1"); });
+    app.UseSwagger(options => { options.SerializeAsV2 = true; });
+    app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "MyDataCoinBridge.io v1"); });
 
-        Env.Load();
-        app.UseDeveloperExceptionPage();
-    }
-    else
-    {
-        app.UseSwagger(options => { options.SerializeAsV2 = true; });
-        app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "MyDataCoinBridge.io v1"); });
-
-        string _path = Path.Combine(GetFolderPath(SpecialFolder.MyDocuments, SpecialFolderOption.DoNotVerify), "creds");
-        using (var stream = File.OpenRead($"{_path}/.env"))
-        {
-            Env.Load(stream);
-        }
-    }
+    Env.Load();
+    app.UseDeveloperExceptionPage();
+    
 
     app.UseCors(x => x
         .AllowAnyOrigin()
