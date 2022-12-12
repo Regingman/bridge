@@ -1,7 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace MyDataCoinBridge.Models
 {
+    public class AllDataFromStatisticRequest
+    {
+        public List<TotalEarned> TotalEarneds { get; set; }
+        public List<TransactionRequest> TotalTransactions { get; set; }
+    }
+
     public class TransactionRequest
     {
         public Guid TxId { get; set; }
@@ -14,6 +21,12 @@ namespace MyDataCoinBridge.Models
 
         public DateTime TxDate { get; set; }
 
-        public int Type { get; set; }
+        public string Type { get; set; }
+    }
+
+    public class TotalEarned
+    {
+        public string Name { get; set; }
+        public decimal Amount { get; set; }
     }
 }
