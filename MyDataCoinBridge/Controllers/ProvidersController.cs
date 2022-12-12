@@ -955,10 +955,10 @@ namespace MyDataCoinBridge.Controllers
         /// <response code="421">Returns User Not Found</response>
         /// <response code="500">Returns Internal Server Error</response>
         [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(Models.GeneralResponse))]
-        [Authorize]
+        //[Authorize]
         [HttpGet]
         [Route("GetStatistics")]
-        public async Task<ActionResult<List<TransactionRequest>>> TermOfUseCancel(string userId)
+        public async Task<ActionResult<AllDataFromStatisticRequest>> GetStatistics(string userId)
                             => await _provider.GetStatistics(userId);
     }
 }
