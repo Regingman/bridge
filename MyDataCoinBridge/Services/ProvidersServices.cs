@@ -184,12 +184,15 @@ namespace MyDataCoinBridge.Services
         }
 
 
-        public async Task<DataProviderRequest> POST(DataProviderRequest model)
+        public async Task<DataProviderRequest> POST(string token, DataProviderRequest model)
         {
             var dataProvider = await _context.DataProviders.FirstOrDefaultAsync(e => e.Email == model.Email);
             {
                 if (dataProvider == null)
                 {
+                    var user = await _context.BridgeUsers.FirstOrDefaultAsync(e => e.TokenForService == token && e.IsVerified);
+                    if (user == null) return null;
+
                     dataProvider = new DataProvider()
                     {
                         Address = model.Address,
@@ -204,6 +207,7 @@ namespace MyDataCoinBridge.Services
                         Icon = model.Icon,
                         Name = model.Name,
                         Phone = model.Phone,
+                        BridgeUserId = user.Id,
                         RewardCategories = model.RewardCategories.Select(e => new RewardCategory()
                         {
                             Description = e.Description,
@@ -222,7 +226,8 @@ namespace MyDataCoinBridge.Services
             }
         }
 
-        public async Task<DataProviderRequest> GETBYID(Guid id) => await _context.DataProviders
+        public async Task<DataProviderRequest> GETBYID(string token) => await _context.DataProviders
+            .Include(e => e.BridgeUser)
             .Select(e => new DataProviderRequest()
             {
                 Id = e.Id,
@@ -238,13 +243,14 @@ namespace MyDataCoinBridge.Services
                 Icon = e.Icon,
                 Name = e.Name,
                 Phone = e.Phone,
+                Token = e.BridgeUser.TokenForService,
                 RewardCategories = e.RewardCategories.Select(e => new RewardCategoryRequest()
                 {
                     Description = e.Description,
                     Name = e.Name
                 }).ToList(),
 
-            }).FirstOrDefaultAsync(e => e.Id == id);
+            }).FirstOrDefaultAsync(e => e.Token == token);
 
         public async Task<List<DataProviderRequest>> GETLIST() => await _context.DataProviders
             .Select(e => new DataProviderRequest()
@@ -271,7 +277,7 @@ namespace MyDataCoinBridge.Services
             })
             .ToListAsync();
 
-        public async Task<DataProviderRequest> PUT(Guid id, DataProviderRequest model)
+        public async Task<DataProviderRequest> PUT(string token, Guid id, DataProviderRequest model)
         {
             var dataProvider = await _context.DataProviders.FirstOrDefaultAsync(e => e.Id == id);
             if (dataProvider == null)
@@ -280,6 +286,9 @@ namespace MyDataCoinBridge.Services
             }
             else
             {
+                var user = await _context.BridgeUsers.FirstOrDefaultAsync(e => e.TokenForService == token && e.IsVerified);
+                if (user == null) return null;
+
                 dataProvider.Address = model.Address;
                 dataProvider.CreatedAt = model.CreatedAt;
                 dataProvider.Countries = model.Countries.Select(e => new Country()
@@ -289,6 +298,7 @@ namespace MyDataCoinBridge.Services
                     PhoneCode = e.PhoneCode
                 }).ToList();
                 dataProvider.Email = model.Email;
+                dataProvider.BridgeUserId = user.Id;
                 dataProvider.Icon = model.Icon;
                 dataProvider.Name = model.Name;
                 dataProvider.Phone = model.Phone;

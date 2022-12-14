@@ -487,12 +487,12 @@ namespace MyDataCoinBridge.Controllers
         /// <response code="421">Returns User Not Found</response>
         /// <response code="500">Returns Internal Server Error</response>
         [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(Models.GeneralResponse))]
-        [Authorize]
+        [AllowAnonymous]
         [HttpPost]
-        [Route("DataProviderCreate")]
-        public async Task<IActionResult> DataProviderCreate(DataProviderRequest dataProvider)
+        [Route("DataProviderCreate/{token}")]
+        public async Task<IActionResult> DataProviderCreate(string token, DataProviderRequest dataProvider)
         {
-            var response = await _provider.POST(dataProvider);
+            var response = await _provider.POST(token, dataProvider);
             if (response == null)
             {
                 return BadRequest();
@@ -513,12 +513,12 @@ namespace MyDataCoinBridge.Controllers
         /// <response code="421">Returns User Not Found</response>
         /// <response code="500">Returns Internal Server Error</response>
         [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(Models.GeneralResponse))]
-        [Authorize]
+        [AllowAnonymous]
         [HttpPut]
-        [Route("DataProviderEdit/{Id}")]
-        public async Task<IActionResult> DataProviderEdit(Guid Id, DataProviderRequest dataProvider)
+        [Route("DataProviderEdit/{Id}/{token}")]
+        public async Task<IActionResult> DataProviderEdit(string token, Guid Id, DataProviderRequest dataProvider)
         {
-            var response = await _provider.PUT(Id, dataProvider);
+            var response = await _provider.PUT(token, Id, dataProvider);
             if (response == null)
             {
                 return BadRequest();
@@ -539,12 +539,12 @@ namespace MyDataCoinBridge.Controllers
         /// <response code="421">Returns User Not Found</response>
         /// <response code="500">Returns Internal Server Error</response>
         [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(Models.GeneralResponse))]
-        [Authorize]
+        [AllowAnonymous]
         [HttpGet]
-        [Route("DataProviderGet/{Id}")]
-        public async Task<ActionResult<DataProviderRequest>> DataProviderGet(Guid Id)
+        [Route("DataProviderGet/{token}")]
+        public async Task<ActionResult<DataProviderRequest>> DataProviderGet(string token)
         {
-            var response = await _provider.GETBYID(Id);
+            var response = await _provider.GETBYID(token);
             if (response == null)
             {
                 return BadRequest();
