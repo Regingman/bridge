@@ -6,6 +6,7 @@ using MyDataCoinBridge.Helpers;
 using MyDataCoinBridge.Interfaces;
 using MyDataCoinBridge.Models;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using BC = BCrypt.Net.BCrypt;
 
@@ -134,6 +135,60 @@ namespace MyDataCoinBridge.Services
 
                 return new VerifyCodeResponse(token, 200, "Success");
             }
+        }
+
+        public async Task<RefreshResponse> Refresh(Tokens tokens)
+        {
+            var principal = _jWTManager.GetPrincipalFromExpiredToken(tokens.Access_Token);
+            var socialId = principal.Identity?.Name;
+
+            //retrieve the saved refresh token from database
+            var savedRefreshToken = GetSavedRefreshTokens(socialId, tokens.Refresh_Token);
+
+            if (savedRefreshToken.RefreshToken != tokens.Refresh_Token)
+            {
+                return new RefreshResponse(401, "Invalid attempt!");
+            }
+
+            var newJwtToken = _jWTManager.GenerateRefreshToken(socialId);
+
+            if (newJwtToken == null)
+            {
+                return new RefreshResponse(401, "Invalid attempt!");
+            }
+
+            // saving refresh token to the db
+            UserRefreshToken obj = new UserRefreshToken
+            {
+                RefreshToken = newJwtToken.Refresh_Token,
+                Email = socialId,
+            };
+
+            DeleteUserRefreshTokens(socialId, tokens.Refresh_Token);
+            AddUserRefreshTokens(obj);
+            await _context.SaveChangesAsync();
+
+            return new RefreshResponse(200, newJwtToken);
+        }
+
+        public UserRefreshToken AddUserRefreshTokens(UserRefreshToken user)
+        {
+            _context.UserRefreshTokens.Add(user);
+            return user;
+        }
+
+        public void DeleteUserRefreshTokens(string socialId, string refreshToken)
+        {
+            UserRefreshToken item = _context.UserRefreshTokens.FirstOrDefault(x => x.Email == socialId && x.RefreshToken == refreshToken);
+            if (item != null)
+            {
+                _context.UserRefreshTokens.Remove(item);
+            }
+        }
+
+        public UserRefreshToken GetSavedRefreshTokens(string socialId, string refreshToken)
+        {
+            return _context.UserRefreshTokens.FirstOrDefault(x => x.Email == socialId && x.RefreshToken == refreshToken && x.IsActive == true);
         }
     }
 }

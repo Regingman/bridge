@@ -12,6 +12,10 @@ namespace MyDataCoinBridge.Interfaces
         /// <returns></returns>
         public Task<GeneralResponse> Registration(string email);
         /// <summary>
+        /// Refresh token
+        /// </summary>
+        public Task<RefreshResponse> Refresh(Tokens tokens);
+        /// <summary>
         /// Verify user provider
         /// </summary>
         /// <param name="email"></param>

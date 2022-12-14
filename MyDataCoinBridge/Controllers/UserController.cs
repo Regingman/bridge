@@ -61,6 +61,22 @@ namespace MyDataCoinBridge.Controllers
         }
 
         /// <summary>
+        /// Verify code sent by system to get JWT
+        /// </summary>
+        /// <response code="200">Returns Ok</response>
+        /// <response code="400">Returns Bad Request</response>
+        /// <response code="415">Returns Unsupported Media Type</response>
+        /// <response code="500">Returns Internal Server Error</response>
+        [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(VerifyCodeResponse))]
+        [AllowAnonymous]
+        [HttpPost]
+        [Route("resresh")]
+        public async Task<RefreshResponse> Refresh([FromBody] Tokens tokens)
+        {
+            return await _userService.Refresh(tokens);
+        }
+
+        /// <summary>
         /// Registration
         /// </summary>
         /// <response code="200">Returns Ok</response>
