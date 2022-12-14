@@ -27,7 +27,7 @@ namespace MyDataCoinBridge.Services
         {
             try
             {
-               
+
                 var user = await _context.BridgeUsers.SingleOrDefaultAsync(x => x.Email == email.ToLower());
 
                 if (user != null)
@@ -35,17 +35,18 @@ namespace MyDataCoinBridge.Services
                 else
                 {
                     BridgeUser bridgeUser = new BridgeUser();
-                    bridgeUser.Email = email;
+                    bridgeUser.Email = email.ToLower();
                     bridgeUser.CreatedAt = DateTime.UtcNow;
                     bridgeUser.Role = Roles.User;
-                    bridgeUser.TokenForService = StaticFunctions.GenerateCode();
+                    bridgeUser.TokenForService = BC.HashPassword(StaticFunctions.GenerateCode());
                     bridgeUser.IsVerified = false;
+                    
                     string code = StaticFunctions.GenerateCode();
-
                     StaticFunctions.SendCode(email, code);
                     bridgeUser.VerificationCode = BC.HashPassword(code);
                     await _context.BridgeUsers.AddAsync(bridgeUser);
                     await _context.SaveChangesAsync();
+
                     return new GeneralResponse(200, "Ok");
                 }
             }
