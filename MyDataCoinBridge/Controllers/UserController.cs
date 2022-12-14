@@ -70,7 +70,7 @@ namespace MyDataCoinBridge.Controllers
         [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(VerifyCodeResponse))]
         [AllowAnonymous]
         [HttpPost]
-        [Route("resresh")]
+        [Route("refresh")]
         public async Task<RefreshResponse> Refresh([FromBody] Tokens tokens)
         {
             return await _userService.Refresh(tokens);

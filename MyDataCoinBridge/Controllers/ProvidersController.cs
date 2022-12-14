@@ -841,6 +841,32 @@ namespace MyDataCoinBridge.Controllers
         }
 
         /// <summary>
+        /// CRUD Get Country List
+        /// </summary>
+        /// <response code="200">Returns Success</response>
+        /// <response code="400">Returns Bad Request</response>
+        /// <response code="401">Returns Unauthorized</response>
+        /// <response code="415">Returns Unsupported Media Type</response>
+        /// <response code="421">Returns User Not Found</response>
+        /// <response code="500">Returns Internal Server Error</response>
+        [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(Models.GeneralResponse))]
+        //[Authorize]
+        [HttpGet]
+        [Route("GETLISTCountry")]
+        public async Task<ActionResult<List<CountryRequest>>> Country()
+        {
+            var response = await _provider.GETLISTCountry();
+            if (response == null)
+            {
+                return BadRequest();
+            }
+            else
+            {
+                return Ok(response);
+            }
+        }
+
+        /// <summary>
         /// CRUD Delete Transaction by Id
         /// </summary>
         /// <response code="200">Returns Success</response>
