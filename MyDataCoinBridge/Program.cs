@@ -37,10 +37,12 @@ builder.Logging.AddConsole();
 
     services.AddDbContext<WebApiDbContext>();
 
-    services.AddAuthentication(x => {
+    services.AddAuthentication(x =>
+    {
         x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
         x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-    }).AddJwtBearer(o => {
+    }).AddJwtBearer(o =>
+    {
         o.SaveToken = true;
         o.TokenValidationParameters = new TokenValidationParameters
         {
@@ -55,7 +57,8 @@ builder.Logging.AddConsole();
         };
         o.Events = new JwtBearerEvents
         {
-            OnAuthenticationFailed = context => {
+            OnAuthenticationFailed = context =>
+            {
                 if (context.Exception.GetType() == typeof(SecurityTokenExpiredException))
                 {
                     context.Response.Headers.Add("IS-TOKEN-EXPIRED", "true");
@@ -91,6 +94,8 @@ builder.Logging.AddConsole();
     });
 
     services.AddScoped<IProviders, ProvidersServices>();
+    services.AddScoped<IUser, UserService>();
+    services.AddScoped<IJWTManager, JWTManagerService>();
     services.AddHttpClient<ProvidersServices>();
 }
 

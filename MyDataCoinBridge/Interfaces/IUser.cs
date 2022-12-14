@@ -6,6 +6,12 @@ namespace MyDataCoinBridge.Interfaces
     public interface IUser
     {
         /// <summary>
+        /// Registration
+        /// </summary>
+        /// <param name="email"></param>
+        /// <returns></returns>
+        public Task<GeneralResponse> Registration(string email);
+        /// <summary>
         /// Send authorization code for user by email
         /// </summary>
         /// <param name="email"></param>
