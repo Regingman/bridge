@@ -130,7 +130,7 @@ namespace MyDataCoinBridge.Services
                     Email = request.Email
                 };
 
-                //AddUserRefreshTokens(obj);
+                AddUserRefreshTokens(obj);
                 await _context.SaveChangesAsync();
 
                 return new VerifyCodeResponse(token, 200, "Success");

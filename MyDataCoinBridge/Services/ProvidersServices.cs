@@ -252,6 +252,16 @@ namespace MyDataCoinBridge.Services
 
             }).FirstOrDefaultAsync(e => e.Token == token);
 
+        public async Task<List<CountryRequest>> GETLISTCountry() => await _context.Countries
+            .Select(e => new CountryRequest()
+            {
+                Id = e.Id,
+                CountryCode = e.CountryCode,
+                CountryName = e.CountryName,
+                PhoneCode = e.PhoneCode
+            })
+            .ToListAsync();
+
         public async Task<List<DataProviderRequest>> GETLIST() => await _context.DataProviders
             .Select(e => new DataProviderRequest()
             {

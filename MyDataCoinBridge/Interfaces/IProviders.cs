@@ -28,6 +28,7 @@ namespace MyDataCoinBridge.Interfaces
         public Task<DataProviderRequest> POST(string token, DataProviderRequest model);
         public Task<DataProviderRequest> GETBYID(string token);
         public Task<List<DataProviderRequest>> GETLIST();
+        public Task<List<CountryRequest>> GETLISTCountry();
         public Task<DataProviderRequest> PUT(string token, Guid id, DataProviderRequest model);
         public Task<DataProviderRequest> DELETE(Guid id);
 
