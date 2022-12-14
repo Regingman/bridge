@@ -38,10 +38,7 @@
     <None Remove="Microsoft.Extensions.Configuration.EnvironmentVariables" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Controllers\" />
-    <Folder Include="Services\" />
     <Folder Include="DataAccess\" />
-    <Folder Include="Helpers\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="DotNetEnv" Version="2.3.0" />
