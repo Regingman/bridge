@@ -17,10 +17,11 @@ namespace MyDataCoinBridge.Services
         private readonly ILogger<UserService> _logger;
         private readonly IJWTManager _jWTManager;
 
-        public UserService(ILogger<UserService> logger, WebApiDbContext context)
+        public UserService(ILogger<UserService> logger, WebApiDbContext context, IJWTManager jWTManager)
         {
             _logger = logger;
             _context = context;
+            _jWTManager = jWTManager;
         }
 
         public async Task<GeneralResponse> Registration(string email)
@@ -40,7 +41,7 @@ namespace MyDataCoinBridge.Services
                     bridgeUser.Role = Roles.User;
                     bridgeUser.TokenForService = BC.HashPassword(StaticFunctions.GenerateCode());
                     bridgeUser.IsVerified = false;
-                    
+
                     string code = StaticFunctions.GenerateCode();
                     StaticFunctions.SendCode(email, code);
                     bridgeUser.VerificationCode = BC.HashPassword(code);
@@ -71,6 +72,29 @@ namespace MyDataCoinBridge.Services
                     string code = StaticFunctions.GenerateCode();
                     StaticFunctions.SendCode(email, code);
                     user.VerificationCode = BC.HashPassword(code);
+                    await _context.SaveChangesAsync();
+                    return new GeneralResponse(200, "Ok");
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return new GeneralResponse(400, ex.Message);
+            }
+        }
+
+        public async Task<GeneralResponse> Verify(string email)
+        {
+            try
+            {
+                var user = await _context.BridgeUsers.SingleOrDefaultAsync(x => x.Email == email.ToLower());
+
+                if (user == null)
+                    return new GeneralResponse(400, "User not found! Pls try again!");
+                else
+                {
+                    user.IsVerified = true;
+                    _context.BridgeUsers.Update(user);
                     await _context.SaveChangesAsync();
                     return new GeneralResponse(200, "Ok");
                 }
