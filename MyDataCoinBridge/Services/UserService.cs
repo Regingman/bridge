@@ -124,7 +124,7 @@ namespace MyDataCoinBridge.Services
                 }
 
                 // saving refresh token to the db
-                UserRefreshTokenResponse obj = new UserRefreshTokenResponse
+                UserRefreshToken obj = new UserRefreshToken
                 {
                     RefreshToken = token.Refresh_Token,
                     Email = request.Email
