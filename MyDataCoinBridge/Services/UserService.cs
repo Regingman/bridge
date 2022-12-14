@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using MyDataCoinBridge.DataAccess;
+using MyDataCoinBridge.Entities;
 using MyDataCoinBridge.Helpers;
 using MyDataCoinBridge.Interfaces;
 using MyDataCoinBridge.Models;
@@ -20,6 +21,40 @@ namespace MyDataCoinBridge.Services
         {
             _logger = logger;
             _context = context;
+        }
+
+        public async Task<GeneralResponse> Registration(string email)
+        {
+            try
+            {
+
+                var user = await _context.BridgeUsers.SingleOrDefaultAsync(x => x.Email == email.ToLower());
+
+                if (user != null)
+                    return new GeneralResponse(400, "This Email used! Pls try again!");
+                else
+                {
+                    BridgeUser bridgeUser = new BridgeUser();
+                    bridgeUser.Email = email.ToLower();
+                    bridgeUser.CreatedAt = DateTime.UtcNow;
+                    bridgeUser.Role = Roles.User;
+                    bridgeUser.TokenForService = BC.HashPassword(StaticFunctions.GenerateCode());
+                    bridgeUser.IsVerified = false;
+                    
+                    string code = StaticFunctions.GenerateCode();
+                    StaticFunctions.SendCode(email, code);
+                    bridgeUser.VerificationCode = BC.HashPassword(code);
+                    await _context.BridgeUsers.AddAsync(bridgeUser);
+                    await _context.SaveChangesAsync();
+
+                    return new GeneralResponse(200, "Ok");
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return new GeneralResponse(400, ex.Message);
+            }
         }
 
         public async Task<GeneralResponse> SendCode(string email)

@@ -21,6 +21,10 @@ namespace MyDataCoinBridge.Entities
 
         public string VerificationCode { get; set; }
 
+        public bool IsVerified { get; set; } = false;
+
+        public string TokenForService { get; set; }
+
         public DateTime CreatedAt { get; set; }
     }
 }
