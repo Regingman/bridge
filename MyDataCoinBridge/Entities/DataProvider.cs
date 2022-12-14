@@ -22,6 +22,8 @@ namespace MyDataCoinBridge.Entities
 
         [Required]
         public string Name { get; set; }
+        public BridgeUser BridgeUser { get; set; }
+        public Guid? BridgeUserId { get; set; }
 
         public string Icon { get; set; }
 

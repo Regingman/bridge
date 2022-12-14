@@ -61,7 +61,7 @@ namespace MyDataCoinBridge.Controllers
         }
 
         /// <summary>
-        /// Verify code sent by system to get JWT
+        /// Registration
         /// </summary>
         /// <response code="200">Returns Ok</response>
         /// <response code="400">Returns Bad Request</response>
@@ -72,6 +72,27 @@ namespace MyDataCoinBridge.Controllers
         [HttpPost]
         [Route("registration/{email}")]
         public async Task<IActionResult> Register(string email)
+        {
+            GeneralResponse response = await _userService.Registration(email);
+
+            if (response.Code == 400)
+                return BadRequest(response.Message);
+            else
+                return Ok(response);
+        }
+
+        /// <summary>
+        /// Verify
+        /// </summary>
+        /// <response code="200">Returns Ok</response>
+        /// <response code="400">Returns Bad Request</response>
+        /// <response code="415">Returns Unsupported Media Type</response>
+        /// <response code="500">Returns Internal Server Error</response>
+        [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(VerifyCodeResponse))]
+        [AllowAnonymous]
+        [HttpPost]
+        [Route("verify/{email}")]
+        public async Task<IActionResult> Verify(string email)
         {
             GeneralResponse response = await _userService.Registration(email);
 
