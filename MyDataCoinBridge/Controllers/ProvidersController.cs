@@ -541,8 +541,8 @@ namespace MyDataCoinBridge.Controllers
         [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(Models.GeneralResponse))]
         [AllowAnonymous]
         [HttpGet]
-        [Route("DataProviderGet/{token}")]
-        public async Task<ActionResult<DataProviderRequest>> DataProviderGet(string token)
+        [Route("DataProviderGet")]
+        public async Task<ActionResult<DataProviderRequest>> DataProviderGet([FromBody] string token)
         {
             var response = await _provider.GETBYID(token);
             if (response == null)
@@ -617,7 +617,7 @@ namespace MyDataCoinBridge.Controllers
         /// <response code="421">Returns User Not Found</response>
         /// <response code="500">Returns Internal Server Error</response>
         [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(Models.GeneralResponse))]
-        [Authorize]
+        //[Authorize(Roles.Administrator)]
         [HttpPost]
         [Route("RewardCategoryCreate")]
         public async Task<IActionResult> RewardCategoryCreate(RewardCategoryRequest rewardCategory)
