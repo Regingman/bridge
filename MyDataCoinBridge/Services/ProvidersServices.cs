@@ -281,6 +281,8 @@ namespace MyDataCoinBridge.Services
 
         public async Task<DataProviderRequest> PUT(Guid id, DataProviderRequest model)
         {
+            var countries = await _context.Countries.ToListAsync();
+            var rewards = await _context.RewardCategories.ToListAsync();
             var dataProvider = await _context.DataProviders.FirstOrDefaultAsync(e => e.Id == id);
             if (dataProvider == null)
             {
@@ -293,16 +295,12 @@ namespace MyDataCoinBridge.Services
 
                 dataProvider.Address = model.Address;
                 dataProvider.CreatedAt = model.CreatedAt;
-                dataProvider.Countries = model.Countries.Select(e => new Country()
-                {
-                    CountryCode = e.CountryCode,
-                    CountryName = e.CountryName,
-                    PhoneCode = e.PhoneCode
-                }).ToList();
+                dataProvider.Countries = model.Countries.Select(e => countries.FirstOrDefault(x => x.Id == e.Id)).ToList();
                 dataProvider.Email = model.Email;
                 dataProvider.BridgeUserId = user.Id;
                 dataProvider.Icon = model.Icon;
                 dataProvider.Name = model.Name;
+                dataProvider.RewardCategories = model.RewardCategories.Select(e => rewards.FirstOrDefault(x => x.Id == e.Id)).ToList(); ;
                 dataProvider.Phone = model.Phone;
                 _context.DataProviders.Update(dataProvider);
                 await _context.SaveChangesAsync();
