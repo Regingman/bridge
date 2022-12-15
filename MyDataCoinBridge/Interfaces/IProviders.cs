@@ -25,11 +25,11 @@ namespace MyDataCoinBridge.Interfaces
         // TODO: реализовать модель истории монетизации
         //public Task<MonetizationModel> GetTotalMonetizationStatAsync(string email);
 
-        public Task<DataProviderRequest> POST(string token, DataProviderRequest model);
+        public Task<DataProviderRequest> POST(DataProviderRequest model);
         public Task<DataProviderRequest> GETBYID(string token);
         public Task<List<DataProviderRequest>> GETLIST();
         public Task<List<CountryRequest>> GETLISTCountry();
-        public Task<DataProviderRequest> PUT(string token, Guid id, DataProviderRequest model);
+        public Task<DataProviderRequest> PUT(Guid id, DataProviderRequest model);
         public Task<DataProviderRequest> DELETE(Guid id);
 
         public Task<RewardCategoryRequest> RewardCategoryPOST(RewardCategoryRequest model);

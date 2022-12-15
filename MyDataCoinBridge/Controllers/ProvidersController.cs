@@ -489,10 +489,10 @@ namespace MyDataCoinBridge.Controllers
         [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(Models.GeneralResponse))]
         [AllowAnonymous]
         [HttpPost]
-        [Route("DataProviderCreate/{token}")]
-        public async Task<IActionResult> DataProviderCreate(string token, DataProviderRequest dataProvider)
+        [Route("DataProviderCreate")]
+        public async Task<IActionResult> DataProviderCreate(DataProviderRequest dataProvider)
         {
-            var response = await _provider.POST(token, dataProvider);
+            var response = await _provider.POST(dataProvider);
             if (response == null)
             {
                 return BadRequest();
@@ -515,10 +515,10 @@ namespace MyDataCoinBridge.Controllers
         [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(Models.GeneralResponse))]
         [AllowAnonymous]
         [HttpPut]
-        [Route("DataProviderEdit/{Id}/{token}")]
-        public async Task<IActionResult> DataProviderEdit(string token, Guid Id, DataProviderRequest dataProvider)
+        [Route("DataProviderEdit/{Id}")]
+        public async Task<IActionResult> DataProviderEdit(Guid Id, DataProviderRequest dataProvider)
         {
-            var response = await _provider.PUT(token, Id, dataProvider);
+            var response = await _provider.PUT(Id, dataProvider);
             if (response == null)
             {
                 return BadRequest();

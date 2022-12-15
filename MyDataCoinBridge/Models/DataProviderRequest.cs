@@ -12,6 +12,7 @@ namespace MyDataCoinBridge.Models
         }
 
         public Guid Id { get; set; }
+
         public string Name { get; set; }
 
         public string Icon { get; set; }
@@ -23,9 +24,9 @@ namespace MyDataCoinBridge.Models
         public string Email { get; set; }
 
         public string BridgeUserId { get; set; }
+
         public string Token { get; set; }
         
-
         public bool Connected { get; set; }
 
         public DateTime CreatedAt { get; set; }
