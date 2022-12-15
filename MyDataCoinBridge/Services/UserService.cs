@@ -133,7 +133,7 @@ namespace MyDataCoinBridge.Services
                 AddUserRefreshTokens(obj);
                 await _context.SaveChangesAsync();
 
-                return new VerifyCodeResponse(token, 200, "Success");
+                return new VerifyCodeResponse(token, 200, "Success", token: user.TokenForService, isVerified: user.IsVerified);
             }
         }
 
