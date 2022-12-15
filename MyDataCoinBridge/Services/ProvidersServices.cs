@@ -192,27 +192,19 @@ namespace MyDataCoinBridge.Services
                 {
                     var user = await _context.BridgeUsers.FirstOrDefaultAsync(e => e.TokenForService == model.Token && e.IsVerified);
                     if (user == null) return null;
-
+                    var countries = await _context.Countries.ToListAsync();
+                    var rewards = await _context.RewardCategories.ToListAsync();
                     dataProvider = new DataProvider()
                     {
                         Address = model.Address,
                         CreatedAt = model.CreatedAt,
-                        Countries = model.Countries.Select(e => new Country()
-                        {
-                            CountryCode = e.CountryCode,
-                            CountryName = e.CountryName,
-                            PhoneCode = e.PhoneCode
-                        }).ToList(),
+                        Countries = model.Countries.Select(e => countries.FirstOrDefault(x => x.Id == e.Id)).ToList(),
                         Email = model.Email,
                         Icon = model.Icon,
                         Name = model.Name,
                         Phone = model.Phone,
                         BridgeUserId = user.Id,
-                        RewardCategories = model.RewardCategories.Select(e => new RewardCategory()
-                        {
-                            Description = e.Description,
-                            Name = e.Name
-                        }).ToList(),
+                        RewardCategories = model.RewardCategories.Select(e => rewards.FirstOrDefault(x => x.Id == e.Id)).ToList(),
                     };
                     await _context.DataProviders.AddAsync(dataProvider);
                     await _context.SaveChangesAsync();
