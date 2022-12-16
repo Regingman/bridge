@@ -542,7 +542,7 @@ namespace MyDataCoinBridge.Controllers
         [AllowAnonymous]
         [HttpGet]
         [Route("DataProviderGet")]
-        public async Task<ActionResult<DataProviderRequest>> DataProviderGet([FromBody] string token)
+        public async Task<ActionResult<DataProviderRequest>> DataProviderGet(string token)
         {
             var response = await _provider.GETBYID(token);
             if (response == null)
