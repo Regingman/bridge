@@ -227,6 +227,7 @@ namespace MyDataCoinBridge.Services
                 CreatedAt = e.CreatedAt,
                 Countries = e.Countries.Select(e => new CountryRequest()
                 {
+                    Id = e.Id,
                     CountryCode = e.CountryCode,
                     CountryName = e.CountryName,
                     PhoneCode = e.PhoneCode
@@ -238,6 +239,7 @@ namespace MyDataCoinBridge.Services
                 Token = e.BridgeUser.TokenForService,
                 RewardCategories = e.RewardCategories.Select(e => new RewardCategoryRequest()
                 {
+                    Id = e.Id,
                     Description = e.Description,
                     Name = e.Name
                 }).ToList(),
