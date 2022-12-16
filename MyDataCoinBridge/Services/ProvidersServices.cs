@@ -254,7 +254,9 @@ namespace MyDataCoinBridge.Services
             })
             .ToListAsync();
 
-        public async Task<List<DataProviderRequest>> GETLIST() => await _context.DataProviders
+        public async Task<List<DataProviderRequest>> GETLIST() => await _context
+            .DataProviders
+            .Include(e => e.BridgeUser)
             .Select(e => new DataProviderRequest()
             {
                 Id = e.Id,
@@ -262,6 +264,7 @@ namespace MyDataCoinBridge.Services
                 CreatedAt = e.CreatedAt,
                 Countries = e.Countries.Select(e => new CountryRequest()
                 {
+                    Id = e.Id,
                     CountryCode = e.CountryCode,
                     CountryName = e.CountryName,
                     PhoneCode = e.PhoneCode
@@ -270,12 +273,14 @@ namespace MyDataCoinBridge.Services
                 Icon = e.Icon,
                 Name = e.Name,
                 Phone = e.Phone,
+                IsVerified = e.BridgeUser.IsVerified,
+                BridgeUserEmail = e.BridgeUser.Email,
                 RewardCategories = e.RewardCategories.Select(e => new RewardCategoryRequest()
                 {
+                    Id = e.Id,
                     Description = e.Description,
                     Name = e.Name
                 }).ToList(),
-
             })
             .ToListAsync();
 
@@ -295,15 +300,23 @@ namespace MyDataCoinBridge.Services
 
                 dataProvider.Address = model.Address;
                 dataProvider.CreatedAt = model.CreatedAt;
-                dataProvider.Countries = model.Countries.Select(e => countries.FirstOrDefault(x => x.Id == e.Id)).ToList();
+
+                dataProvider.Countries = new List<Country>();
                 dataProvider.Email = model.Email;
                 dataProvider.BridgeUserId = user.Id;
                 dataProvider.Icon = model.Icon;
                 dataProvider.Name = model.Name;
-                dataProvider.RewardCategories = model.RewardCategories.Select(e => rewards.FirstOrDefault(x => x.Id == e.Id)).ToList(); ;
+                dataProvider.RewardCategories = new List<RewardCategory>();
                 dataProvider.Phone = model.Phone;
                 _context.DataProviders.Update(dataProvider);
                 await _context.SaveChangesAsync();
+
+                dataProvider.Countries = model.Countries.Select(e => countries.FirstOrDefault(x => x.Id == e.Id)).ToList();
+                dataProvider.RewardCategories = model.RewardCategories.Select(e => rewards.FirstOrDefault(x => x.Id == e.Id)).ToList();
+
+                _context.DataProviders.Update(dataProvider);
+                await _context.SaveChangesAsync();
+
                 return model;
             }
         }
