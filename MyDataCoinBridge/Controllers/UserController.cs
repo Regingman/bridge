@@ -3,10 +3,10 @@ using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using MyDataCoinBridge.Authorization;
 using MyDataCoinBridge.Interfaces;
 using MyDataCoinBridge.Models;
 using Swashbuckle.AspNetCore.Annotations;
+using Microsoft.AspNetCore.Authorization;
 
 namespace MyDataCoinBridge.Controllers
 {
