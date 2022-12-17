@@ -88,7 +88,7 @@ namespace MyDataCoinBridge.Services
         {
             try
             {
-                var user = await _context.BridgeUsers.SingleOrDefaultAsync(x => x.Email == email.ToLower());
+                var user = await _context.BridgeUsers.FirstOrDefaultAsync(x => x.Email == email.ToLower());
 
                 if (user == null)
                     return new GeneralResponse(400, "User not found! Pls try again!");

@@ -1,15 +1,16 @@
 ﻿using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using MyDataCoinBridge.Authorization;
 using MyDataCoinBridge.Interfaces;
 using MyDataCoinBridge.Models;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace MyDataCoinBridge.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/v1/[controller]")]
     public class UserController : ControllerBase
@@ -30,7 +31,7 @@ namespace MyDataCoinBridge.Controllers
         /// <response code="400">Returns Bad Request</response>
         /// <response code="415">Returns Unsupported Media Type</response>
         /// <response code="500">Returns Internal Server Error</response>
-        [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(AuthenticateResponse))]
+        //[SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(AuthenticateResponse))]
         [AllowAnonymous]
         [HttpGet]
         [Route("send_code/{email}")]
@@ -110,7 +111,7 @@ namespace MyDataCoinBridge.Controllers
         [Route("verify/{email}")]
         public async Task<IActionResult> Verify(string email)
         {
-            GeneralResponse response = await _userService.Registration(email);
+            GeneralResponse response = await _userService.Verify(email);
 
             if (response.Code == 400)
                 return BadRequest(response.Message);
