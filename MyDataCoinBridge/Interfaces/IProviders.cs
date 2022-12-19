@@ -49,6 +49,7 @@ namespace MyDataCoinBridge.Interfaces
         public Task<bool> TermOfUseApply(Guid userId, Guid provaiderId);
         public Task<bool> TermOfUseCancel(Guid userId, Guid provaiderId);
         public Task<AllDataFromStatisticRequest> GetStatistics(string userId);
+        public Task<AllDataFromStatisticRequest> GetStatisticsExtend(string userId);
 
 
         public Task<GeneralResponse> TransactionAddProvider(string token, List<TransactionProviderRequest> model);

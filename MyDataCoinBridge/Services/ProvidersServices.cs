@@ -890,6 +890,43 @@ namespace MyDataCoinBridge.Services
             await _context.SaveChangesAsync();
             return list.Select(e => e.USDMDC).Sum();
         }
+
+        public async Task<AllDataFromStatisticRequest> GetStatisticsExtend(string userId)
+        {
+            var transactions = await _context.BridgeTransactions
+                  .Where(e => e.UserId == userId)
+                  .Select(e => new TransactionRequest()
+                  {
+                      Amount = e.USDMDC,
+                      From = e.ProviderName,
+                      To = e.UserId,
+                      TxDate = e.Created,
+                      TxId = e.Id,
+                      Type = e.RewardCategoryName,
+                  })
+                  .ToListAsync();
+
+            var earnsList
+                = transactions
+                .GroupBy(e => e.Type)
+                .Select(e => new TotalEarned()
+                {
+                    Amount = 0,
+                    Name = e.Key
+                })
+                .ToList();
+
+            foreach (var temp in earnsList)
+            {
+                temp.Amount += transactions.Where(e => e.Type == temp.Name).Sum(e => e.Amount);
+            }
+
+            return new AllDataFromStatisticRequest
+            {
+                TotalEarneds = earnsList,
+                TotalTransactions = transactions
+            };
+        }
     }
 }
 
