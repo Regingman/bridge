@@ -35,6 +35,7 @@ namespace MyDataCoinBridge.DataAccess
 
         public DbSet<BridgeUser> BridgeUsers { get; set; }
         public DbSet<UserRefreshToken> UserRefreshTokens { get; set; }
+        public DbSet<BridgeTransaction> BridgeTransactions { get; set; }
 
     }
 }

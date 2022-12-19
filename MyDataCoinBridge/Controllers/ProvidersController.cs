@@ -919,6 +919,32 @@ namespace MyDataCoinBridge.Controllers
         }
 
         /// <summary>
+        /// Get term of use status for user from provaider
+        /// </summary>
+        /// <response code="200">Returns Success</response>
+        /// <response code="400">Returns Bad Request</response>
+        /// <response code="401">Returns Unauthorized</response>
+        /// <response code="415">Returns Unsupported Media Type</response>
+        /// <response code="421">Returns User Not Found</response>
+        /// <response code="500">Returns Internal Server Error</response>
+        [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(List<TransactionRequest>))]
+        //[Authorize]
+        [HttpPost]
+        [Route("TermOfUseExtended")]
+        public async Task<ActionResult<List<TransactionRequest>>> TermOfUseStatus([FromBody]TermOfUseRequest model)
+        {
+            var response = await _provider.TermOfUseStatus(model.userFIO, model.userId, model.provaiderId, model.email, model.phone);
+            if (response == null)
+            {
+                return BadRequest();
+            }
+            else
+            {
+                return Ok(response);
+            }
+        }
+
+        /// <summary>
         /// Set Apply status term of use status for user from provaider
         /// </summary>
         /// <response code="200">Returns Success</response>

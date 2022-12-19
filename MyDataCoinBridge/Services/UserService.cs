@@ -6,6 +6,7 @@ using MyDataCoinBridge.Helpers;
 using MyDataCoinBridge.Interfaces;
 using MyDataCoinBridge.Models;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using BC = BCrypt.Net.BCrypt;
@@ -110,7 +111,7 @@ namespace MyDataCoinBridge.Services
         public async Task<VerifyCodeResponse> VerifyCode(VerifyCodeRequest request)
         {
             var user = await _context.BridgeUsers.SingleOrDefaultAsync(x => x.Email == request.Email);
-            
+
             if (user == null || BC.Verify(request.Code, user.VerificationCode))
             {
                 return new VerifyCodeResponse(null, 400, "User not found or incorrect verification code");
@@ -189,6 +190,28 @@ namespace MyDataCoinBridge.Services
         public UserRefreshToken GetSavedRefreshTokens(string socialId, string refreshToken)
         {
             return _context.UserRefreshTokens.FirstOrDefault(x => x.Email == socialId && x.RefreshToken == refreshToken && x.IsActive == true);
+        }
+
+        public async Task<List<BridgeUser>> UserList()
+        {
+            return await _context.BridgeUsers.ToListAsync();
+        }
+
+        public async Task<GeneralResponse> SetManager(string userId)
+        {
+            try
+            {
+                var user = await _context.BridgeUsers.FirstOrDefaultAsync(e => e.Id == Guid.Parse(userId));
+                user.Role = Roles.Manager;
+                _context.BridgeUsers.Update(user);
+                await _context.SaveChangesAsync();
+                return new GeneralResponse(200, "Ok");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return new GeneralResponse(400, ex.Message);
+            }
         }
     }
 }

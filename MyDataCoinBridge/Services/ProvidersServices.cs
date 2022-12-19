@@ -197,7 +197,7 @@ namespace MyDataCoinBridge.Services
                     dataProvider = new DataProvider()
                     {
                         Address = model.Address,
-                        CreatedAt = model.CreatedAt,
+                        CreatedAt = DateTime.UtcNow,
                         Countries = model.Countries.Select(e => countries.FirstOrDefault(x => x.Id == e.Id)).ToList(),
                         Email = model.Email,
                         Icon = model.Icon,
@@ -209,7 +209,30 @@ namespace MyDataCoinBridge.Services
                     await _context.DataProviders.AddAsync(dataProvider);
                     await _context.SaveChangesAsync();
                     model.Id = dataProvider.Id;
-                    return model;
+                    return new DataProviderRequest()
+                    {
+                        Id = dataProvider.Id,
+                        Address = dataProvider.Address,
+                        CreatedAt = dataProvider.CreatedAt,
+                        Countries = dataProvider.Countries.Select(e => new CountryRequest()
+                        {
+                            Id = e.Id,
+                            CountryCode = e.CountryCode,
+                            CountryName = e.CountryName,
+                            PhoneCode = e.PhoneCode
+                        }).ToList(),
+                        Email = dataProvider.Email,
+                        Icon = dataProvider.Icon,
+                        Name = dataProvider.Name,
+                        Phone = dataProvider.Phone,
+                        Token = dataProvider.BridgeUser.TokenForService,
+                        RewardCategories = dataProvider.RewardCategories.Select(e => new RewardCategoryRequest()
+                        {
+                            Id = e.Id,
+                            Description = e.Description,
+                            Name = e.Name
+                        }).ToList()
+                    }; ;
                 }
                 else
                 {
@@ -288,8 +311,11 @@ namespace MyDataCoinBridge.Services
 
         public async Task<DataProviderRequest> PUT(Guid id, DataProviderRequest model)
         {
-            var countries = await _context.Countries.ToListAsync();
-            var rewards = await _context.RewardCategories.ToListAsync();
+            var countries = await _context.Countries
+                .Include(e => e.DataProviders).ToListAsync();
+            var rewards = await _context.RewardCategories
+                .Include(e => e.DataProviders)
+                .ToListAsync();
             var dataProvider = await _context.DataProviders.FirstOrDefaultAsync(e => e.Id == id);
             if (dataProvider == null)
             {
@@ -301,25 +327,68 @@ namespace MyDataCoinBridge.Services
                 if (user == null) return null;
 
                 dataProvider.Address = model.Address;
-                dataProvider.CreatedAt = model.CreatedAt;
-
-                dataProvider.Countries = new List<Country>();
+                dataProvider.Countries = null;
                 dataProvider.Email = model.Email;
                 dataProvider.BridgeUserId = user.Id;
                 dataProvider.Icon = model.Icon;
                 dataProvider.Name = model.Name;
-                dataProvider.RewardCategories = new List<RewardCategory>();
+                dataProvider.RewardCategories = null;
                 dataProvider.Phone = model.Phone;
+                rewards.ForEach(e =>
+                {
+                    foreach (var temp in e.DataProviders)
+                    {
+                        if (temp.Id == dataProvider.Id)
+                        {
+                            e.DataProviders.Remove(temp);
+                        }
+                    }
+                });
+                countries.ForEach(e =>
+                {
+                    foreach (var temp in e.DataProviders)
+                    {
+                        if (temp.Id == dataProvider.Id)
+                        {
+                            e.DataProviders.Remove(temp);
+                        }
+                    }
+                });
                 _context.DataProviders.Update(dataProvider);
+                _context.Countries.UpdateRange(countries);
+                _context.RewardCategories.UpdateRange(rewards);
                 await _context.SaveChangesAsync();
-
+                dataProvider = await _context.DataProviders.FirstOrDefaultAsync(e => e.Id == id);
                 dataProvider.Countries = model.Countries.Select(e => countries.FirstOrDefault(x => x.Id == e.Id)).ToList();
-                dataProvider.RewardCategories = model.RewardCategories.Select(e => rewards.FirstOrDefault(x => x.Id == e.Id)).ToList();
+                dataProvider.RewardCategories = rewards.Select(e => rewards.FirstOrDefault(x => x.Id == e.Id)).ToList();
 
                 _context.DataProviders.Update(dataProvider);
                 await _context.SaveChangesAsync();
 
-                return model;
+                return new DataProviderRequest()
+                {
+                    Id = dataProvider.Id,
+                    Address = dataProvider.Address,
+                    CreatedAt = dataProvider.CreatedAt,
+                    Countries = dataProvider.Countries.Select(e => new CountryRequest()
+                    {
+                        Id = e.Id,
+                        CountryCode = e.CountryCode,
+                        CountryName = e.CountryName,
+                        PhoneCode = e.PhoneCode
+                    }).ToList(),
+                    Email = dataProvider.Email,
+                    Icon = dataProvider.Icon,
+                    Name = dataProvider.Name,
+                    Phone = dataProvider.Phone,
+                    Token = dataProvider.BridgeUser.TokenForService,
+                    RewardCategories = dataProvider.RewardCategories.Select(e => new RewardCategoryRequest()
+                    {
+                        Id = e.Id,
+                        Description = e.Description,
+                        Name = e.Name
+                    }).ToList()
+                };
             }
         }
 
@@ -493,6 +562,45 @@ namespace MyDataCoinBridge.Services
             }
         }
 
+        public async Task<TermOfUse> TermOfUseStatus(string userFIO, Guid userId, Guid provaiderId, List<string> email, List<string> phone)
+        {
+            var provaider = await _context.DataProviders.FirstOrDefaultAsync(e => e.Id == provaiderId);
+            if (provaider == null)
+            {
+                return null;
+            }
+            var termResponse = new TermOfUse()
+            {
+                Flag = false,
+                Logo = provaider.Icon,
+                ProviderName = provaider.Name,
+                Text = GetTerms(userFIO, provaider.Name),
+            };
+            var useTerm = await _context.UserTermsOfUses.FirstOrDefaultAsync(e => e.UserId == userId && e.DataProviderId == provaiderId);
+            if (useTerm == null)
+            {
+                useTerm = new UserTermsOfUse()
+                {
+                    UserId = userId,
+                    DataProviderId = provaiderId,
+                    IsRegistered = false,
+                    Email = email,
+                    Phone = phone
+                };
+                await _context.UserTermsOfUses.AddAsync(useTerm);
+                await _context.SaveChangesAsync();
+            }
+            else if (useTerm.IsRegistered == false)
+            {
+                termResponse.Flag = false;
+            }
+            else
+            {
+                termResponse.Flag = true;
+            }
+            return termResponse;
+        }
+
         public async Task<TermOfUse> TermOfUseStatus(string userFIO, Guid userId, Guid provaiderId)
         {
             var provaider = await _context.DataProviders.FirstOrDefaultAsync(e => e.Id == provaiderId);
@@ -505,7 +613,7 @@ namespace MyDataCoinBridge.Services
                 Flag = false,
                 Logo = provaider.Icon,
                 ProviderName = provaider.Name,
-                Text = GetTerms(userFIO, provaider.Name)
+                Text = GetTerms(userFIO, provaider.Name),
             };
             var useTerm = await _context.UserTermsOfUses.FirstOrDefaultAsync(e => e.UserId == userId && e.DataProviderId == provaiderId);
             if (useTerm == null)
@@ -514,7 +622,7 @@ namespace MyDataCoinBridge.Services
                 {
                     UserId = userId,
                     DataProviderId = provaiderId,
-                    IsRegistered = false
+                    IsRegistered = false,
                 };
                 await _context.UserTermsOfUses.AddAsync(useTerm);
                 await _context.SaveChangesAsync();
@@ -671,6 +779,117 @@ namespace MyDataCoinBridge.Services
                     </body></html>";
         }
 
+        public async Task<GeneralResponse> TransactionAddProvider(string token, List<TransactionProviderRequest> model)
+        {
+            var rewards = await _context.RewardCategories.ToListAsync();
+            var list = new List<BridgeTransaction>();
+            var users = await _context.UserTermsOfUses.Where(e => e.Email != null && e.Phone != null).ToListAsync();
+            var provider = await _context.DataProviders
+                .Include(e => e.BridgeUser)
+                .FirstOrDefaultAsync(e => e.BridgeUser.TokenForService == token);
+            try
+            {
+                if (provider == null)
+                {
+                    return new GeneralResponse(400, "Sorry, you send inccorect token! Pls try again!");
+                }
+                else
+                {
+                    foreach (var temp in model)
+                    {
+                        //TODO to lower add all users
+                        var user = users.FirstOrDefault(e => (e.Email.Contains(temp.EmailPhone.ToLower()) ||
+                        e.Phone.Contains(temp.EmailPhone.ToLower())
+                        && e.IsRegistered
+                        && e.DataProviderId == provider.Id));
+                        if (user != null)
+                        {
+                            var reward = rewards.FirstOrDefault(r => r.Id == Guid.Parse(temp.RewardCategoryId));
+                            if (reward != null)
+                            {
+                                var transaction =
+                                    new BridgeTransaction()
+                                    {
+                                        Count = temp.Count,
+                                        Created = DateTime.UtcNow,
+                                        Email = user.Email.Contains(temp.EmailPhone) ? temp.EmailPhone : null,
+                                        Phone = user.Phone.Contains(temp.EmailPhone) ? temp.EmailPhone : null,
+                                        ProviderId = provider.Id.ToString(),
+                                        ProviderName = provider.Name,
+                                        RewardCategoryId = reward.Id.ToString(),
+                                        RewardCategoryName = reward.Name,
+                                        USDMDC = model.Count * 0.1m,
+                                        UserId = user.UserId.ToString()
+                                    };
+                                transaction.Commission = transaction.USDMDC / 10;
+                                transaction.Claim = false;
+                                list.Add(transaction);
+                            }
+                        }
+                    }
+                    await _context.BridgeTransactions.AddRangeAsync(list);
+                    await _context.SaveChangesAsync();
+                    return new GeneralResponse(200, list.Select(e => new
+                    {
+                        Email = e.Email,
+                        Phone = e.Phone,
+                        RewardCategory = e.RewardCategoryName,
+                        Count = e.Count,
+                        USDMDC = e.USDMDC
+                    }));
+                }
+            }
+            catch (Exception ex)
+            {
+                return new GeneralResponse(400, ex.Message);
+            }
+        }
+
+        public async Task<List<TransactionProviderResponse>> GetStatisticFromProvider(string token)
+        {
+            var provider = await _context.DataProviders
+               .Include(e => e.BridgeUser)
+               .FirstOrDefaultAsync(e => e.BridgeUser.TokenForService == token);
+            if (provider == null)
+            {
+                return null;
+            }
+            else
+            {
+                return await _context.BridgeTransactions.Where(e => e.ProviderId == provider.Id.ToString()).Select(e => new TransactionProviderResponse()
+                {
+                    USDMCDAmount = e.USDMDC,
+                    Count = e.Count,
+                    Created = e.Created,
+                    EmailPhone = e.Phone == null ? e.Email : e.Phone,
+                    RewardCategoryName = e.RewardCategoryName,
+                }).ToListAsync();
+            }
+        }
+
+        public async Task<List<TransactionProviderResponse>> GetStatisticFromProviderFromAdmin()
+        {
+            return await _context.BridgeTransactions.Select(e => new TransactionProviderResponse()
+            {
+                USDMCDAmount = e.USDMDC,
+                Count = e.Count,
+                Created = e.Created,
+                EmailPhone = e.Phone == null ? e.Email : e.Phone,
+                RewardCategoryName = e.RewardCategoryName,
+            }).ToListAsync();
+        }
+
+        public async Task<decimal> GetClaimStatistic(string userId)
+        {
+            var list = await _context.BridgeTransactions.Where(e => e.UserId == userId && !e.Claim).ToListAsync();
+            foreach (var temp in list)
+            {
+                temp.Claim = true;
+            }
+            _context.BridgeTransactions.UpdateRange(list);
+            await _context.SaveChangesAsync();
+            return list.Select(e => e.USDMDC).Sum();
+        }
     }
 }
 
