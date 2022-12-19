@@ -118,5 +118,42 @@ namespace MyDataCoinBridge.Controllers
             else
                 return Ok(response);
         }
+
+        /// <summary>
+        /// List
+        /// </summary>
+        /// <response code="200">Returns Ok</response>
+        /// <response code="400">Returns Bad Request</response>
+        /// <response code="415">Returns Unsupported Media Type</response>
+        /// <response code="500">Returns Internal Server Error</response>
+        [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(VerifyCodeResponse))]
+        [AllowAnonymous]
+        [HttpPost]
+        [Route("list")]
+        public async Task<IActionResult> List()
+        {
+            return Ok(await _userService.UserList());
+        }
+
+        /// <summary>
+        /// Verify
+        /// </summary>
+        /// <response code="200">Returns Ok</response>
+        /// <response code="400">Returns Bad Request</response>
+        /// <response code="415">Returns Unsupported Media Type</response>
+        /// <response code="500">Returns Internal Server Error</response>
+        [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(VerifyCodeResponse))]
+        [AllowAnonymous]
+        [HttpPost]
+        [Route("UpToManager")]
+        public async Task<IActionResult> UpToManager(string userId)
+        {
+            GeneralResponse response = await _userService.SetManager(userId);
+
+            if (response.Code == 400)
+                return BadRequest(response.Message);
+            else
+                return Ok(response);
+        }
     }
 }
