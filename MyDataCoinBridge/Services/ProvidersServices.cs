@@ -818,7 +818,7 @@ namespace MyDataCoinBridge.Services
                                         ProviderName = provider.Name,
                                         RewardCategoryId = reward.Id.ToString(),
                                         RewardCategoryName = reward.Name,
-                                        USDMDC = model.Count * 0.1m,
+                                        USDMDC = temp.Count * 0.1m,
                                         UserId = user.UserId.ToString()
                                     };
                                 transaction.Commission = transaction.USDMDC / 10;
