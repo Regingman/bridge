@@ -1023,7 +1023,7 @@ namespace MyDataCoinBridge.Controllers
         [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(Models.GeneralResponse))]
         //[Authorize]
         [HttpGet]
-        [Route("GetStatistics")]
+        [Route("GetStatisticsExtend")]
         public async Task<ActionResult<AllDataFromStatisticRequest>> GetStatisticsExtend(string userId)
                             => await _provider.GetStatisticsExtend(userId);
     }
