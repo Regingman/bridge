@@ -1,4 +1,6 @@
-﻿using MyDataCoinBridge.Models;
+﻿using MyDataCoinBridge.Entities;
+using MyDataCoinBridge.Models;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace MyDataCoinBridge.Interfaces
@@ -34,5 +36,17 @@ namespace MyDataCoinBridge.Interfaces
         /// <returns></returns>
 
         public Task<VerifyCodeResponse> VerifyCode(VerifyCodeRequest request);
+
+        /// <summary>
+        /// User list
+        /// </summary>
+        public Task<List<BridgeUser>> UserList();
+
+        /// <summary>
+        /// User list
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public Task<GeneralResponse> SetManager(string userId);
     }
 }
