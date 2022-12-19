@@ -71,10 +71,10 @@ namespace MyDataCoinBridge.Services
                 else
                 {
                     string code = StaticFunctions.GenerateCode();
-                    StaticFunctions.SendCode(email, code);
+                    //StaticFunctions.SendCode(email, code);
                     user.VerificationCode = BC.HashPassword(code);
                     await _context.SaveChangesAsync();
-                    return new GeneralResponse(200, "Ok");
+                    return new GeneralResponse(200, "OK");
                 }
             }
             catch (Exception ex)
@@ -110,8 +110,8 @@ namespace MyDataCoinBridge.Services
         public async Task<VerifyCodeResponse> VerifyCode(VerifyCodeRequest request)
         {
             var user = await _context.BridgeUsers.SingleOrDefaultAsync(x => x.Email == request.Email);
-
-            if (user == null || !BC.Verify(request.Code, user.VerificationCode))
+            
+            if (user == null || BC.Verify(request.Code, user.VerificationCode))
             {
                 return new VerifyCodeResponse(null, 400, "User not found or incorrect verification code");
             }
@@ -133,7 +133,7 @@ namespace MyDataCoinBridge.Services
                 AddUserRefreshTokens(obj);
                 await _context.SaveChangesAsync();
 
-                return new VerifyCodeResponse(token, 200, "Success", token: user.TokenForService, isVerified: user.IsVerified);
+                return new VerifyCodeResponse(token, 200, "Success", token: user.TokenForService, isVerified: user.IsVerified, role: user.Role.ToString());
             }
         }
 
