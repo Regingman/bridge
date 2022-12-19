@@ -190,7 +190,7 @@ namespace MyDataCoinBridge.Services
             {
                 if (dataProvider == null)
                 {
-                    var user = await _context.BridgeUsers.FirstOrDefaultAsync(e => e.TokenForService == model.Token && e.IsVerified);
+                    var user = await _context.BridgeUsers.FirstOrDefaultAsync(e => e.TokenForService == model.Token);
                     if (user == null) return null;
                     var countries = await _context.Countries.ToListAsync();
                     var rewards = await _context.RewardCategories.ToListAsync();
@@ -297,7 +297,7 @@ namespace MyDataCoinBridge.Services
             }
             else
             {
-                var user = await _context.BridgeUsers.FirstOrDefaultAsync(e => e.TokenForService == model.Token && e.IsVerified);
+                var user = await _context.BridgeUsers.FirstOrDefaultAsync(e => e.TokenForService == model.Token);
                 if (user == null) return null;
 
                 dataProvider.Address = model.Address;
