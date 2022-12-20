@@ -797,7 +797,7 @@ namespace MyDataCoinBridge.Controllers
         /// <response code="415">Returns Unsupported Media Type</response>
         /// <response code="421">Returns User Not Found</response>
         /// <response code="500">Returns Internal Server Error</response>
-        [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(Models.GeneralResponse))]
+        [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(TransactionRequest))]
         [AllowAnonymous]
         [HttpGet]
         [Route("TransactionGet/{Id}")]
@@ -823,7 +823,7 @@ namespace MyDataCoinBridge.Controllers
         /// <response code="415">Returns Unsupported Media Type</response>
         /// <response code="421">Returns User Not Found</response>
         /// <response code="500">Returns Internal Server Error</response>
-        [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(Models.GeneralResponse))]
+        [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(List<TransactionRequest>))]
         //[Authorize]
         [HttpGet]
         [Route("TransactionGetList")]
@@ -849,7 +849,7 @@ namespace MyDataCoinBridge.Controllers
         /// <response code="415">Returns Unsupported Media Type</response>
         /// <response code="421">Returns User Not Found</response>
         /// <response code="500">Returns Internal Server Error</response>
-        [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(Models.GeneralResponse))]
+        [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(List<CountryRequest>))]
         //[Authorize]
         [HttpGet]
         [Route("GETLISTCountry")]
@@ -901,7 +901,7 @@ namespace MyDataCoinBridge.Controllers
         /// <response code="415">Returns Unsupported Media Type</response>
         /// <response code="421">Returns User Not Found</response>
         /// <response code="500">Returns Internal Server Error</response>
-        [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(Models.GeneralResponse))]
+        [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(List<TransactionRequest>))]
         //[Authorize]
         [HttpGet]
         [Route("TermOfUse")]
@@ -953,7 +953,7 @@ namespace MyDataCoinBridge.Controllers
         /// <response code="415">Returns Unsupported Media Type</response>
         /// <response code="421">Returns User Not Found</response>
         /// <response code="500">Returns Internal Server Error</response>
-        [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(Models.GeneralResponse))]
+        [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(List<TransactionRequest>))]
         [Authorize]
         [HttpGet]
         [Route("TermOfUseApply")]
@@ -979,7 +979,7 @@ namespace MyDataCoinBridge.Controllers
         /// <response code="415">Returns Unsupported Media Type</response>
         /// <response code="421">Returns User Not Found</response>
         /// <response code="500">Returns Internal Server Error</response>
-        [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(Models.GeneralResponse))]
+        [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(List<TransactionRequest>))]
         [Authorize]
         [HttpGet]
         [Route("TermOfUseCancel")]
@@ -1005,7 +1005,7 @@ namespace MyDataCoinBridge.Controllers
         /// <response code="415">Returns Unsupported Media Type</response>
         /// <response code="421">Returns User Not Found</response>
         /// <response code="500">Returns Internal Server Error</response>
-        [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(Models.GeneralResponse))]
+        [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(AllDataFromStatisticRequest))]
         //[Authorize]
         [HttpGet]
         [Route("GetStatistics")]
@@ -1020,7 +1020,7 @@ namespace MyDataCoinBridge.Controllers
         /// <response code="415">Returns Unsupported Media Type</response>
         /// <response code="421">Returns User Not Found</response>
         /// <response code="500">Returns Internal Server Error</response>
-        [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(Models.GeneralResponse))]
+        [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(AllDataFromStatisticRequest))]
         //[Authorize]
         [HttpGet]
         [Route("GetStatisticsExtend")]

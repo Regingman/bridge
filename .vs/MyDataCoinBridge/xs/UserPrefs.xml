@@ -7,16 +7,17 @@
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MultiItemStartupConfigurations />
-  <MonoDevelop.Ide.Workbench ActiveDocument="MyDataCoinBridge/Controllers/ProvidersController.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="MyDataCoinBridge/Services/ProvidersServices.cs">
     <Files>
-      <File FileName="MyDataCoinBridge/Controllers/ProvidersController.cs" Line="554" Column="32" />
+      <File FileName="MyDataCoinBridge/Controllers/ProvidersController.cs" Line="521" Column="46" />
       <File FileName="MyDataCoinBridge/Entities/Country.cs" />
-      <File FileName="MyDataCoinBridge/Interfaces/IProviders.cs" Line="32" Column="46" />
-      <File FileName="MyDataCoinBridge/Interfaces/ITransaction.cs" Line="6" Column="1" />
-      <File FileName="MyDataCoinBridge/Program.cs" Line="1" Column="1" />
-      <File FileName="MyDataCoinBridge/Services/UserService.cs" Line="142" Column="41" />
-      <File FileName="MyDataCoinBridge/DataAccess/WebApiDbContext.cs" Line="19" Column="1" />
-      <File FileName="MyDataCoinBridge/Entities/DataProvider.cs" Line="26" Column="19" />
+      <File FileName="MyDataCoinBridge/Interfaces/IProviders.cs" />
+      <File FileName="MyDataCoinBridge/Program.cs" />
+      <File FileName="MyDataCoinBridge/Services/UserService.cs" />
+      <File FileName="MyDataCoinBridge/DataAccess/WebApiDbContext.cs" Line="24" Column="1" />
+      <File FileName="MyDataCoinBridge/Entities/DataProvider.cs" />
+      <File FileName="MyDataCoinBridge/Controllers/UserController.cs" Line="1" Column="1" />
+      <File FileName="MyDataCoinBridge/Services/ProvidersServices.cs" Line="305" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -25,11 +26,7 @@
             <Node name="MyDataCoinBridge" expanded="True">
               <Node name="Controllers" expanded="True" />
               <Node name="DataAccess" expanded="True" />
-              <Node name="Entities" expanded="True">
-                <Node name="DataProvider.cs" selected="True" />
-              </Node>
               <Node name="Interfaces" expanded="True" />
-              <Node name="Models" expanded="True" />
               <Node name="Properties" expanded="True" />
               <Node name="Services" expanded="True" />
             </Node>
