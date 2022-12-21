@@ -69,7 +69,7 @@ namespace MyDataCoinBridge.Controllers
         }
 
 
-
+        #region Obsolete methods
         /// <summary>
         /// LoginGoogle
         /// </summary>
@@ -79,6 +79,7 @@ namespace MyDataCoinBridge.Controllers
         /// <response code="415">Returns Unsupported Media Type</response>
         /// <response code="421">Returns User Not Found</response>
         /// <response code="500">Returns Internal Server Error</response>
+        [Obsolete]
         [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(Models.GeneralResponse))]
         [Route("LoginGoogle")]
         [HttpGet]
@@ -125,6 +126,7 @@ namespace MyDataCoinBridge.Controllers
         [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(Models.GeneralResponse))]
         [Route("SignIn")]
         [HttpGet]
+        [Obsolete]
         public async Task<IActionResult> SignInAsync(string? code, string? scope, string? state = "")
         {
             var ClientId = _clientInfo.Client.client_id;
@@ -227,6 +229,7 @@ namespace MyDataCoinBridge.Controllers
         [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(Models.GeneralResponse))]
         [Route("LoginFacebook")]
         [HttpGet]
+        [Obsolete]
         public RedirectResult LoginFacebook()
         {
             string app_id = _clientInfoFB.Client.client_id;
@@ -249,6 +252,7 @@ namespace MyDataCoinBridge.Controllers
         [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(Models.GeneralResponse))]
         [Route("LoginFacebookSignIn")]
         [HttpGet]
+        [Obsolete]
         public IActionResult LoginFacebookSignIn(string code)
         {
             string app_id = _clientInfoFB.Client.client_id;
@@ -296,6 +300,7 @@ namespace MyDataCoinBridge.Controllers
         [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(Models.GeneralResponse))]
         [Route("GetPersonInfoGoogle")]
         [HttpGet]
+        [Obsolete]
         public async Task<IActionResult> GetPersonInfoGoogle(string accessToken)
         {
             var googleInfo = new Root();
@@ -342,6 +347,7 @@ namespace MyDataCoinBridge.Controllers
                 return Ok();
             }
         }
+        #endregion
 
         #region OLD_MASHINA_KG
         ///// <summary>
@@ -538,7 +544,7 @@ namespace MyDataCoinBridge.Controllers
         /// <response code="415">Returns Unsupported Media Type</response>
         /// <response code="421">Returns User Not Found</response>
         /// <response code="500">Returns Internal Server Error</response>
-        [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(Models.GeneralResponse))]
+        [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(DataProviderRequest))]
         [AllowAnonymous]
         [HttpGet]
         [Route("DataProviderGet")]
@@ -564,7 +570,7 @@ namespace MyDataCoinBridge.Controllers
         /// <response code="415">Returns Unsupported Media Type</response>
         /// <response code="421">Returns User Not Found</response>
         /// <response code="500">Returns Internal Server Error</response>
-        [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(Models.GeneralResponse))]
+        [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(List<DataProviderRequest>))]
         //[Authorize]
         [HttpGet]
         [Route("DataProviderGetList")]
@@ -893,7 +899,7 @@ namespace MyDataCoinBridge.Controllers
         }
 
         /// <summary>
-        /// Get term of use status for user from provaider
+        /// Get the terms of use status for user from provider
         /// </summary>
         /// <response code="200">Returns Success</response>
         /// <response code="400">Returns Bad Request</response>
@@ -904,7 +910,7 @@ namespace MyDataCoinBridge.Controllers
         [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(List<TransactionRequest>))]
         //[Authorize]
         [HttpGet]
-        [Route("TermOfUse")]
+        [Route("TermsOfUse")]
         public async Task<ActionResult<List<TransactionRequest>>> TermOfUseStatus(string fio, Guid userId, Guid provaiderId)
         {
             var response = await _provider.TermOfUseStatus(fio, userId, provaiderId);
@@ -919,7 +925,7 @@ namespace MyDataCoinBridge.Controllers
         }
 
         /// <summary>
-        /// Get term of use status for user from provaider
+        /// Get extended status for user from provider's terms of use
         /// </summary>
         /// <response code="200">Returns Success</response>
         /// <response code="400">Returns Bad Request</response>
@@ -930,8 +936,8 @@ namespace MyDataCoinBridge.Controllers
         [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(List<TransactionRequest>))]
         //[Authorize]
         [HttpPost]
-        [Route("TermOfUseExtended")]
-        public async Task<ActionResult<List<TransactionRequest>>> TermOfUseStatus([FromBody]TermOfUseRequest model)
+        [Route("TermsOfUseExtended")]
+        public async Task<ActionResult<List<TransactionRequest>>> TermOfUseStatusExtended([FromBody]TermOfUseRequest model)
         {
             var response = await _provider.TermOfUseStatus(model.userFIO, model.userId, model.provaiderId, model.email, model.phone);
             if (response == null)
@@ -945,7 +951,7 @@ namespace MyDataCoinBridge.Controllers
         }
 
         /// <summary>
-        /// Set Apply status term of use status for user from provaider
+        /// Agree to the terms of use
         /// </summary>
         /// <response code="200">Returns Success</response>
         /// <response code="400">Returns Bad Request</response>
@@ -957,9 +963,9 @@ namespace MyDataCoinBridge.Controllers
         [Authorize]
         [HttpGet]
         [Route("TermOfUseApply")]
-        public async Task<ActionResult<List<TransactionRequest>>> TermOfUseApply(Guid userId, Guid provaiderId)
+        public async Task<ActionResult<List<TransactionRequest>>> TermOfUseApply(Guid userId, Guid providerId)
         {
-            var response = await _provider.TermOfUseApply(userId, provaiderId);
+            var response = await _provider.TermOfUseApply(userId, providerId);
             if (response == false)
             {
                 return BadRequest();
@@ -971,7 +977,7 @@ namespace MyDataCoinBridge.Controllers
         }
 
         /// <summary>
-        /// Set Apply status term of use status for user from provaider
+        /// Refuse terms of services with provider
         /// </summary>
         /// <response code="200">Returns Success</response>
         /// <response code="400">Returns Bad Request</response>
@@ -983,9 +989,9 @@ namespace MyDataCoinBridge.Controllers
         [Authorize]
         [HttpGet]
         [Route("TermOfUseCancel")]
-        public async Task<ActionResult<List<TransactionRequest>>> TermOfUseCancel(Guid userId, Guid provaiderId)
+        public async Task<ActionResult<List<TransactionRequest>>> TermOfUseCancel(Guid userId, Guid providerId)
         {
-            var response = await _provider.TermOfUseCancel(userId, provaiderId);
+            var response = await _provider.TermOfUseCancel(userId, providerId);
             if (response == false)
             {
                 return BadRequest();
@@ -997,7 +1003,7 @@ namespace MyDataCoinBridge.Controllers
         }
 
         /// <summary>
-        /// Get statistic for user
+        /// Get statistics for user
         /// </summary>
         /// <response code="200">Returns Success</response>
         /// <response code="400">Returns Bad Request</response>
@@ -1012,7 +1018,7 @@ namespace MyDataCoinBridge.Controllers
         public async Task<ActionResult<AllDataFromStatisticRequest>> GetStatistics(string userId)
                             => await _provider.GetStatistics(userId);
         /// <summary>
-        /// Get statistic for user extend
+        /// Get statistics for user extended
         /// </summary>
         /// <response code="200">Returns Success</response>
         /// <response code="400">Returns Bad Request</response>

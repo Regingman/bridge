@@ -34,8 +34,11 @@ namespace MyDataCoinBridge.Models
         public ICollection<RewardCategoryRequest> RewardCategories { get;  set; }
 
         public ICollection<CountryRequest> Countries { get; set; }
+
         public string VerificationCode { get; set; }
+
         public bool IsVerified { get; set; }
+
         public string BridgeUserEmail { get; set; }
     }
 }

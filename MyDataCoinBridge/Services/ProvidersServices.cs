@@ -736,7 +736,7 @@ namespace MyDataCoinBridge.Services
         }
 
 
-        public string GetTerms(string fio, string provaiderName)
+        public string GetTerms(string fio, string providerName)
         {
             return @"<html><body>
 
