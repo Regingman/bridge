@@ -281,7 +281,10 @@ namespace MyDataCoinBridge.Services
 
         public async Task<List<DataProviderRequest>> GETLIST() => await _context
             .DataProviders
+            .Where(e=>e.BridgeUserId!=null)
             .Include(e => e.BridgeUser)
+            .Include(e => e.RewardCategories)
+            .Include(e => e.Countries)
             .Select(e => new DataProviderRequest()
             {
                 Id = e.Id,
@@ -360,7 +363,7 @@ namespace MyDataCoinBridge.Services
                 await _context.SaveChangesAsync();
                 dataProvider = await _context.DataProviders.FirstOrDefaultAsync(e => e.Id == id);
                 dataProvider.Countries = model.Countries.Select(e => countries.FirstOrDefault(x => x.Id == e.Id)).ToList();
-                dataProvider.RewardCategories = rewards.Select(e => rewards.FirstOrDefault(x => x.Id == e.Id)).ToList();
+                dataProvider.RewardCategories = model.RewardCategories.Select(e => rewards.FirstOrDefault(x => x.Id == e.Id)).ToList();
 
                 _context.DataProviders.Update(dataProvider);
                 await _context.SaveChangesAsync();
