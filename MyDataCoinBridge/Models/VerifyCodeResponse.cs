@@ -8,7 +8,7 @@
 
     public class VerifyCodeResponse
     {
-        public VerifyCodeResponse(Tokens tokens, int code, string errorMessage, string token, bool isVerified, string role)
+        public VerifyCodeResponse(Tokens tokens, int code, string errorMessage, string token, bool isVerified, string role, string email)
         {
             Tokens = tokens;
             Code = code;
@@ -16,6 +16,7 @@
             Token = token;
             IsVerified = isVerified;
             Role = role;
+            Email = email;
 
         }
         public VerifyCodeResponse(Tokens tokens, int code, string errorMessage)
