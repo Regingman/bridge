@@ -112,7 +112,7 @@ namespace MyDataCoinBridge.Services
         {
             var user = await _context.BridgeUsers.SingleOrDefaultAsync(x => x.Email == request.Email);
 
-            if (user == null || BC.Verify(request.Code, user.VerificationCode))
+            if (user == null || !BC.Verify(request.Code, user.VerificationCode))
             {
                 return new VerifyCodeResponse(null, 400, "User not found or incorrect verification code");
             }
