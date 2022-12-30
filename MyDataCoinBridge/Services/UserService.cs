@@ -72,7 +72,7 @@ namespace MyDataCoinBridge.Services
                 else
                 {
                     string code = StaticFunctions.GenerateCode();
-                    //StaticFunctions.SendCode(email, code);
+                    StaticFunctions.SendCode(email, code);
                     user.VerificationCode = BC.HashPassword(code);
                     await _context.SaveChangesAsync();
                     return new GeneralResponse(200, "OK");
