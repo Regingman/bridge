@@ -281,7 +281,7 @@ namespace MyDataCoinBridge.Services
 
         public async Task<List<DataProviderRequest>> GETLIST() => await _context
             .DataProviders
-            .Where(e=>e.BridgeUserId!=null)
+            .Where(e => e.BridgeUserId != null)
             .Include(e => e.BridgeUser)
             .Include(e => e.RewardCategories)
             .Include(e => e.Countries)
@@ -897,7 +897,7 @@ namespace MyDataCoinBridge.Services
         public async Task<AllDataFromStatisticRequest> GetStatisticsExtend(string userId)
         {
             var transactions = await _context.BridgeTransactions
-                  .Where(e => e.UserId == userId)
+                  .Where(e => e.UserId == userId && !e.Claim)
                   .Select(e => new TransactionRequest()
                   {
                       Amount = e.USDMDC,
