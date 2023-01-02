@@ -897,7 +897,7 @@ namespace MyDataCoinBridge.Services
         public async Task<AllDataFromStatisticRequest> GetStatisticsExtend(string userId)
         {
             var transactions = await _context.BridgeTransactions
-                  .Where(e => e.UserId == userId && !e.Claim)
+                  .Where(e => e.UserId == userId && e.Claim)
                   .Select(e => new TransactionRequest()
                   {
                       Amount = e.USDMDC,
