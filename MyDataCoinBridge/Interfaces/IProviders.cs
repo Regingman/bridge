@@ -9,6 +9,8 @@ namespace MyDataCoinBridge.Interfaces
     public interface IProviders
     {
         Task<DataProvider> GetProviderByIdAsync(Guid id);
+        Task<DataProvider> GetProviderByToken(string token);
+        Task<DataProvider> LogoUpload(string path, DataProvider provider);
 
         Task<List<ProvaidersRequest>> GetUsersProvidersAsync(string country, string userId);
 

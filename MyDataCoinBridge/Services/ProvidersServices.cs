@@ -930,6 +930,24 @@ namespace MyDataCoinBridge.Services
                 TotalTransactions = transactions
             };
         }
+
+        public async Task<DataProvider> GetProviderByToken(string token)
+        {
+            var user = await _context.BridgeUsers.FirstOrDefaultAsync(e => e.TokenForService == token);
+            if (user == null)
+            {
+                return null;
+            }
+            return await _context.DataProviders.Include(e => e.BridgeUser).FirstOrDefaultAsync(e => e.BridgeUserId == user.Id);
+        }
+
+        public async Task<DataProvider> LogoUpload(string path, DataProvider provider)
+        {
+            provider.Icon = path;
+            _context.DataProviders.Update(provider);
+            await _context.SaveChangesAsync();
+            return provider;
+        }
     }
 }
 

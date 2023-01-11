@@ -1,11 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using System.Web;
 using Google.Apis.Auth.OAuth2.Responses;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using MyDataCoinBridge.Entities;
@@ -937,7 +941,7 @@ namespace MyDataCoinBridge.Controllers
         //[Authorize]
         [HttpPost]
         [Route("TermsOfUseExtended")]
-        public async Task<ActionResult<List<TransactionRequest>>> TermOfUseStatusExtended([FromBody]TermOfUseRequest model)
+        public async Task<ActionResult<List<TransactionRequest>>> TermOfUseStatusExtended([FromBody] TermOfUseRequest model)
         {
             var response = await _provider.TermOfUseStatus(model.userId, model.provaiderId, model.email, model.phone);
             if (response == null)
@@ -1032,6 +1036,61 @@ namespace MyDataCoinBridge.Controllers
         [Route("GetStatisticsExtend")]
         public async Task<ActionResult<AllDataFromStatisticRequest>> GetStatisticsExtend(string userId)
                             => await _provider.GetStatisticsExtend(userId);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(GeneralResponse))]
+        [AllowAnonymous]
+        [HttpPost("upload_logo")]
+        public async Task<IActionResult> UploadAsync([FromForm] ProviderLogoModel providerLogoModel)
+        {
+            var provider = await _provider.GetProviderByToken(providerLogoModel.Token);
+            if (provider == null)
+            {
+                return BadRequest();
+            }
+            try
+            {
+                string logoOnSer = saveDoc(providerLogoModel.Logo, provider.Id + "_logo");
+                if (logoOnSer != null)
+                {
+                    await _provider.LogoUpload(logoOnSer, provider);
+                    return Ok(logoOnSer);
+                }
+                else
+                {
+                    return BadRequest();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex}");
+            }
+        }
+
+        private string? saveDoc(IFormFile file, string fileName)
+        {
+            var folderName = Path.Combine("Resources", "UserDocs");
+            var pathToSave = Path.Combine("/var/www/Uploads", folderName);
+
+            if (file.Length > 0)
+            {
+                var fileExtension = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"').Split(".").Last();
+                var fullPath = Path.Combine(pathToSave, fileName + "." + fileExtension);
+                var dbPath = Path.Combine(folderName, fileName + "." + fileExtension);
+                using (var stream = new FileStream(fullPath, FileMode.Create))
+                {
+                    file.CopyTo(stream);
+                }
+                return dbPath;
+            }
+            else
+            {
+                return null;
+            }
+        }
     }
 }
 
