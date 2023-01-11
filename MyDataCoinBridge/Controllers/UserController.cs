@@ -31,7 +31,7 @@ namespace MyDataCoinBridge.Controllers
         /// <response code="400">Returns Bad Request</response>
         /// <response code="415">Returns Unsupported Media Type</response>
         /// <response code="500">Returns Internal Server Error</response>
-        //[SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(AuthenticateResponse))]
+        [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(GeneralResponse))]
         [AllowAnonymous]
         [HttpGet]
         [Route("send_code/{email}")]
