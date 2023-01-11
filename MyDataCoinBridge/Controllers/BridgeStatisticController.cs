@@ -52,7 +52,7 @@ namespace MyDataCoinBridge.Controllers
         /// <response code="400">Returns Bad Request</response>
         /// <response code="401">Returns Unauthorized</response>
         /// <response code="415">Returns Unsupported Media Type</response>
-        [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(TransactionProviderResponse))]
+        [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(List<TransactionProviderResponse>))]
         [AllowAnonymous]
         [HttpGet]
         [Route("getFromProvider")]
@@ -69,7 +69,7 @@ namespace MyDataCoinBridge.Controllers
         /// <response code="400">Returns Bad Request</response>
         /// <response code="401">Returns Unauthorized</response>
         /// <response code="415">Returns Unsupported Media Type</response>
-        [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(TransactionProviderResponse))]
+        [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(List<TransactionProviderResponse>))]
         [AllowAnonymous]
         [HttpGet]
         [Route("getFromAdmin")]

@@ -565,7 +565,7 @@ namespace MyDataCoinBridge.Services
             }
         }
 
-        public async Task<TermOfUse> TermOfUseStatus(string userFIO, Guid userId, Guid provaiderId, List<string> email, List<string> phone)
+        public async Task<TermOfUse> TermOfUseStatus(Guid userId, Guid provaiderId, List<string> email, List<string> phone)
         {
             var provaider = await _context.DataProviders.FirstOrDefaultAsync(e => e.Id == provaiderId);
             if (provaider == null)
@@ -577,7 +577,7 @@ namespace MyDataCoinBridge.Services
                 Flag = false,
                 Logo = provaider.Icon,
                 ProviderName = provaider.Name,
-                Text = GetTerms(userFIO, provaider.Name),
+                Text = GetTerms("", provaider.Name),
             };
             var useTerm = await _context.UserTermsOfUses.FirstOrDefaultAsync(e => e.UserId == userId && e.DataProviderId == provaiderId);
             if (useTerm == null)
@@ -929,6 +929,24 @@ namespace MyDataCoinBridge.Services
                 TotalEarneds = earnsList,
                 TotalTransactions = transactions
             };
+        }
+
+        public async Task<DataProvider> GetProviderByToken(string token)
+        {
+            var user = await _context.BridgeUsers.FirstOrDefaultAsync(e => e.TokenForService == token);
+            if (user == null)
+            {
+                return null;
+            }
+            return await _context.DataProviders.Include(e => e.BridgeUser).FirstOrDefaultAsync(e => e.BridgeUserId == user.Id);
+        }
+
+        public async Task<DataProvider> LogoUpload(string path, DataProvider provider)
+        {
+            provider.Icon = path;
+            _context.DataProviders.Update(provider);
+            await _context.SaveChangesAsync();
+            return provider;
         }
     }
 }

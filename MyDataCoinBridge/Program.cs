@@ -16,6 +16,8 @@ using System.Text;
 using MyDataCoinBridge.DataAccess;
 using static System.Environment;
 using DotNetEnv;
+using Microsoft.Extensions.FileProviders;
+using Microsoft.AspNetCore.Http;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Logging.ClearProviders();
@@ -106,7 +108,12 @@ var app = builder.Build();
 
     Env.Load();
     app.UseDeveloperExceptionPage();
-    
+
+    app.UseStaticFiles(new StaticFileOptions()
+    {
+        FileProvider = new PhysicalFileProvider(Path.Combine("/var/www/Uploads", @"Resources")),
+        RequestPath = new PathString("/Resources")
+    });
 
     app.UseCors(x => x
         .AllowAnyOrigin()
