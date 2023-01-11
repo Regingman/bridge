@@ -939,7 +939,7 @@ namespace MyDataCoinBridge.Controllers
         [Route("TermsOfUseExtended")]
         public async Task<ActionResult<List<TransactionRequest>>> TermOfUseStatusExtended([FromBody]TermOfUseRequest model)
         {
-            var response = await _provider.TermOfUseStatus(model.userFIO, model.userId, model.provaiderId, model.email, model.phone);
+            var response = await _provider.TermOfUseStatus(model.userId, model.provaiderId, model.email, model.phone);
             if (response == null)
             {
                 return BadRequest();

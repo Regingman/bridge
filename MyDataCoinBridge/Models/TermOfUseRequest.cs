@@ -5,7 +5,6 @@ namespace MyDataCoinBridge.Models
 {
     public class TermOfUseRequest
     {
-        public string userFIO { get; set; }
         public Guid userId { get; set; }
         public Guid provaiderId { get; set; }
         public List<string> email { get; set; }

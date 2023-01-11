@@ -12,7 +12,7 @@
         {
             Tokens = tokens;
             Code = code;
-            ErrorMessage = errorMessage;
+            Message = errorMessage;
             Token = token;
             IsVerified = isVerified;
             Role = role;
@@ -23,14 +23,14 @@
         {
             Tokens = tokens;
             Code = code;
-            ErrorMessage = errorMessage;
+            Message = errorMessage;
         }
 
         public Tokens Tokens { get; set; }
 
         public int Code { get; set; }
 
-        public string ErrorMessage { get; set; }
+        public string Message { get; set; }
         public string Role { get; set; }
         public string Email { get; set; }
         public string Token { get; set; }
