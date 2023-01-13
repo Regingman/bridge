@@ -1,4 +1,6 @@
-﻿namespace MyDataCoinBridge.Models
+﻿using MyDataCoinBridge.Entities;
+
+namespace MyDataCoinBridge.Models
 {
     public class Tokens
     {
@@ -8,7 +10,7 @@
 
     public class VerifyCodeResponse
     {
-        public VerifyCodeResponse(Tokens tokens, int code, string errorMessage, string token, bool isVerified, string role, string email)
+        public VerifyCodeResponse(Tokens tokens, int code, string errorMessage, string token, VerifiedEnum isVerified, string role, string email)
         {
             Tokens = tokens;
             Code = code;
@@ -34,6 +36,6 @@
         public string Role { get; set; }
         public string Email { get; set; }
         public string Token { get; set; }
-        public bool IsVerified { get; set; }
+        public VerifiedEnum IsVerified { get; set; }
     }
 }

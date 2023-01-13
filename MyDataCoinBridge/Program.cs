@@ -109,11 +109,11 @@ var app = builder.Build();
     Env.Load();
     app.UseDeveloperExceptionPage();
 
-    app.UseStaticFiles(new StaticFileOptions()
-    {
-        FileProvider = new PhysicalFileProvider(Path.Combine("/var/www/Uploads", @"Resources")),
-        RequestPath = new PathString("/Resources")
-    });
+    //app.UseStaticFiles(new StaticFileOptions()
+    //{
+    //    FileProvider = new PhysicalFileProvider(Path.Combine("/var/www/Uploads", @"Resources")),
+    //    RequestPath = new PathString("/Resources")
+    //});
 
     app.UseCors(x => x
         .AllowAnyOrigin()

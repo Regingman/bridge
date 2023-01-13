@@ -42,7 +42,7 @@ namespace MyDataCoinBridge.Services
                     bridgeUser.CreatedAt = DateTime.UtcNow;
                     bridgeUser.Role = Roles.User;
                     bridgeUser.TokenForService = BC.HashPassword(StaticFunctions.GenerateCode());
-                    bridgeUser.IsVerified = false;
+                    bridgeUser.IsVerified = VerifiedEnum.No;
 
                     string code = StaticFunctions.GenerateCode();
                     StaticFunctions.SendCode(email, code);
@@ -95,7 +95,30 @@ namespace MyDataCoinBridge.Services
                     return new GeneralResponse(400, "User not found! Pls try again!");
                 else
                 {
-                    user.IsVerified = true;
+                    user.IsVerified = VerifiedEnum.Yes;
+                    _context.BridgeUsers.Update(user);
+                    await _context.SaveChangesAsync();
+                    return new GeneralResponse(200, "Ok");
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return new GeneralResponse(400, ex.Message);
+            }
+        }
+
+        public async Task<GeneralResponse> VerifyRequest(string token)
+        {
+            try
+            {
+                var user = await _context.BridgeUsers.FirstOrDefaultAsync(x => x.TokenForService == token);
+
+                if (user == null)
+                    return new GeneralResponse(400, "User not found! Pls try again!");
+                else
+                {
+                    user.IsVerified = VerifiedEnum.Await;
                     _context.BridgeUsers.Update(user);
                     await _context.SaveChangesAsync();
                     return new GeneralResponse(200, "Ok");

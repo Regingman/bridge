@@ -1038,57 +1038,29 @@ namespace MyDataCoinBridge.Controllers
                             => await _provider.GetStatisticsExtend(userId);
 
         /// <summary>
-        /// 
+        /// Upload logo
         /// </summary>
         [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(GeneralResponse))]
         [AllowAnonymous]
         [HttpPost("upload_logo")]
-        public async Task<IActionResult> UploadAsync([FromForm] ProviderLogoModel providerLogoModel)
+        public async Task<IActionResult> UploadAsync([FromBody] Uploadrequest providerLogoModel)
         {
-            var provider = await _provider.GetProviderByToken(providerLogoModel.Token);
-            if (provider == null)
-            {
-                return BadRequest();
-            }
             try
             {
-                string logoOnSer = saveDoc(providerLogoModel.Logo, provider.Id + "_logo");
-                if (logoOnSer != null)
+                var result = await _provider.Upload(providerLogoModel); 
+
+                if(result.Code == 200)
                 {
-                    await _provider.LogoUpload(logoOnSer, provider);
-                    return Ok(logoOnSer);
+                    return Ok(result.Message);
                 }
                 else
                 {
-                    return BadRequest();
+                    return BadRequest(result.Message);
                 }
-
             }
             catch (Exception ex)
             {
                 return StatusCode(500, $"Internal server error: {ex}");
-            }
-        }
-
-        private string? saveDoc(IFormFile file, string fileName)
-        {
-            var folderName = Path.Combine("Resources", "UserDocs");
-            var pathToSave = Path.Combine("/var/www/Uploads", folderName);
-
-            if (file.Length > 0)
-            {
-                var fileExtension = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"').Split(".").Last();
-                var fullPath = Path.Combine(pathToSave, fileName + "." + fileExtension);
-                var dbPath = Path.Combine(folderName, fileName + "." + fileExtension);
-                using (var stream = new FileStream(fullPath, FileMode.Create))
-                {
-                    file.CopyTo(stream);
-                }
-                return dbPath;
-            }
-            else
-            {
-                return null;
             }
         }
     }

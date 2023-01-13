@@ -24,6 +24,12 @@ namespace MyDataCoinBridge.Interfaces
         /// <returns></returns>
         public Task<GeneralResponse> Verify(string email);
         /// <summary>
+        /// Verify request user provider
+        /// </summary>
+        /// <param name="email"></param>
+        /// <returns></returns>
+        public Task<GeneralResponse> VerifyRequest(string token);
+        /// <summary>
         /// Send authorization code for user by email
         /// </summary>
         /// <param name="email"></param>

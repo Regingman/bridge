@@ -120,6 +120,27 @@ namespace MyDataCoinBridge.Controllers
         }
 
         /// <summary>
+        /// Verify request for user
+        /// </summary>
+        /// <response code="200">Returns Ok</response>
+        /// <response code="400">Returns Bad Request</response>
+        /// <response code="415">Returns Unsupported Media Type</response>
+        /// <response code="500">Returns Internal Server Error</response>
+        [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(VerifyCodeResponse))]
+        [AllowAnonymous]
+        [HttpPost]
+        [Route("verify")]
+        public async Task<IActionResult> VerifyRequest([FromQuery] string token)
+        {
+            GeneralResponse response = await _userService.VerifyRequest(token);
+
+            if (response.Code == 400)
+                return BadRequest(response.Message);
+            else
+                return Ok(response);
+        }
+
+        /// <summary>
         /// List
         /// </summary>
         /// <response code="200">Returns Ok</response>
@@ -156,6 +177,6 @@ namespace MyDataCoinBridge.Controllers
                 return Ok(response);
         }
 
-        
+
     }
 }

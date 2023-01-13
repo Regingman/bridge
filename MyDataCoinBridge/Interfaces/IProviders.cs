@@ -58,6 +58,7 @@ namespace MyDataCoinBridge.Interfaces
         public Task<List<TransactionProviderResponse>> GetStatisticFromProvider(string token);
         public Task<List<TransactionProviderResponse>> GetStatisticFromProviderFromAdmin();
         public Task<decimal> GetClaimStatistic(string userId);
+        public Task<GeneralResponse> Upload(Uploadrequest model);
     }
 }
 
