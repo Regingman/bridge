@@ -1,8 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net.Http;
+using System.Threading;
 using System.Threading.Tasks;
+using Firebase.Auth;
+using Firebase.Storage;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using MyDataCoinBridge.DataAccess;
@@ -19,6 +23,8 @@ namespace MyDataCoinBridge.Services
         private readonly WebApiDbContext _context;
         private readonly IHttpClientFactory _clientFactory;
         private readonly AppSettings _appSettings;
+        private static string Bucket = "mydatacoin.appspot.com";
+        private static string AuthEmail = "img@gmail.com";
 
         public ProvidersServices(
             IHttpClientFactory clientFactory,
@@ -947,6 +953,49 @@ namespace MyDataCoinBridge.Services
             _context.DataProviders.Update(provider);
             await _context.SaveChangesAsync();
             return provider;
+        }
+
+        public async Task<GeneralResponse> Upload(Uploadrequest model)
+        {
+            byte[] bytes = Convert.FromBase64String(model.ImageData);
+            MemoryStream stream = new MemoryStream(bytes);
+            var auth = new FirebaseAuthProvider(new FirebaseConfig(_appSettings.G_API_KEY));
+            var a = await auth.SignInWithEmailAndPasswordAsync(AuthEmail, _appSettings.G_API_PASSWORD);
+            var cancellation = new CancellationTokenSource();
+
+            var task = new FirebaseStorage(
+                Bucket,
+                new FirebaseStorageOptions
+                {
+                    AuthTokenAsyncFactory = () => Task.FromResult(a.FirebaseToken),
+                    ThrowOnCancel = true // when you cancel the upload, exception is thrown. By default no exception is thrown
+                })
+                .Child("Images")
+                .Child($"{model.Token}.{model.Extension}")
+                .PutAsync(stream, cancellation.Token);
+
+            task.Progress.ProgressChanged += (s, e) => Console.WriteLine($"Progress: {e.Percentage} %");
+
+            try
+            {
+                var user = await _context.DataProviders
+                    .Include(e => e.BridgeUser)
+                    .SingleOrDefaultAsync(x => x.BridgeUser.TokenForService == model.Token);
+                string add = $"?alt=media&token={_appSettings.G_IMAGE_TOKEN}";
+
+                string[] words = task.TargetUrl.Split('?');
+                string[] words2 = words[1].Split('=');
+                string finalString = words[0] + "/" + words2[1] + add;
+
+                user.Icon = finalString;
+                _context.DataProviders.Update(user);
+                await _context.SaveChangesAsync();
+                return new GeneralResponse(200, finalString);
+            }
+            catch (Exception ex)
+            {
+                return new GeneralResponse(400, ex.Message);
+            }
         }
     }
 }

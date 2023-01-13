@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MyDataCoinBridge.Entities;
+using System;
 using System.Collections.Generic;
 
 namespace MyDataCoinBridge.Models
@@ -37,7 +38,7 @@ namespace MyDataCoinBridge.Models
 
         public string VerificationCode { get; set; }
 
-        public bool IsVerified { get; set; }
+        public VerifiedEnum IsVerified { get; set; }
 
         public string BridgeUserEmail { get; set; }
     }

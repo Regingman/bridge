@@ -21,10 +21,17 @@ namespace MyDataCoinBridge.Entities
 
         public string VerificationCode { get; set; }
 
-        public bool IsVerified { get; set; } = false;
+        public VerifiedEnum IsVerified { get; set; } = VerifiedEnum.No;
 
         public string TokenForService { get; set; }
 
         public DateTime CreatedAt { get; set; }
+    }
+
+    public enum VerifiedEnum
+    {
+        Await,
+        Yes,
+        No
     }
 }
