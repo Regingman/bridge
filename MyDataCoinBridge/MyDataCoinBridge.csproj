@@ -36,9 +36,23 @@
     <None Remove="Microsoft.Extensions.Configuration.Binder" />
     <None Remove="Microsoft.Extensions.Configuration.Json" />
     <None Remove="Microsoft.Extensions.Configuration.EnvironmentVariables" />
+    <None Remove="Microsoft.AspNet.WebHooks.Common" />
+    <None Remove="Enums\" />
+    <None Remove="Models\TermsOfUse\" />
+    <None Remove="Models\Provider\" />
+    <None Remove="Models\Transaction\" />
+    <None Remove="Microsoft.AspNetCore.SignalR.Common" />
+    <None Remove="Microsoft.AspNet.WebHooks.Custom.Api" />
+    <None Remove="Models\WebHooks\" />
+    <None Remove="Newtonsoft.Json.Schema" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="DataAccess\" />
+    <Folder Include="Enums\" />
+    <Folder Include="Models\TermsOfUse\" />
+    <Folder Include="Models\Provider\" />
+    <Folder Include="Models\Transaction\" />
+    <Folder Include="Models\WebHooks\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="DotNetEnv" Version="2.3.0" />
@@ -68,5 +82,7 @@
     <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="6.0.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="6.0.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="6.0.1" />
+    <PackageReference Include="Microsoft.AspNetCore.SignalR.Common" Version="6.0.10" />
+    <PackageReference Include="Newtonsoft.Json.Schema" Version="3.0.14" />
   </ItemGroup>
 </Project>

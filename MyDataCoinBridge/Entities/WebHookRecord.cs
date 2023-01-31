@@ -9,12 +9,12 @@ namespace MyDataCoinBridge.Entities
         /// <summary>
         /// Hook record DB Id
         /// </summary>
-        public long ID { get; set; }
+        public Guid ID { get; set; }
 
         /// <summary>
         /// Linked Webhook Id
         /// </summary>
-        public long WebHookID { get; set; }
+        public Guid WebHookID { get; set; }
 
         /// <summary>
         /// Linked Webhook
@@ -25,11 +25,6 @@ namespace MyDataCoinBridge.Entities
         /// Unique GUID
         /// </summary>
         public string Guid { get; set; }
-
-        /// <summary>
-        /// WebHookType
-        /// </summary>
-        public WebHookEventType HookType { get; set; }
 
         /// <summary>
         /// Hook result enum

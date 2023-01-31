@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using MyDataCoinBridge.Entities;
 
-namespace MyDataCoinBridge.Models
+namespace MyDataCoinBridge.Models.Provider
 {
     public class ProviderResponse
     {

@@ -1,4 +1,4 @@
-﻿namespace MyDataCoinBridge.Models
+﻿namespace MyDataCoinBridge.Models.TermsOfUse
 {
     public class TermOfUse
     {

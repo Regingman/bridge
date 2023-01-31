@@ -1,7 +1,7 @@
 ﻿using MyDataCoinBridge.Entities;
 using System.Collections.Generic;
 
-namespace MyDataCoinBridge.Models
+namespace MyDataCoinBridge.Models.Provider
 {
     public class ProvaidersRequest
     {

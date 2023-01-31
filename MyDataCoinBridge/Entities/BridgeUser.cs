@@ -26,6 +26,8 @@ namespace MyDataCoinBridge.Entities
         public string TokenForService { get; set; }
 
         public DateTime CreatedAt { get; set; }
+
+        public string Secret { get;  private set; }
     }
 
     public enum VerifiedEnum

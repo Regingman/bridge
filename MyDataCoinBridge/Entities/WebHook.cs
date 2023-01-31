@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using MyDataCoinBridge.Enums;
 
 namespace MyDataCoinBridge.Entities
 {
@@ -9,14 +10,14 @@ namespace MyDataCoinBridge.Entities
         public WebHook()
         {
             this.Headers = new HashSet<WebHookHeader>();
-            this.HookEvents = new WebHookEventType[0];
+            this.HookEvents = new HookEventType[2];
             this.Records = new List<WebHookRecord>();
         }
 
         /// <summary>
         /// Hook DB Id
         /// </summary>
-        public long ID { get; set; }
+        public Guid ID { get; set; }
 
         /// <summary>
 
@@ -45,7 +46,7 @@ namespace MyDataCoinBridge.Entities
         /// <summary>
         /// Hook Events context
         /// </summary>
-        public WebHookEventType[] HookEvents { get; set; }
+        public HookEventType[] HookEvents { get; set; }
 
         /// <summary>
         /// Additional HTTP headers. Will be sent with hook.

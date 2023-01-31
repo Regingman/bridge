@@ -7,8 +7,8 @@ namespace MyDataCoinBridge.Models.WebHooks
         {
             public string FirstName { get; set; }
             public string LastName { get; set; }
-            public DateTime DateOfBirth { get; set; }
-            public int Gender { get; set; } // 0-Male, 1-Female
+            public DateTime? DateOfBirth { get; set; }
+            public int? Gender { get; set; } // 0-Male, 1-Female
             public string[] Email { get; set; }
             public string[] Phone { get; set; }
             public BasicData BasicData { get; set; }
@@ -31,7 +31,7 @@ namespace MyDataCoinBridge.Models.WebHooks
         {
             public string MobilePhone { get; set; }
             public string Address { get; set; }
-            public string[] LinedAccounts { get; set; }
+            public string[] LinkedAccounts { get; set; }
             public string Website { get; set; }
         }
 

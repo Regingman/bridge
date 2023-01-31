@@ -97,8 +97,10 @@ builder.Logging.AddConsole();
 
     services.AddScoped<IProviders, ProvidersServices>();
     services.AddScoped<IUser, UserService>();
+    services.AddScoped<IWebHooks, WebHooksService>();
     services.AddScoped<IJWTManager, JWTManagerService>();
     services.AddHttpClient<ProvidersServices>();
+    services.AddHealthChecks();
 }
 
 var app = builder.Build();

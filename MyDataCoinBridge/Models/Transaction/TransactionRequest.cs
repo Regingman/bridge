@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace MyDataCoinBridge.Models
+namespace MyDataCoinBridge.Models.Transaction
 {
     public class AllDataFromStatisticRequest
     {

@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 
-namespace MyDataCoinBridge.Models
+namespace MyDataCoinBridge.Models.Provider
 {
     public class ProviderLogoModel
     {

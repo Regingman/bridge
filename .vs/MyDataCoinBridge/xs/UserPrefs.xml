@@ -1,23 +1,13 @@
-﻿<Properties GitUserInfo="UsingMD" StartupConfiguration="{17946292-2259-4FB2-A02D-F0F933B6A5E3}|Default">
+﻿<Properties StartupConfiguration="{17946292-2259-4FB2-A02D-F0F933B6A5E3}|Default" GitUserInfo="UsingMD">
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MultiItemStartupConfigurations />
   <MonoDevelop.Ide.Workbench ActiveDocument="MyDataCoinBridge/Services/ProvidersServices.cs">
     <Files>
-      <File FileName="MyDataCoinBridge/Controllers/ProvidersController.cs" />
-      <File FileName="MyDataCoinBridge/Entities/Country.cs" />
-      <File FileName="MyDataCoinBridge/Program.cs" Line="129" Column="1" />
-      <File FileName="MyDataCoinBridge/Services/UserService.cs" Line="109" Column="10" />
-      <File FileName="MyDataCoinBridge/DataAccess/WebApiDbContext.cs" />
-      <File FileName="MyDataCoinBridge/Entities/DataProvider.cs" />
-      <File FileName="MyDataCoinBridge/Controllers/UserController.cs" />
-      <File FileName="MyDataCoinBridge/Models/TransactionRequest.cs" />
-      <File FileName="MyDataCoinBridge/Controllers/BridgeStatisticController.cs" />
-      <File FileName="MyDataCoinBridge/Models/DataProviderRequest.cs" />
-      <File FileName="MyDataCoinBridge/Interfaces/IProviders.cs" />
-      <File FileName="MyDataCoinBridge/Entities/BridgeTransaction.cs" />
-      <File FileName="MyDataCoinBridge/Entities/BridgeUser.cs" Line="6" Column="17" />
-      <File FileName="MyDataCoinBridge/Services/ProvidersServices.cs" Line="576" Column="14" />
-      <File FileName="MyDataCoinBridge/Services/JWTManagerService.cs" />
-      <File FileName="MyDataCoinBridge/Models/VerifyCodeResponse.cs" />
-      <File FileName="MyDataCoinBridge/.env" Line="1" Column="1" />
+      <File FileName="MyDataCoinBridge/Services/WebHooksService.cs" Line="30" Column="52" />
+      <File FileName="MyDataCoinBridge/Controllers/WebHooksController.cs" Line="61" Column="9" />
+      <File FileName="MyDataCoinBridge/Models/WebHooks/WebHookUserProfileModel.cs" Line="13" Column="28" />
+      <File FileName="MyDataCoinBridge/Models/WebHooks/SubscribeRequest.cs" Line="16" Column="44" />
+      <File FileName="MyDataCoinBridge/Services/ProvidersServices.cs" Line="950" Column="64" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -27,9 +17,12 @@
               <Node name="Controllers" expanded="True" />
               <Node name="DataAccess" expanded="True" />
               <Node name="Entities" expanded="True" />
+              <Node name="Enums" expanded="True" />
+              <Node name="Helpers" expanded="True" />
               <Node name="Interfaces" expanded="True" />
-              <Node name="Models" expanded="True" />
-              <Node name="Properties" expanded="True" />
+              <Node name="Models" expanded="True">
+                <Node name="WebHooks" expanded="True" />
+              </Node>
               <Node name="Services" expanded="True">
                 <Node name="ProvidersServices.cs" selected="True" />
               </Node>
@@ -39,13 +32,11 @@
       </Pad>
     </Pads>
   </MonoDevelop.Ide.Workbench>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
-  <MonoDevelop.Ide.ItemProperties.MyDataCoinBridge PreferredExecutionTarget="/Applications/Google Chrome.app" />
-  <MultiItemStartupConfigurations />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
       <Breakpoint file="/Users/snapsnapsis/Development/bridge/MyDataCoinBridge/Services/UserService.cs" relfile="MyDataCoinBridge/Services/UserService.cs" line="89" column="1" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.ItemProperties.MyDataCoinBridge PreferredExecutionTarget="/Applications/Google Chrome.app" />
 </Properties>

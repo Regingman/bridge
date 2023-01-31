@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using MyDataCoinBridge.Entities;
 using MyDataCoinBridge.Models;
+using MyDataCoinBridge.Models.Provider;
+using MyDataCoinBridge.Models.TermsOfUse;
+using MyDataCoinBridge.Models.Transaction;
 
 namespace MyDataCoinBridge.Interfaces
 {

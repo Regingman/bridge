@@ -15,6 +15,8 @@ using Microsoft.Extensions.Logging;
 using MyDataCoinBridge.Entities;
 using MyDataCoinBridge.Interfaces;
 using MyDataCoinBridge.Models;
+using MyDataCoinBridge.Models.TermsOfUse;
+using MyDataCoinBridge.Models.Transaction;
 using Newtonsoft.Json;
 using Swashbuckle.AspNetCore.Annotations;
 using static MyDataCoinBridge.Models.GoogleMainModel;
@@ -348,6 +350,7 @@ namespace MyDataCoinBridge.Controllers
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex.Message);
                 return Ok();
             }
         }

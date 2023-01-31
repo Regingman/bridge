@@ -8,12 +8,17 @@ using System.Threading.Tasks;
 using Firebase.Auth;
 using Firebase.Storage;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using MyDataCoinBridge.Controllers;
 using MyDataCoinBridge.DataAccess;
 using MyDataCoinBridge.Entities;
 using MyDataCoinBridge.Helpers;
 using MyDataCoinBridge.Interfaces;
 using MyDataCoinBridge.Models;
+using MyDataCoinBridge.Models.Provider;
+using MyDataCoinBridge.Models.TermsOfUse;
+using MyDataCoinBridge.Models.Transaction;
 using Newtonsoft.Json.Linq;
 
 namespace MyDataCoinBridge.Services
@@ -23,17 +28,20 @@ namespace MyDataCoinBridge.Services
         private readonly WebApiDbContext _context;
         private readonly IHttpClientFactory _clientFactory;
         private readonly AppSettings _appSettings;
+        private readonly ILogger<ProvidersServices> _logger;
         private static string Bucket = "mydatacoin.appspot.com";
         private static string AuthEmail = "img@gmail.com";
 
         public ProvidersServices(
             IHttpClientFactory clientFactory,
             IOptions<AppSettings> appSettings,
-            WebApiDbContext context)
+            WebApiDbContext context,
+            ILogger<ProvidersServices> logger)
         {
             _appSettings = appSettings.Value;
             _clientFactory = clientFactory;
             _context = context;
+            _logger = logger;
         }
 
         public async Task<DataProvider> GetProviderByIdAsync(Guid id)
@@ -266,6 +274,7 @@ namespace MyDataCoinBridge.Services
                 Name = e.Name,
                 Phone = e.Phone,
                 Token = e.BridgeUser.TokenForService,
+                IsVerified = e.BridgeUser.IsVerified,
                 RewardCategories = e.RewardCategories.Select(e => new RewardCategoryRequest()
                 {
                     Id = e.Id,
@@ -673,6 +682,7 @@ namespace MyDataCoinBridge.Services
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex.Message);
                 return false;
             }
         }
@@ -703,6 +713,7 @@ namespace MyDataCoinBridge.Services
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex.Message);
                 return false;
             }
         }

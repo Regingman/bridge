@@ -7,12 +7,12 @@ namespace MyDataCoinBridge.Entities
         /// <summary>
         /// Hook header ID
         /// </summary>
-        public long ID { get; set; }
+        public Guid ID { get; set; }
 
         /// <summary>
         /// Linked Webhook Id
         /// </summary>
-        public long WebHookID { get; set; }
+        public Guid WebHookID { get; set; }
 
         /// <summary>
         /// Linked Webhook

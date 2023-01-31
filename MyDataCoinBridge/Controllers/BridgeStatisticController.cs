@@ -4,6 +4,7 @@ using Microsoft.Extensions.Logging;
 using MyDataCoinBridge.Entities;
 using MyDataCoinBridge.Interfaces;
 using MyDataCoinBridge.Models;
+using MyDataCoinBridge.Models.Transaction;
 using Swashbuckle.AspNetCore.Annotations;
 using System.Collections.Generic;
 using System.Net;
