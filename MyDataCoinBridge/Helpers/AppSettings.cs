@@ -10,6 +10,7 @@ namespace MyDataCoinBridge.Helpers
 		public string G_IMAGE_TOKEN { get; set; }
 		public string FCM_CONFIGURATION { get; set; }
 		public string BRIDGE_URI { get; set; }
+		public string SERVER_KEY { get; set; }
 	}
 }
 

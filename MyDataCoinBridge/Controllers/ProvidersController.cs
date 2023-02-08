@@ -1050,9 +1050,36 @@ namespace MyDataCoinBridge.Controllers
         {
             try
             {
-                var result = await _provider.Upload(providerLogoModel); 
+                var result = await _provider.Upload(providerLogoModel);
 
-                if(result.Code == 200)
+                if (result.Code == 200)
+                {
+                    return Ok(result.Message);
+                }
+                else
+                {
+                    return BadRequest(result.Message);
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex}");
+            }
+        }
+
+        /// <summary>
+        /// Get User info for provider
+        /// </summary>
+        [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(GeneralResponse))]
+        [AllowAnonymous]
+        [HttpPost("get_user_info")]
+        public async Task<IActionResult> GetUserInfo([FromBody] UserInfoModel model)
+        {
+            try
+            {
+                var result = await _provider.GetUserInfo(model);
+
+                if (result.Code == 200)
                 {
                     return Ok(result.Message);
                 }

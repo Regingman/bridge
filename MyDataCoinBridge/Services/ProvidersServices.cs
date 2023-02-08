@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Firebase.Auth;
@@ -19,7 +20,10 @@ using MyDataCoinBridge.Models;
 using MyDataCoinBridge.Models.Provider;
 using MyDataCoinBridge.Models.TermsOfUse;
 using MyDataCoinBridge.Models.Transaction;
+using MyDataCoinBridge.Models.WebHooks;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using static MyDataCoinBridge.Models.WebHooks.WebHookUserProfileModel;
 
 namespace MyDataCoinBridge.Services
 {
@@ -1002,6 +1006,68 @@ namespace MyDataCoinBridge.Services
                 _context.DataProviders.Update(user);
                 await _context.SaveChangesAsync();
                 return new GeneralResponse(200, finalString);
+            }
+            catch (Exception ex)
+            {
+                return new GeneralResponse(400, ex.Message);
+            }
+        }
+
+        public async Task<GeneralResponse> GetUserInfo(UserInfoModel model)
+        {
+            try
+            {
+
+                if (model.Server_Secret != _appSettings.SERVER_KEY)
+                {
+                    return new GeneralResponse(400, "Error!");
+                }
+
+                var provider = await _context.DataProviders
+                    .Include(e => e.BridgeUser)
+                    .FirstOrDefaultAsync(e => e.Id == model.ProviderId);
+                if (provider == null)
+                {
+                    return new GeneralResponse(400, "Provider Not Found!");
+                }
+
+                var hook = await _context.WebHooks.FirstOrDefaultAsync(e => e.Secret == provider.BridgeUser.Secret);
+                if (hook == null)
+                {
+                    return new GeneralResponse(400, "Web Hook Not Found!");
+                }
+                if (!hook.IsActive)
+                {
+                    return new GeneralResponse(400, "Web Hook Not Active!");
+                }
+
+                var client = _clientFactory.CreateClient();
+                ProviderInfoModel modelUp = new ProviderInfoModel();
+                modelUp.Action = model.Action;
+                modelUp.Email = model.Emails;
+                modelUp.Phone = model.Phones;
+                modelUp.Secret = provider.BridgeUser.Secret;
+
+                string json = JsonConvert.SerializeObject(modelUp);
+                var httpContent = new StringContent(json, Encoding.UTF8, "application/json");
+                var response = await client.PostAsync($"{hook.WebHookUrl}", httpContent);
+                if (response.IsSuccessStatusCode)
+                {
+                    try
+                    {
+                        var result = await response.Content.ReadAsStringAsync();
+                        Profile responseModel = JsonConvert.DeserializeObject<Profile>(result);
+                        return new GeneralResponse(200, responseModel);
+                    }
+                    catch (Exception e)
+                    {
+                        return new GeneralResponse(400, e.Message);
+                    }
+                }
+                else
+                {
+                    return new GeneralResponse(400, "");
+                }
             }
             catch (Exception ex)
             {
