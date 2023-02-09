@@ -85,6 +85,8 @@ namespace MyDataCoinBridge.Services
 
                 var res = await _context.WebHooks.SingleOrDefaultAsync(x => x.Secret == token);
                 res.IsActive = false;
+                _context.WebHooks.Update(res);
+                await _context.SaveChangesAsync();
                 return new GeneralResponse(200, "Ok");
             }
             catch(Exception ex)

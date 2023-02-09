@@ -32,6 +32,7 @@ builder.Logging.AddConsole();
         options.G_API_PASSWORD = DotNetEnv.Env.GetString("G_API_PASSWORD", "Variable not found");
         options.G_IMAGE_TOKEN = DotNetEnv.Env.GetString("G_IMAGE_TOKEN", "Variable not found");
         options.BRIDGE_URI = DotNetEnv.Env.GetString("BRIDGE_URI", "Variable not found");
+        options.SERVER_KEY = DotNetEnv.Env.GetString("SERVER_KEY", "Variable not found");
         options.JWT_KEY = DotNetEnv.Env.GetString("JWT_KEY", "Variable not found");
         options.DB_CONNECTION = DotNetEnv.Env.GetString("DB_CONNECTION", "Variable not found");
     });
