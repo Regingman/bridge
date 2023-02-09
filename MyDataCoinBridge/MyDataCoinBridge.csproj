@@ -66,7 +66,6 @@
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.26.1" />
     <PackageReference Include="FirebaseAdmin" Version="2.3.0" />
     <PackageReference Include="FirebaseStorage.net" Version="1.0.3" />
-    <PackageReference Include="FirebaseAuthentication.net" Version="4.0.2" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="7.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="7.0.2" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.2">
@@ -84,5 +83,6 @@
     <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="7.0.0" />
     <PackageReference Include="Newtonsoft.Json.Schema" Version="3.0.14" />
     <PackageReference Include="Facebook" Version="7.0.6" />
+    <PackageReference Include="FirebaseAuthentication.net" Version="3.7.2" />
   </ItemGroup>
 </Project>
