@@ -722,42 +722,6 @@ namespace MyDataCoinBridge.Services
             }
         }
 
-        public async Task<AllDataFromStatisticRequest> GetStatistics(string userId)
-        {
-            var transactions = await _context.Transactions
-                .Where(e => e.To == userId)
-                .Select(e => new TransactionRequest()
-                {
-                    Amount = e.Amount,
-                    From = e.From,
-                    To = e.To,
-                    TxDate = e.TxDate,
-                    TxId = e.TxId,
-                    Type = TransactionHelpers.TransactionType(e.Type),
-                })
-                .ToListAsync();
-
-            var earnsList
-                = transactions
-                .GroupBy(e => e.Type)
-                .Select(e => new TotalEarned()
-                {
-                    Amount = 0,
-                    Name = e.Key
-                })
-                .ToList();
-
-            foreach (var temp in earnsList)
-            {
-                temp.Amount += transactions.Where(e => e.Type == temp.Name).Sum(e => e.Amount);
-            }
-
-            return new AllDataFromStatisticRequest
-            {
-                TotalEarneds = earnsList,
-                TotalTransactions = transactions
-            };
-        }
 
 
         public string GetTerms(string fio, string providerName)
@@ -962,14 +926,6 @@ namespace MyDataCoinBridge.Services
             return await _context.DataProviders.Include(e => e.BridgeUser).FirstOrDefaultAsync(e => e.BridgeUserId == user.Id);
         }
 
-        public async Task<DataProvider> LogoUpload(string path, DataProvider provider)
-        {
-            provider.Icon = path;
-            _context.DataProviders.Update(provider);
-            await _context.SaveChangesAsync();
-            return provider;
-        }
-
         public async Task<GeneralResponse> Upload(Uploadrequest model)
         {
             byte[] bytes = Convert.FromBase64String(model.ImageData);
@@ -1011,6 +967,14 @@ namespace MyDataCoinBridge.Services
             {
                 return new GeneralResponse(400, ex.Message);
             }
+        }
+
+        public async Task<DataProvider> LogoUpload(string path, DataProvider provider)
+        {
+            provider.Icon = path;
+            _context.DataProviders.Update(provider);
+            await _context.SaveChangesAsync();
+            return provider;
         }
 
         public async Task<GeneralResponse> GetUserInfo(UserInfoModel model)

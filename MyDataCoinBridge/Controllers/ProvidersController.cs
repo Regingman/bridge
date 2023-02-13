@@ -356,140 +356,6 @@ namespace MyDataCoinBridge.Controllers
         }
         #endregion
 
-        #region OLD_MASHINA_KG
-        ///// <summary>
-        ///// GetPersonInfoFB
-        ///// </summary>
-        ///// <response code="200">Returns Success</response>
-        ///// <response code="400">Returns Bad Request</response>
-        ///// <response code="401">Returns Unauthorized</response>
-        ///// <response code="415">Returns Unsupported Media Type</response>
-        ///// <response code="421">Returns User Not Found</response>
-        ///// <response code="500">Returns Internal Server Error</response>
-        //[SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(Models.GeneralResponse))]
-        //[Authorize]
-        //[Route("GetPersonInfoFB")]
-        //[HttpGet]
-        //public async Task<IActionResult> GetPersonInfoFB(string accessToken)
-        //{
-        //    Facebook.FacebookClient clientFb = new Facebook.FacebookClient(accessToken);
-
-        //    var me = (IDictionary<string, object>)clientFb.Get("me" +
-        //        "?fields=id,name,last_name,email,about,age_range,birthday,first_name,gender,hometown," +
-        //        "link,location,languages,groups,education,favorite_athletes,favorite_teams,inspirational_people,install_type,installed,middle_name,name_format,website,videos");
-
-        //    return Ok(me);
-        //}
-
-        ///// <summary>
-        ///// GetPersonInfoMashinaKG
-        ///// </summary>
-        ///// <response code="200">Returns Success</response>
-        ///// <response code="400">Returns Bad Request</response>
-        ///// <response code="401">Returns Unauthorized</response>
-        ///// <response code="415">Returns Unsupported Media Type</response>
-        ///// <response code="421">Returns User Not Found</response>
-        ///// <response code="500">Returns Internal Server Error</response>
-        //[SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(Models.GeneralResponse))]
-        //[Authorize]
-        //[Route("GetPersonInfoMashinaKG")]
-        //[HttpGet]
-        //public async Task<IActionResult> GetPersonInfoMashinaKG(string gmail)
-        //{
-        //    var request = new HttpRequestMessage(HttpMethod.Get, "https://dmc.mashine.kg/v1/public/user/info/" + gmail);
-        //    var client = _clientFactory.CreateClient();
-        //    client.DefaultRequestHeaders.Add("dmc-auth", "Bearer nMeTRAlYthRiZErIDEcHrImeNcONGunDRUtAteNTOwpUStiGnOMerWaleymPOloT");
-        //    var response = client.Send(request);
-        //    if (response.IsSuccessStatusCode)
-        //    {
-        //        try
-        //        {
-        //            return Ok(response.Content.ReadAsStringAsync().Result);
-        //        }
-        //        catch (Exception e)
-        //        {
-        //            return NotFound(e.Message);
-        //        }
-        //    }
-        //    else
-        //    {
-        //        return BadRequest();
-        //    }
-        //}
-
-        ///// <summary>
-        ///// GetTransactionMashinaKG
-        ///// </summary>
-        ///// <response code="200">Returns Success</response>
-        ///// <response code="400">Returns Bad Request</response>
-        ///// <response code="401">Returns Unauthorized</response>
-        ///// <response code="415">Returns Unsupported Media Type</response>
-        ///// <response code="421">Returns User Not Found</response>
-        ///// <response code="500">Returns Internal Server Error</response>
-        //[SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(Models.GeneralResponse))]
-        //[Authorize]
-        //[Route("GetTransactionMashinaKG")]
-        //[HttpGet]
-        //public async Task<IActionResult> GetTransactionMashinaKG(string gmail)
-        //{
-        //    var request = new HttpRequestMessage(HttpMethod.Get, "https://dmc.mashine.kg/v1/public/user/transactions/" + gmail);
-        //    var client = _clientFactory.CreateClient();
-        //    client.DefaultRequestHeaders.Add("dmc-auth", "Bearer nMeTRAlYthRiZErIDEcHrImeNcONGunDRUtAteNTOwpUStiGnOMerWaleymPOloT");
-        //    var response = client.Send(request);
-        //    if (response.IsSuccessStatusCode)
-        //    {
-        //        try
-        //        {
-        //            return Ok(response.Content.ReadAsStringAsync().Result);
-        //        }
-        //        catch (Exception e)
-        //        {
-        //            return NotFound(e.Message);
-        //        }
-        //    }
-        //    else
-        //    {
-        //        return BadRequest();
-        //    }
-        //}
-
-        ///// <summary>
-        ///// GetStatsInfoMashinaKG
-        ///// </summary>
-        ///// <response code="200">Returns Success</response>
-        ///// <response code="400">Returns Bad Request</response>
-        ///// <response code="401">Returns Unauthorized</response>
-        ///// <response code="415">Returns Unsupported Media Type</response>
-        ///// <response code="421">Returns User Not Found</response>
-        ///// <response code="500">Returns Internal Server Error</response>
-        //[SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(Models.GeneralResponse))]
-        //[Authorize]
-        //[Route("GetStatsInfoMashinaKG")]
-        //[HttpGet]
-        //public async Task<IActionResult> GetStatsInfoMashinaKG(string gmail)
-        //{
-        //    var request = new HttpRequestMessage(HttpMethod.Get, "https://dmc.mashine.kg/v1/public/user/stats/" + gmail);
-        //    var client = _clientFactory.CreateClient();
-        //    client.DefaultRequestHeaders.Add("dmc-auth", "Bearer nMeTRAlYthRiZErIDEcHrImeNcONGunDRUtAteNTOwpUStiGnOMerWaleymPOloT");
-        //    var response = client.Send(request);
-        //    if (response.IsSuccessStatusCode)
-        //    {
-        //        try
-        //        {
-        //            return Ok(response.Content.ReadAsStringAsync().Result);
-        //        }
-        //        catch (Exception e)
-        //        {
-        //            return NotFound(e.Message);
-        //        }
-        //    }
-        //    else
-        //    {
-        //        return BadRequest();
-        //    }
-        //}
-        #endregion
-
         /// <summary>
         /// CRUD Create Data Provider
         /// </summary>
@@ -500,7 +366,7 @@ namespace MyDataCoinBridge.Controllers
         /// <response code="421">Returns User Not Found</response>
         /// <response code="500">Returns Internal Server Error</response>
         [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(Models.GeneralResponse))]
-        [AllowAnonymous]
+        [Authorize]
         [HttpPost]
         [Route("DataProviderCreate")]
         public async Task<IActionResult> DataProviderCreate(DataProviderRequest dataProvider)
@@ -526,7 +392,7 @@ namespace MyDataCoinBridge.Controllers
         /// <response code="421">Returns User Not Found</response>
         /// <response code="500">Returns Internal Server Error</response>
         [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(Models.GeneralResponse))]
-        [AllowAnonymous]
+        [Authorize]
         [HttpPut]
         [Route("DataProviderEdit/{Id}")]
         public async Task<IActionResult> DataProviderEdit(Guid Id, DataProviderRequest dataProvider)
@@ -552,7 +418,7 @@ namespace MyDataCoinBridge.Controllers
         /// <response code="421">Returns User Not Found</response>
         /// <response code="500">Returns Internal Server Error</response>
         [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(DataProviderRequest))]
-        [AllowAnonymous]
+        [Authorize]
         [HttpGet]
         [Route("DataProviderGet")]
         public async Task<ActionResult<DataProviderRequest>> DataProviderGet(string token)
@@ -578,7 +444,7 @@ namespace MyDataCoinBridge.Controllers
         /// <response code="421">Returns User Not Found</response>
         /// <response code="500">Returns Internal Server Error</response>
         [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(List<DataProviderRequest>))]
-        //[Authorize]
+        [Authorize]
         [HttpGet]
         [Route("DataProviderGetList")]
         public async Task<ActionResult<List<DataProviderRequest>>> DataProviderGetList()
@@ -630,7 +496,7 @@ namespace MyDataCoinBridge.Controllers
         /// <response code="421">Returns User Not Found</response>
         /// <response code="500">Returns Internal Server Error</response>
         [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(Models.GeneralResponse))]
-        //[Authorize(Roles.Administrator)]
+        [Authorize]
         [HttpPost]
         [Route("RewardCategoryCreate")]
         public async Task<IActionResult> RewardCategoryCreate(RewardCategoryRequest rewardCategory)
@@ -863,7 +729,7 @@ namespace MyDataCoinBridge.Controllers
         /// <response code="421">Returns User Not Found</response>
         /// <response code="500">Returns Internal Server Error</response>
         [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(List<CountryRequest>))]
-        //[Authorize]
+        [Authorize]
         [HttpGet]
         [Route("GETLISTCountry")]
         public async Task<ActionResult<List<CountryRequest>>> Country()
@@ -1009,21 +875,8 @@ namespace MyDataCoinBridge.Controllers
             }
         }
 
-        /// <summary>
-        /// Get statistics for user
-        /// </summary>
-        /// <response code="200">Returns Success</response>
-        /// <response code="400">Returns Bad Request</response>
-        /// <response code="401">Returns Unauthorized</response>
-        /// <response code="415">Returns Unsupported Media Type</response>
-        /// <response code="421">Returns User Not Found</response>
-        /// <response code="500">Returns Internal Server Error</response>
-        [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(AllDataFromStatisticRequest))]
-        //[Authorize]
-        [HttpGet]
-        [Route("GetStatistics")]
-        public async Task<ActionResult<AllDataFromStatisticRequest>> GetStatistics(string userId)
-                            => await _provider.GetStatistics(userId);
+
+
         /// <summary>
         /// Get statistics for user extended
         /// </summary>
@@ -1034,7 +887,7 @@ namespace MyDataCoinBridge.Controllers
         /// <response code="421">Returns User Not Found</response>
         /// <response code="500">Returns Internal Server Error</response>
         [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(AllDataFromStatisticRequest))]
-        //[Authorize]
+        [Authorize]
         [HttpGet]
         [Route("GetStatisticsExtend")]
         public async Task<ActionResult<AllDataFromStatisticRequest>> GetStatisticsExtend(string userId)
@@ -1044,7 +897,7 @@ namespace MyDataCoinBridge.Controllers
         /// Upload logo
         /// </summary>
         [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(GeneralResponse))]
-        [AllowAnonymous]
+        [Authorize]
         [HttpPost("upload_logo")]
         public async Task<IActionResult> UploadAsync([FromBody] Uploadrequest providerLogoModel)
         {
@@ -1071,7 +924,7 @@ namespace MyDataCoinBridge.Controllers
         /// Get User info for provider
         /// </summary>
         [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(GeneralResponse))]
-        [AllowAnonymous]
+        [Authorize]
         [HttpPost("get_user_info")]
         public async Task<IActionResult> GetUserInfo([FromBody] UserInfoModel model)
         {

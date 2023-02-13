@@ -13,22 +13,10 @@ namespace MyDataCoinBridge.Interfaces
     {
         Task<DataProvider> GetProviderByIdAsync(Guid id);
         Task<DataProvider> GetProviderByToken(string token);
-        Task<DataProvider> LogoUpload(string path, DataProvider provider);
-
         Task<List<ProvaidersRequest>> GetUsersProvidersAsync(string country, string userId);
 
-        //Task<string> GetMashinaKgUserAsync(string email, string jwtToken);
-
-        //<string> GetMashinaKgUserTransactionHistoryAsync(string email, string jwtToken);
-
-        //Task<string> GetMashinaKgUserStatsAsync(string email, string jwtToken);
-
         Task<GeneralResponse> GetDataFromGoogleAsync(string jwtToken);
-
         Task<string> GetDataFromFacebookAsync(string jwtToken);
-
-        // TODO: реализовать модель истории монетизации
-        //public Task<MonetizationModel> GetTotalMonetizationStatAsync(string email);
 
         public Task<DataProviderRequest> POST(DataProviderRequest model);
         public Task<DataProviderRequest> GETBYID(string token);
@@ -53,7 +41,7 @@ namespace MyDataCoinBridge.Interfaces
         public Task<TermOfUse> TermOfUseStatus(string userFIO, Guid userId, Guid provaiderId);
         public Task<bool> TermOfUseApply(Guid userId, Guid provaiderId);
         public Task<bool> TermOfUseCancel(Guid userId, Guid provaiderId);
-        public Task<AllDataFromStatisticRequest> GetStatistics(string userId);
+        //public Task<AllDataFromStatisticRequest> GetStatistics(string userId);
         public Task<AllDataFromStatisticRequest> GetStatisticsExtend(string userId);
 
 
@@ -62,6 +50,7 @@ namespace MyDataCoinBridge.Interfaces
         public Task<List<TransactionProviderResponse>> GetStatisticFromProviderFromAdmin();
         public Task<decimal> GetClaimStatistic(string userId);
         public Task<GeneralResponse> Upload(Uploadrequest model);
+        Task<DataProvider> LogoUpload(string path, DataProvider provider);
 
         public Task<GeneralResponse> GetUserInfo(UserInfoModel model);
     }
