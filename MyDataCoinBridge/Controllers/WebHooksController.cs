@@ -69,11 +69,11 @@ namespace MyDataCoinBridge.Controllers
         [SwaggerResponse((int)HttpStatusCode.UnsupportedMediaType, Type = typeof(UnsupportedMediaTypeResult))]
         [SwaggerResponse((int)HttpStatusCode.InternalServerError, Type = typeof(GeneralResponse))]
         [AllowAnonymous]
-        [HttpGet]
-        [Route("get-url/{token}")]
-        public async Task<IActionResult> GetUrl(string model)
+        [HttpPost]
+        [Route("get-url")]
+        public async Task<IActionResult> GetUrl(string token)
         {
-            GeneralResponse response = await _hookService.GetUrl(model);
+            GeneralResponse response = await _hookService.GetUrl(token);
 
             if (response.Code == 400)
                 return BadRequest(response);
