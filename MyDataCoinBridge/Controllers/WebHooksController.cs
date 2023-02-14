@@ -26,6 +26,34 @@ namespace MyDataCoinBridge.Controllers
             _logger = logger;
         }
 
+        /// <summary>
+        /// Edit URL
+        /// </summary>
+        /// <response code="200">Returns Ok</response>
+        /// <response code="204">Returns User Not Found</response>
+        /// <response code="400">Returns Bad Request</response>
+        /// <response code="415">Returns Unsupported Media Type</response>
+        /// <response code="500">Returns Internal Server Error</response>
+        [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(OkResult))]
+        [SwaggerResponse((int)HttpStatusCode.NoContent, Type = typeof(NoContentResult))]
+        [SwaggerResponse((int)HttpStatusCode.BadRequest, Type = typeof(GeneralResponse))]
+        [SwaggerResponse((int)HttpStatusCode.UnsupportedMediaType, Type = typeof(UnsupportedMediaTypeResult))]
+        [SwaggerResponse((int)HttpStatusCode.InternalServerError, Type = typeof(GeneralResponse))]
+        [AllowAnonymous]
+        [HttpPut]
+        [Route("edit-url")]
+        public async Task<IActionResult> Edit(SubscribeRequest model)
+        {
+            GeneralResponse response = await _hookService.EditUrl(model);
+
+            if (response.Code == 400)
+                return BadRequest(response);
+            else if (response.Code == 204)
+                return NoContent();
+            else
+                return Ok(response);
+        }
+
 
         /// <summary>
         /// Get URL
@@ -41,7 +69,7 @@ namespace MyDataCoinBridge.Controllers
         [SwaggerResponse((int)HttpStatusCode.UnsupportedMediaType, Type = typeof(UnsupportedMediaTypeResult))]
         [SwaggerResponse((int)HttpStatusCode.InternalServerError, Type = typeof(GeneralResponse))]
         [AllowAnonymous]
-        [HttpPost]
+        [HttpGet]
         [Route("get-url/{token}")]
         public async Task<IActionResult> GetUrl(string model)
         {
