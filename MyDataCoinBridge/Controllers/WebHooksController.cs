@@ -28,7 +28,7 @@ namespace MyDataCoinBridge.Controllers
 
 
         /// <summary>
-        /// Subscribe
+        /// Get URL
         /// </summary>
         /// <response code="200">Returns Ok</response>
         /// <response code="204">Returns User Not Found</response>
@@ -42,16 +42,16 @@ namespace MyDataCoinBridge.Controllers
         [SwaggerResponse((int)HttpStatusCode.InternalServerError, Type = typeof(GeneralResponse))]
         [AllowAnonymous]
         [HttpPost]
-        [Route("event")]
-        public async Task<IActionResult> Event(WebHookUserProfileModel.Profile model)
+        [Route("get-url/{token}")]
+        public async Task<IActionResult> GetUrl(string model)
         {
-            string response = await _hookService.Event(model);
+            GeneralResponse response = await _hookService.GetUrl(model);
 
-            //if (response.Code == 400)
-            //    return BadRequest(response);
-            //else if (response.Code == 204)
-            //    return NoContent();
-            //else
+            if (response.Code == 400)
+                return BadRequest(response);
+            else if (response.Code == 204)
+                return NoContent();
+            else
                 return Ok(response);
         }
 

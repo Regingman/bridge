@@ -11,7 +11,9 @@ namespace MyDataCoinBridge.Interfaces
 
 		Task<GeneralResponse> Unsubscribe(string token);
 
-		Task<string> Event(WebHookUserProfileModel.Profile message);
+		Task<GeneralResponse> GetUrl(string token);
+
+		Task<GeneralResponse> EditUrl(SubscribeRequest model);
 	}
 }
 

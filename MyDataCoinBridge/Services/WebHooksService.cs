@@ -24,10 +24,18 @@ namespace MyDataCoinBridge.Services
             _context = context;
         }
 
-        public async Task<string> Event(WebHookUserProfileModel.Profile message)
+        public Task<GeneralResponse> EditUrl(SubscribeRequest model)
         {
-            _logger.LogInformation($"Hello, {message}");
-            return new string($"Hello, {message}");
+            throw new NotImplementedException();
+        }
+
+        public async Task<GeneralResponse> GetUrl(string token)
+        {
+            var res = await _context.WebHooks.SingleOrDefaultAsync(x => x.Secret == token);
+            if (res == null)
+                return new GeneralResponse(400, "Not Found");
+            else
+                return new GeneralResponse(200, res.WebHookUrl);
         }
 
         public async Task<GeneralResponse> Subscribe(SubscribeRequest model)
