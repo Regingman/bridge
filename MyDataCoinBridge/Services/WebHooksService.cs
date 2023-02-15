@@ -33,7 +33,7 @@ namespace MyDataCoinBridge.Services
         {
             var res = await _context.WebHooks.SingleOrDefaultAsync(x => x.Secret == token);
             if (res == null)
-                return new GeneralResponse(400, "Not Found");
+                return new GeneralResponse(204, "Not Found");
             else
                 return new GeneralResponse(200, res.WebHookUrl);
         }
