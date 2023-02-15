@@ -52,7 +52,7 @@ namespace MyDataCoinBridge.Services
 
                 var webhook = await _context.WebHooks.SingleOrDefaultAsync(x => x.Secret == model.Token);
 
-                if (webhook != null)
+                if (webhook.IsActive)
                     return new GeneralResponse(200, "Already Subscribed");
 
                 WebHook hook = new WebHook();
