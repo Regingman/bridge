@@ -50,6 +50,11 @@ namespace MyDataCoinBridge.Services
                 if (provider == null)
                     return new GeneralResponse(204, "User Not Found");
 
+                var webhook = _context.WebHooks.SingleOrDefaultAsync(x => x.Secret == model.Token);
+
+                if (webhook != null)
+                    return new GeneralResponse(400, "Already Subscribed");
+
                 WebHook hook = new WebHook();
 
                 hook.ID = Guid.NewGuid();
