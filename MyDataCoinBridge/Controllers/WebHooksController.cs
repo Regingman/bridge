@@ -125,8 +125,8 @@ namespace MyDataCoinBridge.Controllers
         [SwaggerResponse((int)HttpStatusCode.UnsupportedMediaType, Type = typeof(UnsupportedMediaTypeResult))]
         [SwaggerResponse((int)HttpStatusCode.InternalServerError, Type = typeof(GeneralResponse))]
         [AllowAnonymous]
-        [HttpGet]
-        [Route("unsubscribe/{token}")]
+        [HttpPost]
+        [Route("unsubscribe")]
         public async Task<IActionResult> Unsubscrube(string token)
         {
             GeneralResponse response = await _hookService.Unsubscribe(token);
