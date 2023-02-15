@@ -52,6 +52,13 @@ namespace MyDataCoinBridge.Interfaces
         public Task<GeneralResponse> Upload(Uploadrequest model);
         Task<DataProvider> LogoUpload(string path, DataProvider provider);
 
+
+        public Task<RewardCategoryByProviderRequest> RewardCategoryByProviderPOST(RewardCategoryByProviderRequest model);
+        public Task<RewardCategoryByProviderRequest> RewardCategoryByProviderGETBYID(Guid id, string token);
+        public Task<List<RewardCategoryByProviderRequest>> RewardCategoryByProviderGETLIST(string token);
+        public Task<RewardCategoryByProviderRequest> RewardCategoryByProviderPUT(Guid id, RewardCategoryByProviderRequest model);
+        public Task<RewardCategoryByProviderRequest> RewardCategoryByProviderDELETE(Guid id, string token);
+
         public Task<GeneralResponse> GetUserInfo(UserInfoModel model);
     }
 }

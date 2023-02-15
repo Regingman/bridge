@@ -13,13 +13,13 @@ using Newtonsoft.Json.Schema.Generation;
 
 namespace MyDataCoinBridge.Services
 {
-	public class WebHooksService: IWebHooks
-	{
+    public class WebHooksService : IWebHooks
+    {
         private readonly WebApiDbContext _context;
         private readonly ILogger<UserService> _logger;
 
         public WebHooksService(ILogger<UserService> logger, WebApiDbContext context)
-		{
+        {
             _logger = logger;
             _context = context;
         }
@@ -34,6 +34,11 @@ namespace MyDataCoinBridge.Services
             var res = await _context.WebHooks.SingleOrDefaultAsync(x => x.Secret == token);
             if (res == null)
                 return new GeneralResponse(204, "Not Found");
+            else
+                if (!res.IsActive)
+            {
+                return new GeneralResponse(400, "Unsubscribe!");
+            }
             else
                 return new GeneralResponse(200, res.WebHookUrl);
         }
@@ -73,7 +78,7 @@ namespace MyDataCoinBridge.Services
 
                 return new GeneralResponse(200, "Ok");
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 _logger.LogError(ex.Message);
                 return new GeneralResponse(400, ex.Message);
@@ -102,7 +107,7 @@ namespace MyDataCoinBridge.Services
                 await _context.SaveChangesAsync();
                 return new GeneralResponse(200, "Ok");
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 _logger.LogError(ex.Message);
                 return new GeneralResponse(400, ex.Message);
