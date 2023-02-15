@@ -84,7 +84,7 @@ namespace MyDataCoinBridge.Services
 
             try
             {
-                var provider = _context.BridgeUsers.
+                var provider = await _context.BridgeUsers.
                     SingleOrDefaultAsync(
                     x => x.TokenForService == token);
 
