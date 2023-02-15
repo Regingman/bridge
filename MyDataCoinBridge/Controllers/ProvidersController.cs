@@ -946,6 +946,138 @@ namespace MyDataCoinBridge.Controllers
                 return StatusCode(500, $"Internal server error: {ex}");
             }
         }
+
+        /// <summary>
+        /// RewardCategoryByProviderGETLIST
+        /// </summary>
+        /// <response code="200">Returns Success</response>
+        /// <response code="400">Returns Bad Request</response>
+        /// <response code="401">Returns Unauthorized</response>
+        /// <response code="415">Returns Unsupported Media Type</response>
+        /// <response code="421">Returns User Not Found</response>
+        /// <response code="500">Returns Internal Server Error</response>
+        [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(Models.GeneralResponse))]
+        [Authorize]
+        [HttpGet]
+        [Route("RewardCategoryByProvider")]
+        public async Task<IActionResult> RewardCategoryByProviderGETLIST(string token)
+        {
+            var response = await _provider.RewardCategoryByProviderGETLIST(token);
+            if (response == null)
+            {
+                return BadRequest();
+            }
+            else
+            {
+                return Ok(response);
+            }
+        }
+
+        /// <summary>
+        /// RewardCategoryByProviderGETBYID
+        /// </summary>
+        /// <response code="200">Returns Success</response>
+        /// <response code="400">Returns Bad Request</response>
+        /// <response code="401">Returns Unauthorized</response>
+        /// <response code="415">Returns Unsupported Media Type</response>
+        /// <response code="421">Returns User Not Found</response>
+        /// <response code="500">Returns Internal Server Error</response>
+        [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(Models.GeneralResponse))]
+        [Authorize]
+        [HttpGet]
+        [Route("RewardCategoryByProvider/{Id}")]
+        public async Task<IActionResult> RewardCategoryByProviderGETBYID(Guid Id, string token)
+        {
+            var response = await _provider.RewardCategoryByProviderGETBYID(Id, token);
+            if (response == null)
+            {
+                return BadRequest();
+            }
+            else
+            {
+                return Ok(response);
+            }
+        }
+
+        /// <summary>
+        /// RewardCategoryByProviderPOST
+        /// </summary>
+        /// <response code="200">Returns Success</response>
+        /// <response code="400">Returns Bad Request</response>
+        /// <response code="401">Returns Unauthorized</response>
+        /// <response code="415">Returns Unsupported Media Type</response>
+        /// <response code="421">Returns User Not Found</response>
+        /// <response code="500">Returns Internal Server Error</response>
+        [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(Models.GeneralResponse))]
+        [Authorize]
+        [HttpPost]
+        [Route("RewardCategoryByProvider/{Id}")]
+        public async Task<IActionResult> RewardCategoryByProviderPOST(RewardCategoryByProviderRequest model)
+        {
+            var response = await _provider.RewardCategoryByProviderPOST(model);
+            if (response == null)
+            {
+                return BadRequest();
+            }
+            else
+            {
+                return Ok(response);
+            }
+        }
+
+        /// <summary>
+        /// RewardCategoryByProviderPUT
+        /// </summary>
+        /// <response code="200">Returns Success</response>
+        /// <response code="400">Returns Bad Request</response>
+        /// <response code="401">Returns Unauthorized</response>
+        /// <response code="415">Returns Unsupported Media Type</response>
+        /// <response code="421">Returns User Not Found</response>
+        /// <response code="500">Returns Internal Server Error</response>
+        [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(Models.GeneralResponse))]
+        [Authorize]
+        [HttpPut]
+        [Route("RewardCategoryByProvider/{Id}")]
+        public async Task<IActionResult> RewardCategoryByProviderPUT(Guid Id, RewardCategoryByProviderRequest model)
+        {
+            var response = await _provider.RewardCategoryByProviderPUT(Id, model);
+            if (response == null)
+            {
+                return BadRequest();
+            }
+            else
+            {
+                return Ok(response);
+            }
+        }
+
+        /// <summary>
+        /// RewardCategoryByProviderDELETE
+        /// </summary>
+        /// <response code="200">Returns Success</response>
+        /// <response code="400">Returns Bad Request</response>
+        /// <response code="401">Returns Unauthorized</response>
+        /// <response code="415">Returns Unsupported Media Type</response>
+        /// <response code="421">Returns User Not Found</response>
+        /// <response code="500">Returns Internal Server Error</response>
+        [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(Models.GeneralResponse))]
+        [Authorize]
+        [HttpDelete]
+        [Route("RewardCategoryByProvider/{Id}")]
+        public async Task<IActionResult> RewardCategoryByProviderDELETE(Guid Id, string token)
+        {
+            var response = await _provider.RewardCategoryByProviderDELETE(Id, token);
+            if (response == null)
+            {
+                return BadRequest();
+            }
+            else
+            {
+                return Ok(response);
+            }
+        }
+
+
     }
 }
 

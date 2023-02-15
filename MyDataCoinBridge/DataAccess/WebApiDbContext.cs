@@ -27,6 +27,7 @@ namespace MyDataCoinBridge.DataAccess
         public DbSet<Country> Countries { get; set; }
         public DbSet<Transaction> Transactions { get; set; }
         public DbSet<DataProvider> DataProviders { get; set; }
+        public DbSet<RewardCategoryByProvider> RewardCategoryByProviders { get; set; }
         public DbSet<RewardCategory> RewardCategories { get; set; }
         public DbSet<UserTermsOfUse> UserTermsOfUses { get; set; }
         public DbSet<BridgeUser> BridgeUsers { get; set; }

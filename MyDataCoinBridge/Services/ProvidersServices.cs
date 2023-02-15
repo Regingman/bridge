@@ -11,7 +11,6 @@ using Firebase.Storage;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using MyDataCoinBridge.Controllers;
 using MyDataCoinBridge.DataAccess;
 using MyDataCoinBridge.Entities;
 using MyDataCoinBridge.Helpers;
@@ -20,7 +19,6 @@ using MyDataCoinBridge.Models;
 using MyDataCoinBridge.Models.Provider;
 using MyDataCoinBridge.Models.TermsOfUse;
 using MyDataCoinBridge.Models.Transaction;
-using MyDataCoinBridge.Models.WebHooks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using static MyDataCoinBridge.Models.WebHooks.WebHookUserProfileModel;
@@ -1037,6 +1035,142 @@ namespace MyDataCoinBridge.Services
             {
                 return new GeneralResponse(400, ex.Message);
             }
+        }
+
+        public async Task<RewardCategoryByProviderRequest> RewardCategoryByProviderPOST(RewardCategoryByProviderRequest model)
+        {
+            var provider = await _context.DataProviders
+                .Include(e => e.BridgeUser)
+                .FirstOrDefaultAsync(e => e.BridgeUser.TokenForService == model.Token);
+
+            if (provider == null)
+            {
+                return null;
+            }
+            else
+            {
+                var reward = new RewardCategoryByProvider()
+                {
+                    Amount = model.Amount,
+                    DataProviderId = provider.Id,
+                    RewardCategoryId = model.RewardCategoryId,
+                    Id = Guid.NewGuid(),
+                };
+
+                await _context.RewardCategoryByProviders.AddAsync(reward);
+                await _context.SaveChangesAsync();
+                model.Id = reward.Id;
+                return model;
+            }
+        }
+
+        public async Task<RewardCategoryByProviderRequest> RewardCategoryByProviderGETBYID(Guid id, string token)
+        {
+            var provider = await _context.DataProviders
+                .Include(e => e.BridgeUser)
+                .FirstOrDefaultAsync(e => e.BridgeUser.TokenForService == token);
+
+            if (provider == null)
+            {
+                return null;
+            }
+            else
+            {
+                var reward = await _context.RewardCategoryByProviders
+                    .Include(e => e.RewardCategory)
+                    .Include(e => e.DataProvider.BridgeUser)
+                    .Include(e => e.DataProvider.BridgeUser)
+                    .FirstOrDefaultAsync(e => e.DataProvider.BridgeUser.TokenForService == token);
+
+                return new RewardCategoryByProviderRequest()
+                {
+                    Amount = reward.Amount,
+                    Id = reward.Id,
+                    RewardCategoryId = reward.RewardCategoryId,
+                    RewardCategoryName = reward.RewardCategory.Name
+                };
+            }
+        }
+
+        public async Task<List<RewardCategoryByProviderRequest>> RewardCategoryByProviderGETLIST(string token)
+        {
+            var provider = await _context.DataProviders
+                .Include(e => e.BridgeUser)
+                .FirstOrDefaultAsync(e => e.BridgeUser.TokenForService == token);
+
+            if (provider == null)
+            {
+                return null;
+            }
+            else
+            {
+
+                return await _context.RewardCategoryByProviders
+                    .Include(e => e.RewardCategory)
+                    .Include(e => e.DataProvider.BridgeUser)
+                    .Include(e => e.DataProvider.BridgeUser)
+                    .Where(e => e.DataProvider.BridgeUser.TokenForService == token).Select(e => new RewardCategoryByProviderRequest()
+                    {
+                        Amount = e.Amount,
+                        Id = e.Id,
+                        RewardCategoryId = e.RewardCategoryId,
+                        RewardCategoryName = e.RewardCategory.Name
+                    }).ToListAsync();
+            }
+        }
+
+        public async Task<RewardCategoryByProviderRequest> RewardCategoryByProviderPUT(Guid id, RewardCategoryByProviderRequest model)
+        {
+            var provider = await _context.DataProviders
+                .Include(e => e.BridgeUser)
+                .FirstOrDefaultAsync(e => e.BridgeUser.TokenForService == model.Token);
+
+            if (provider == null)
+            {
+                return null;
+            }
+            else
+            {
+                var reward = await _context.RewardCategoryByProviders.FirstOrDefaultAsync(e => e.Id == id);
+                if (reward == null)
+                {
+                    return null;
+                }
+                reward.Amount = model.Amount;
+                reward.DataProviderId = provider.Id;
+                reward.RewardCategoryId = model.RewardCategoryId;
+
+                _context.RewardCategoryByProviders.Update(reward);
+                await _context.SaveChangesAsync();
+                model.Id = reward.Id;
+                return model;
+            }
+        }
+
+        public async Task<RewardCategoryByProviderRequest> RewardCategoryByProviderDELETE(Guid id, string token)
+        {
+            var provider = await _context.DataProviders
+                  .Include(e => e.BridgeUser)
+                  .FirstOrDefaultAsync(e => e.BridgeUser.TokenForService == token);
+
+            if (provider == null)
+            {
+                return null;
+            }
+            else
+            {
+                var reward = await _context.RewardCategoryByProviders.FirstOrDefaultAsync(e => e.Id == id);
+                if (reward == null)
+                {
+                    return null;
+                }
+
+                _context.Remove(reward);
+                await _context.SaveChangesAsync();
+
+                return null;
+            }
+
         }
     }
 }
