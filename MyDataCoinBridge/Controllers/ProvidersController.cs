@@ -1011,7 +1011,7 @@ namespace MyDataCoinBridge.Controllers
         [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(Models.GeneralResponse))]
         [Authorize]
         [HttpPost]
-        [Route("RewardCategoryByProvider/{Id}")]
+        [Route("RewardCategoryByProvider")]
         public async Task<IActionResult> RewardCategoryByProviderPOST(RewardCategoryByProviderRequest model)
         {
             var response = await _provider.RewardCategoryByProviderPOST(model);
