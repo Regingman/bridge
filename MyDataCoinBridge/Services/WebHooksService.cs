@@ -24,9 +24,29 @@ namespace MyDataCoinBridge.Services
             _context = context;
         }
 
-        public Task<GeneralResponse> EditUrl(SubscribeRequest model)
+        public async Task<GeneralResponse> EditUrl(SubscribeRequest model)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var webhook = await _context.WebHooks.SingleOrDefaultAsync(x => x.Secret == model.Token);
+                
+                webhook.IsActive = true;
+                webhook.ContentType = "application/json";
+                webhook.WebHookUrl = model.URL;
+                webhook.HookEvents = new HookEventType[]
+                {
+                    HookEventType.pd_requested,
+                    HookEventType.report_requested
+                };
+
+                _context.WebHooks.Update(webhook);
+                await _context.SaveChangesAsync();
+                return new GeneralResponse(200, "Ok");
+            }
+            catch (Exception ex)
+            {
+                return new GeneralResponse(400, "Error!");
+            }
         }
 
         public async Task<GeneralResponse> GetUrl(string token)

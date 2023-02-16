@@ -794,7 +794,7 @@ namespace MyDataCoinBridge.Services
                         && e.DataProviderId == provider.Id));
                         if (user != null)
                         {
-                            var reward = rewards.FirstOrDefault(r => r.Id == Guid.Parse(temp.RewardCategoryId));
+                            var reward = rewards.FirstOrDefault(r => r.RewardCategoryId == Guid.Parse(temp.RewardCategoryId));
                             if (reward != null)
                             {
                                 var transaction =

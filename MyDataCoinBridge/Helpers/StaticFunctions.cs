@@ -49,12 +49,12 @@ namespace MyDataCoinBridge.Helpers
             return base64;
         }
 
-        public static void SendCode(string email, string code)
+        public static void SendCode(string email, string code, string pass)
         {
             var smtpClient = new SmtpClient("smtpout.secureserver.net")
             {
                 Port = 587,
-                Credentials = new NetworkCredential("help@mydatacoin.io", "123123qQq"),
+                Credentials = new NetworkCredential("help@mydatacoin.io", pass),
                 EnableSsl = true,
             };
 
