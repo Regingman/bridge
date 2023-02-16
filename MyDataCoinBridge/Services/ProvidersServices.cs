@@ -767,7 +767,11 @@ namespace MyDataCoinBridge.Services
 
         public async Task<GeneralResponse> TransactionAddProvider(string token, List<TransactionProviderRequest> model)
         {
-            var rewards = await _context.RewardCategories.ToListAsync();
+            var rewards = await _context.RewardCategoryByProviders
+                .Include(e => e.RewardCategory)
+                .Include(e => e.DataProvider)
+                .Include(e => e.DataProvider.BridgeUser)
+                .Where(e => e.DataProvider.BridgeUser.TokenForService == token).ToListAsync();
             var list = new List<BridgeTransaction>();
             var users = await _context.UserTermsOfUses.Where(e => e.Email != null && e.Phone != null).ToListAsync();
             var provider = await _context.DataProviders
@@ -790,7 +794,7 @@ namespace MyDataCoinBridge.Services
                         && e.DataProviderId == provider.Id));
                         if (user != null)
                         {
-                            var reward = rewards.FirstOrDefault(r => r.Id == Guid.Parse(temp.RewardCategoryId));
+                            var reward = rewards.FirstOrDefault(r => r.RewardCategoryId == Guid.Parse(temp.RewardCategoryId));
                             if (reward != null)
                             {
                                 var transaction =
@@ -803,8 +807,8 @@ namespace MyDataCoinBridge.Services
                                         ProviderId = provider.Id.ToString(),
                                         ProviderName = provider.Name,
                                         RewardCategoryId = reward.Id.ToString(),
-                                        RewardCategoryName = reward.Name,
-                                        USDMDC = temp.Count * 0.1m,
+                                        RewardCategoryName = reward.RewardCategory.Name,
+                                        USDMDC = temp.Count * reward.Amount,
                                         UserId = user.UserId.ToString()
                                     };
                                 transaction.Commission = transaction.USDMDC / 10;

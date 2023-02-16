@@ -35,6 +35,7 @@ builder.Logging.AddConsole();
         options.SERVER_KEY = DotNetEnv.Env.GetString("SERVER_KEY", "Variable not found");
         options.JWT_KEY = DotNetEnv.Env.GetString("JWT_KEY", "Variable not found");
         options.DB_CONNECTION = DotNetEnv.Env.GetString("DB_CONNECTION", "Variable not found");
+        options.EMAIL_PASS = DotNetEnv.Env.GetString("EMAIL_PASS", "Variable not found");
     });
     //services.Configure<AppSettings>(builder.Configuration.GetSection("AppSettings"));
 

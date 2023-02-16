@@ -11,6 +11,7 @@ namespace MyDataCoinBridge.Helpers
 		public string FCM_CONFIGURATION { get; set; }
 		public string BRIDGE_URI { get; set; }
 		public string SERVER_KEY { get; set; }
+		public string EMAIL_PASS { get; set; }
 	}
 }
 

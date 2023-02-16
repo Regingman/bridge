@@ -548,7 +548,7 @@ namespace MyDataCoinBridge.Controllers
         /// <response code="421">Returns User Not Found</response>
         /// <response code="500">Returns Internal Server Error</response>
         [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(Models.GeneralResponse))]
-        [AllowAnonymous]
+        [Authorize]
         [HttpGet]
         [Route("RewardCategoryGet/{Id}")]
         public async Task<ActionResult<RewardCategoryRequest>> RewardCategoryGet(Guid Id)
@@ -574,7 +574,7 @@ namespace MyDataCoinBridge.Controllers
         /// <response code="421">Returns User Not Found</response>
         /// <response code="500">Returns Internal Server Error</response>
         [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(Models.GeneralResponse))]
-        [AllowAnonymous]
+        [Authorize]
         [HttpGet]
         [Route("RewardCategoryGetList")]
         public async Task<ActionResult<List<RewardCategoryRequest>>> RewardCategoryGetList()
@@ -625,7 +625,7 @@ namespace MyDataCoinBridge.Controllers
         /// <response code="421">Returns User Not Found</response>
         /// <response code="500">Returns Internal Server Error</response>
         [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(Models.GeneralResponse))]
-        [AllowAnonymous]
+        [Authorize]
         [HttpPost]
         [Route("TransactionCreate")]
         public async Task<IActionResult> TransactionCreate(TransactionRequest Transaction)
@@ -651,7 +651,7 @@ namespace MyDataCoinBridge.Controllers
         /// <response code="421">Returns User Not Found</response>
         /// <response code="500">Returns Internal Server Error</response>
         [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(Models.GeneralResponse))]
-        [AllowAnonymous]
+        [Authorize]
         [HttpPut]
         [Route("TransactionEdit/{Id}")]
         public async Task<IActionResult> TransactionEdit(Guid Id, TransactionRequest Transaction)
@@ -677,7 +677,7 @@ namespace MyDataCoinBridge.Controllers
         /// <response code="421">Returns User Not Found</response>
         /// <response code="500">Returns Internal Server Error</response>
         [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(TransactionRequest))]
-        [AllowAnonymous]
+        [Authorize]
         [HttpGet]
         [Route("TransactionGet/{Id}")]
         public async Task<ActionResult<TransactionRequest>> TransactionGet(Guid Id)
@@ -1011,7 +1011,7 @@ namespace MyDataCoinBridge.Controllers
         [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(Models.GeneralResponse))]
         [Authorize]
         [HttpPost]
-        [Route("RewardCategoryByProvider/{Id}")]
+        [Route("RewardCategoryByProvider")]
         public async Task<IActionResult> RewardCategoryByProviderPOST(RewardCategoryByProviderRequest model)
         {
             var response = await _provider.RewardCategoryByProviderPOST(model);
