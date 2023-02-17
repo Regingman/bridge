@@ -15,17 +15,17 @@ namespace MyDataCoinBridge.Services
 {
     public class UserService : IUser
     {
+        //private readonly AppSettings _appSettings;
         private readonly WebApiDbContext _context;
         private readonly ILogger<UserService> _logger;
         private readonly IJWTManager _jWTManager;
-        private readonly AppSettings _appSettings;
 
-        public UserService(ILogger<UserService> logger, WebApiDbContext context, IJWTManager jWTManager, AppSettings appSettings)
+        public UserService(ILogger<UserService> logger, WebApiDbContext context, IJWTManager jWTManager/*, AppSettings appSettings*/)
         {
             _logger = logger;
             _context = context;
             _jWTManager = jWTManager;
-            _appSettings = appSettings;
+            //_appSettings = appSettings;
         }
 
         public async Task<GeneralResponse> Registration(string email)
@@ -47,7 +47,7 @@ namespace MyDataCoinBridge.Services
                     bridgeUser.IsVerified = VerifiedEnum.No;
 
                     string code = StaticFunctions.GenerateCode();
-                    StaticFunctions.SendCode(email, code, _appSettings.EMAIL_PASS);
+                    StaticFunctions.SendCode(email, code, "123123qQq");
                     bridgeUser.VerificationCode = BC.HashPassword(code);
                     await _context.BridgeUsers.AddAsync(bridgeUser);
                     await _context.SaveChangesAsync();
@@ -74,7 +74,7 @@ namespace MyDataCoinBridge.Services
                 else
                 {
                     string code = StaticFunctions.GenerateCode();
-                    StaticFunctions.SendCode(email, code, _appSettings.EMAIL_PASS);
+                    StaticFunctions.SendCode(email, code, "123123qQq");
                     user.VerificationCode = BC.HashPassword(code);
                     await _context.SaveChangesAsync();
                     return new GeneralResponse(200, "OK");
