@@ -1172,7 +1172,13 @@ namespace MyDataCoinBridge.Services
                 _context.Remove(reward);
                 await _context.SaveChangesAsync();
 
-                return null;
+                return new RewardCategoryByProviderRequest()
+                {
+                    Amount = reward.Amount,
+                    Id = reward.Id,
+                    RewardCategoryId = reward.RewardCategoryId,
+                    RewardCategoryName = reward.RewardCategory.Name
+                };
             }
 
         }
