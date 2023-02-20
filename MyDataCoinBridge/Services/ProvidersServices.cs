@@ -1084,7 +1084,7 @@ namespace MyDataCoinBridge.Services
                     .Include(e => e.RewardCategory)
                     .Include(e => e.DataProvider.BridgeUser)
                     .Include(e => e.DataProvider.BridgeUser)
-                    .FirstOrDefaultAsync(e => e.DataProvider.BridgeUser.TokenForService == token);
+                    .FirstOrDefaultAsync(e => e.DataProvider.BridgeUser.TokenForService == token && e.Id == id);
 
                 return new RewardCategoryByProviderRequest()
                 {
