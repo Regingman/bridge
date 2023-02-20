@@ -426,7 +426,7 @@ namespace MyDataCoinBridge.Controllers
             var response = await _provider.GETBYID(token);
             if (response == null)
             {
-                return BadRequest();
+                return Ok();
             }
             else
             {
