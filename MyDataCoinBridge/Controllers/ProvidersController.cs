@@ -963,14 +963,7 @@ namespace MyDataCoinBridge.Controllers
         public async Task<IActionResult> RewardCategoryByProviderGETLIST(string token)
         {
             var response = await _provider.RewardCategoryByProviderGETLIST(token);
-            if (response == null)
-            {
-                return BadRequest();
-            }
-            else
-            {
-                return Ok(response);
-            }
+            return Ok(response);
         }
 
         /// <summary>
@@ -989,14 +982,7 @@ namespace MyDataCoinBridge.Controllers
         public async Task<IActionResult> RewardCategoryByProviderGETBYID(Guid Id, string token)
         {
             var response = await _provider.RewardCategoryByProviderGETBYID(Id, token);
-            if (response == null)
-            {
-                return BadRequest();
-            }
-            else
-            {
-                return Ok(response);
-            }
+            return Ok(response);
         }
 
         /// <summary>
