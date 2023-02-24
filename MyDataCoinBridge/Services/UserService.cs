@@ -165,36 +165,50 @@ namespace MyDataCoinBridge.Services
 
         public async Task<RefreshResponse> Refresh(Tokens tokens)
         {
-            var principal = _jWTManager.GetPrincipalFromExpiredToken(tokens.Access_Token);
-            var socialId = principal.Identity?.Name;
+            try
+            {
+                var principal = _jWTManager.GetPrincipalFromExpiredToken(tokens.Access_Token);
+                if (principal == null)
+                {
+                    return new RefreshResponse(401, "Token LifeTime ended!");
+                }
+                var socialId = principal.Identity?.Name;
 
-            //retrieve the saved refresh token from database
-            var savedRefreshToken = GetSavedRefreshTokens(socialId, tokens.Refresh_Token);
+                //retrieve the saved refresh token from database
+                var savedRefreshToken = GetSavedRefreshTokens(socialId, tokens.Refresh_Token);
+                if (savedRefreshToken == null)
+                {
+                    return new RefreshResponse(401, "Invalid attempt!");
+                }
+                if (savedRefreshToken.RefreshToken != tokens.Refresh_Token)
+                {
+                    return new RefreshResponse(401, "Invalid attempt!");
+                }
 
-            if (savedRefreshToken.RefreshToken != tokens.Refresh_Token)
+                var newJwtToken = _jWTManager.GenerateRefreshToken(socialId);
+
+                if (newJwtToken == null)
+                {
+                    return new RefreshResponse(401, "Invalid attempt!");
+                }
+
+                // saving refresh token to the db
+                UserRefreshToken obj = new UserRefreshToken
+                {
+                    RefreshToken = newJwtToken.Refresh_Token,
+                    Email = socialId,
+                };
+
+                DeleteUserRefreshTokens(socialId, tokens.Refresh_Token);
+                AddUserRefreshTokens(obj);
+                await _context.SaveChangesAsync();
+
+                return new RefreshResponse(200, newJwtToken);
+            }
+            catch (Exception ex)
             {
                 return new RefreshResponse(401, "Invalid attempt!");
             }
-
-            var newJwtToken = _jWTManager.GenerateRefreshToken(socialId);
-
-            if (newJwtToken == null)
-            {
-                return new RefreshResponse(401, "Invalid attempt!");
-            }
-
-            // saving refresh token to the db
-            UserRefreshToken obj = new UserRefreshToken
-            {
-                RefreshToken = newJwtToken.Refresh_Token,
-                Email = socialId,
-            };
-
-            DeleteUserRefreshTokens(socialId, tokens.Refresh_Token);
-            AddUserRefreshTokens(obj);
-            await _context.SaveChangesAsync();
-
-            return new RefreshResponse(200, newJwtToken);
         }
 
         public UserRefreshToken AddUserRefreshTokens(UserRefreshToken user)

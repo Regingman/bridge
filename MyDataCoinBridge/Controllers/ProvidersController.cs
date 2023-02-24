@@ -948,6 +948,33 @@ namespace MyDataCoinBridge.Controllers
         }
 
         /// <summary>
+        /// Get User info for provider
+        /// </summary>
+        [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(GeneralResponse))]
+        [Authorize]
+        [HttpPost("get_user_info_provicy")]
+        public async Task<IActionResult> GetUserInfoProvicy([FromBody] UserInfoModel model)
+        {
+            try
+            {
+                var result = await _provider.GetUserInfoProvicy(model);
+
+                if (result.Code == 200)
+                {
+                    return Ok(result.Message);
+                }
+                else
+                {
+                    return BadRequest(result.Message);
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex}");
+            }
+        }
+
+        /// <summary>
         /// RewardCategoryByProviderGETLIST
         /// </summary>
         /// <response code="200">Returns Success</response>

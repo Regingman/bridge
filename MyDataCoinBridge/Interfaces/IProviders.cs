@@ -60,6 +60,7 @@ namespace MyDataCoinBridge.Interfaces
         public Task<RewardCategoryByProviderRequest> RewardCategoryByProviderDELETE(Guid id, string token);
 
         public Task<GeneralResponse> GetUserInfo(UserInfoModel model);
+        public Task<GeneralResponse> GetUserInfoProvicy(UserInfoModel model);
     }
 }
 
