@@ -981,9 +981,144 @@ namespace MyDataCoinBridge.Services
 
         public async Task<GeneralResponse> GetUserInfo(UserInfoModel model)
         {
+            if (model.Action == 0)
+            {
+                try
+                {
+                    if (model.Server_Secret != _appSettings.SERVER_KEY)
+                    {
+                        return new GeneralResponse(400, "Error!");
+                    }
+
+                    var provider = await _context.DataProviders
+                        .Include(e => e.BridgeUser)
+                        .FirstOrDefaultAsync(e => e.Id == model.ProviderId);
+                    if (provider == null)
+                    {
+                        return new GeneralResponse(400, "Provider Not Found!");
+                    }
+
+                    var hook = await _context.WebHooks.FirstOrDefaultAsync(e => e.Secret == provider.BridgeUser.Secret);
+                    if (hook == null)
+                    {
+                        return new GeneralResponse(400, "Web Hook Not Found!");
+                    }
+                    if (!hook.IsActive)
+                    {
+                        return new GeneralResponse(400, "Web Hook Not Active!");
+                    }
+
+                    var client = _clientFactory.CreateClient();
+                    ProviderInfoModel modelUp = new ProviderInfoModel();
+                    modelUp.Action = model.Action;
+                    modelUp.Email = model.Emails;
+                    modelUp.Phone = model.Phones;
+                    modelUp.Secret = provider.BridgeUser.Secret;
+
+                    string json = JsonConvert.SerializeObject(modelUp);
+                    var httpContent = new StringContent(json, Encoding.UTF8, "application/json");
+                    var response = await client.PostAsync($"{hook.WebHookUrl}", httpContent);
+                    if (response.IsSuccessStatusCode)
+                    {
+                        try
+                        {
+                            var result = await response.Content.ReadAsStringAsync();
+                            Profile responseModel = JsonConvert.DeserializeObject<Profile>(result);
+                            responseModel.Action = model.Action;
+                            return new GeneralResponse(200, responseModel);
+                        }
+                        catch (Exception e)
+                        {
+                            return new GeneralResponse(400, e.Message);
+                        }
+                    }
+                    else
+                    {
+                        return new GeneralResponse(400, "");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    return new GeneralResponse(400, ex.Message);
+                }
+            }
+            else
+            {
+                try
+                {
+                    if (model.Server_Secret != _appSettings.SERVER_KEY)
+                    {
+                        return new GeneralResponse(400, "Error!");
+                    }
+
+                    var provider = await _context.DataProviders
+                        .Include(e => e.BridgeUser)
+                        .FirstOrDefaultAsync(e => e.Id == model.ProviderId);
+                    if (provider == null)
+                    {
+                        return new GeneralResponse(400, "Provider Not Found!");
+                    }
+
+                    var hook = await _context.WebHooks.FirstOrDefaultAsync(e => e.Secret == provider.BridgeUser.Secret);
+                    if (hook == null)
+                    {
+                        return new GeneralResponse(400, "Web Hook Not Found!");
+                    }
+                    if (!hook.IsActive)
+                    {
+                        return new GeneralResponse(400, "Web Hook Not Active!");
+                    }
+
+                    var client = _clientFactory.CreateClient();
+                    ProviderInfoModelProvicy modelUp = new ProviderInfoModelProvicy();
+                    modelUp.Action = model.Action;
+                    modelUp.Secret = provider.BridgeUser.Secret;
+                    modelUp.Video_VAST_desktop = model.Video_VAST_desktop;
+                    modelUp.Video_VAST_mobile = model.Video_VAST_mobile;
+                    modelUp.Multitag_mobile = model.Multitag_mobile;
+                    modelUp.In_page_desktop = model.In_page_desktop;
+                    modelUp.Credit_History = model.Credit_History;
+                    modelUp.Banner_mobile = model.Banner_mobile;
+                    modelUp.Personal_Data = model.Personal_Data;
+                    modelUp.Banner_desktop = model.Banner_desktop;
+                    modelUp.Conversion = model.Conversion;
+                    modelUp.Popunder_desktop = model.Popunder_desktop;
+                    modelUp.Multitag_desktop = model.Multitag_desktop;
+                    modelUp.View = model.View;
+                    modelUp.Insurance_History = model.Insurance_History;
+                    modelUp.Popunder_mobile = model.Popunder_mobile;
+                    modelUp.Click = model.Click;
+                    modelUp.In_page_mobile = model.In_page_mobile;
+                    string json = JsonConvert.SerializeObject(modelUp);
+                    var httpContent = new StringContent(json, Encoding.UTF8, "application/json");
+                    var response = await client.PostAsync($"{hook.WebHookUrl}", httpContent);
+                    if (response.IsSuccessStatusCode)
+                    {
+                        try
+                        {
+                            return new GeneralResponse(200, "Ok");
+                        }
+                        catch (Exception e)
+                        {
+                            return new GeneralResponse(400, e.Message);
+                        }
+                    }
+                    else
+                    {
+                        return new GeneralResponse(400, "");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    return new GeneralResponse(400, ex.Message);
+                }
+            }
+        }
+
+        public async Task<GeneralResponse> GetUserInfoProvicy(UserInfoModel model)
+        {
             try
             {
-
                 if (model.Server_Secret != _appSettings.SERVER_KEY)
                 {
                     return new GeneralResponse(400, "Error!");
@@ -1022,7 +1157,8 @@ namespace MyDataCoinBridge.Services
                     try
                     {
                         var result = await response.Content.ReadAsStringAsync();
-                        Profile responseModel = JsonConvert.DeserializeObject<Profile>(result);
+                        ProviderInfoModelProvicy responseModel = JsonConvert.DeserializeObject<ProviderInfoModelProvicy>(result);
+                        responseModel.Action = model.Action;
                         return new GeneralResponse(200, responseModel);
                     }
                     catch (Exception e)
