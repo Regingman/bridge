@@ -17,8 +17,8 @@ namespace MyDataCoinBridge.Models.WebHooks
 
     public class Profile
     {
-        public string LabelNameEn = "Profile";
-        public string LabelNameRu = "Профиль";
+        public string LabelName_en = "Profile";
+        public string LabelName_ru = "Профиль";
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public DateTime? DateOfBirth { get; set; }
@@ -29,8 +29,8 @@ namespace MyDataCoinBridge.Models.WebHooks
 
     public class BasicData
     {
-        public string LabelNameEn = "Basic Data";
-        public string LabelNameRu = "Базовая инфрмация";
+        public string LabelName_en = "Basic Data";
+        public string LabelName_ru = "Базовая инфрмация";
         public string[] Interests { get; set; }
         public string[] Languages { get; set; }
         public string[] ReligionViews { get; set; }
@@ -40,8 +40,8 @@ namespace MyDataCoinBridge.Models.WebHooks
 
     public class Contacts
     {
-        public string LabelNameEn = "Contacts";
-        public string LabelNameRu = "Контакты";
+        public string LabelName_en = "Contacts";
+        public string LabelName_ru = "Контакты";
         public string MobilePhone { get; set; }
         public string Address { get; set; }
         public string[] LinkedAccounts { get; set; }
@@ -50,8 +50,8 @@ namespace MyDataCoinBridge.Models.WebHooks
 
     public class WorkAndEducation
     {
-        public string LabelNameEn = "Work and education";
-        public string LabelNameRu = "Работа и образование";
+        public string LabelName_en = "Work and education";
+        public string LabelName_ru = "Работа и образование";
         public string PlaceOfWork { get; set; }
         public string[] Skills { get; set; }
         public string University { get; set; }
@@ -60,8 +60,8 @@ namespace MyDataCoinBridge.Models.WebHooks
 
     public class PlaceOfResidence
     {
-        public string LabelNameEn = "Place of residence";
-        public string LabelNameRu = "Место проживания";
+        public string LabelName_en = "Place of residence";
+        public string LabelName_ru = "Место проживания";
         public string CurrentCity { get; set; }
         public string BirthPlace { get; set; }
         public string[] OtherCities { get; set; }
@@ -69,8 +69,8 @@ namespace MyDataCoinBridge.Models.WebHooks
 
     public class PersonalInterests
     {
-        public string LabelNameEn = "Personal Interests";
-        public string LabelNameRu = "Личные интересы";
+        public string LabelName_en = "Personal Interests";
+        public string LabelName_ru = "Личные интересы";
         public string BreifDescription { get; set; }
         public string[] Hobby { get; set; }
         public string[] Sport { get; set; }

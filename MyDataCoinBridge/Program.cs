@@ -11,13 +11,9 @@ using MyDataCoinBridge.Helpers;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Hosting;
 using System.Text;
 using MyDataCoinBridge.DataAccess;
-using static System.Environment;
 using DotNetEnv;
-using Microsoft.Extensions.FileProviders;
-using Microsoft.AspNetCore.Http;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Logging.ClearProviders();

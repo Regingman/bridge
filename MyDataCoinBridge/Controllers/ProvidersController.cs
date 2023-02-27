@@ -1,15 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using System.Web;
 using Google.Apis.Auth.OAuth2.Responses;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using MyDataCoinBridge.Entities;
@@ -27,17 +23,12 @@ namespace MyDataCoinBridge.Controllers
     [Route("api/v1/[controller]")]
     public class ProvidersController : ControllerBase
     {
-        private readonly ILogger<ProvidersController> _logger;
         private readonly IProviders _provider;
         private readonly ClientInfo _clientInfo;
         private readonly ClientInfoFacebook _clientInfoFB;
         private readonly IHttpClientFactory _clientFactory;
 
-        public ProvidersController(ILogger<ProvidersController> logger, IProviders provider)
-        {
-            _logger = logger;
-            _provider = provider;
-        }
+        public ProvidersController(IProviders provider) => _provider = provider;
 
 
         /// <summary>
@@ -350,7 +341,7 @@ namespace MyDataCoinBridge.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex.Message);
+                Console.WriteLine(ex.Message);
                 return Ok();
             }
         }
