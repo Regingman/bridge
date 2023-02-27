@@ -19,6 +19,7 @@ using MyDataCoinBridge.Models;
 using MyDataCoinBridge.Models.Provider;
 using MyDataCoinBridge.Models.TermsOfUse;
 using MyDataCoinBridge.Models.Transaction;
+using MyDataCoinBridge.Models.WebHooks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using static MyDataCoinBridge.Models.WebHooks.WebHookUserProfileModel;
@@ -1023,8 +1024,8 @@ namespace MyDataCoinBridge.Services
                         try
                         {
                             var result = await response.Content.ReadAsStringAsync();
-                            Profile responseModel = JsonConvert.DeserializeObject<Profile>(result);
-                            responseModel.Action = model.Action;
+                            WebHookUserProfileModel responseModel = JsonConvert.DeserializeObject<WebHookUserProfileModel>(result);
+                            responseModel.Profile.Action = model.Action;
                             return new GeneralResponse(200, responseModel);
                         }
                         catch (Exception e)

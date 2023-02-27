@@ -133,7 +133,7 @@ namespace MyDataCoinBridge.Controllers
         [Route("SignIn")]
         [HttpGet]
         [Obsolete]
-        public async Task<IActionResult> SignInAsync(string? code, string? scope, string? state = "")
+        public async Task<IActionResult> SignInAsync(string code, string scope, string state = "")
         {
             var ClientId = _clientInfo.Client.client_id;
             var ClientSecret = _clientInfo.Client.client_secret;
@@ -924,7 +924,7 @@ namespace MyDataCoinBridge.Controllers
         /// Get User info for provider
         /// </summary>
         [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(GeneralResponse))]
-        [Authorize]
+        //[Authorize]
         [HttpPost("get_user_info")]
         public async Task<IActionResult> GetUserInfo([FromBody] UserInfoModel model)
         {

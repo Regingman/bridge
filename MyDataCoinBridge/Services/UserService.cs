@@ -207,6 +207,7 @@ namespace MyDataCoinBridge.Services
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex.Message);
                 return new RefreshResponse(401, "Invalid attempt!");
             }
         }

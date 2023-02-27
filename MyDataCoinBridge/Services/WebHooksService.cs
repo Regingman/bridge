@@ -8,8 +8,6 @@ using MyDataCoinBridge.Enums;
 using MyDataCoinBridge.Interfaces;
 using MyDataCoinBridge.Models;
 using MyDataCoinBridge.Models.WebHooks;
-using Newtonsoft.Json.Schema;
-using Newtonsoft.Json.Schema.Generation;
 
 namespace MyDataCoinBridge.Services
 {
@@ -45,6 +43,7 @@ namespace MyDataCoinBridge.Services
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex.Message);
                 return new GeneralResponse(400, "Error!");
             }
         }
@@ -107,11 +106,6 @@ namespace MyDataCoinBridge.Services
 
         public async Task<GeneralResponse> Unsubscribe(string token)
         {
-            // JSchemaGenerator generator = new JSchemaGenerator();
-            // JSchema schema = generator.Generate(typeof(WebHookUserProfileModel.Profile));
-            // Console.WriteLine(schema.ToString());
-            // return new GeneralResponse(200, schema.ToString());
-
             try
             {
                 var provider = await _context.BridgeUsers.
