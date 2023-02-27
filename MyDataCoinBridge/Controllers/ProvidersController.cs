@@ -948,11 +948,11 @@ namespace MyDataCoinBridge.Controllers
         }
 
         /// <summary>
-        /// Get User info for provider
+        /// Control users privacy settings
         /// </summary>
         [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(GeneralResponse))]
         [Authorize]
-        [HttpPost("get_user_info_provicy")]
+        [HttpPost("control-user-privacy")]
         public async Task<IActionResult> GetUserInfoProvicy([FromBody] UserInfoModel model)
         {
             try

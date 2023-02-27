@@ -1,4 +1,6 @@
 ﻿using System;
+using MyDataCoinBridge.Enums;
+
 namespace MyDataCoinBridge.Models.WebHooks
 {
 	public class WebHookUserProfileModel
@@ -17,7 +19,7 @@ namespace MyDataCoinBridge.Models.WebHooks
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public DateTime? DateOfBirth { get; set; }
-        public int? Gender { get; set; } // 0-Male, 1-Female
+        public Gender? Gender { get; set; } // 0-Male, 1-Female
         public string[] Email { get; set; }
         public string[] Phone { get; set; }
     }
