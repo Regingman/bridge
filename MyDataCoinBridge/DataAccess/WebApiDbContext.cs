@@ -19,7 +19,7 @@ namespace MyDataCoinBridge.DataAccess
 
         protected override void OnConfiguring(DbContextOptionsBuilder options)
         {
-            options.UseNpgsql("Server=20.231.58.174;Port=5432;Database=mdc-bridge;UserId=postgres;Password=qbwozINeO1A8lFBVWZ42;SSL Mode=Require;Trust Server Certificate=true");
+            options.UseNpgsql(_appSettings.DB_CONNECTION);
         }
 
 
