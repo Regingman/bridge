@@ -278,3 +278,5 @@ __pycache__/
 # tools/
 
 # End of https://www.toptal.com/developers/gitignore/api/aspnetcore
+.vs/MyDataCoinBridge/xs/UserPrefs.xml
+.vs/MyDataCoinBridge/xs/project-cache/MyDataCoinBridge-Debug.json

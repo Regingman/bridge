@@ -22,7 +22,6 @@ using MyDataCoinBridge.Models.Transaction;
 using MyDataCoinBridge.Models.WebHooks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using static MyDataCoinBridge.Models.WebHooks.WebHookUserProfileModel;
 
 namespace MyDataCoinBridge.Services
 {
@@ -1024,8 +1023,12 @@ namespace MyDataCoinBridge.Services
                         try
                         {
                             var result = await response.Content.ReadAsStringAsync();
-                            WebHookUserProfileModel responseModel = JsonConvert.DeserializeObject<WebHookUserProfileModel>(result);
-                            responseModel.Profile.Action = model.Action;
+                            UserPrivacyProfileModel responseModel = JsonConvert.DeserializeObject<UserPrivacyProfileModel>(result);
+
+                            UserPrivacySetting settings = await GetUserPrivacySettingsAsync(model.Emails[0]);
+
+                            responseModel.UserPrivacySettings = settings;
+
                             return new GeneralResponse(200, responseModel);
                         }
                         catch (Exception e)
@@ -1318,6 +1321,26 @@ namespace MyDataCoinBridge.Services
                 };
             }
 
+        }
+
+        private async Task<UserPrivacySetting> GetUserPrivacySettingsAsync(string email)
+        {
+            var res = await _context.UserPrivacySettings.SingleOrDefaultAsync(x => x.Email == email);
+
+            if(res == null)
+            {
+                UserPrivacySetting userPrivacy = new UserPrivacySetting();
+                userPrivacy.Id = new Guid();
+                userPrivacy.Email = email;
+
+                await _context.AddAsync(userPrivacy);
+                await _context.SaveChangesAsync();
+
+                return userPrivacy;
+            }
+
+            else
+                return res;
         }
     }
 }

@@ -1,5 +1,4 @@
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using MyDataCoinBridge.Entities;
@@ -20,7 +19,7 @@ namespace MyDataCoinBridge.DataAccess
 
         protected override void OnConfiguring(DbContextOptionsBuilder options)
         {
-            options.UseNpgsql(_appSettings.DB_CONNECTION);
+            options.UseNpgsql("Server=20.231.58.174;Port=5432;Database=mdc-bridge;UserId=postgres;Password=qbwozINeO1A8lFBVWZ42;SSL Mode=Require;Trust Server Certificate=true");
         }
 
 
@@ -33,6 +32,8 @@ namespace MyDataCoinBridge.DataAccess
         public DbSet<BridgeUser> BridgeUsers { get; set; }
         public DbSet<UserRefreshToken> UserRefreshTokens { get; set; }
         public DbSet<BridgeTransaction> BridgeTransactions { get; set; }
+
+        public DbSet<UserPrivacySetting> UserPrivacySettings { get; set; }
 
         public DbSet<WebHook> WebHooks { get; set; }
         public DbSet<WebHookRecord> WebHooksHistory { get; set; }

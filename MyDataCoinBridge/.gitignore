@@ -31,7 +31,10 @@ bld/
 [Oo]bj/
 [Ll]og/
 [Ll]ogs/
+.vscode
 
+.vs/MyDataCoinBridge/xs/UserPrefs.xml
+.vs/MyDataCoinBridge/xs/project-cache/MyDataCoinBridge-Debug.json
 # Visual Studio 2015/2017 cache/options directory
 .vs/
 .vs
