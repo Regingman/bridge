@@ -1323,6 +1323,43 @@ namespace MyDataCoinBridge.Services
 
         }
 
+        public async Task<GeneralResponse> ChangePrivacySettings(ChangePrivacySettingsRequest model)
+        {
+            var user = await _context.UserPrivacySettings.SingleOrDefaultAsync(x => x.Email == model.Email);
+
+            if(user == null)
+                return new GeneralResponse(204, "User Not Found");
+
+            switch(model.Category)
+            {
+                case "Profile":
+                user.Profile = model.SettingValue;
+                break;
+                case "BasicData":
+                user.Profile = model.SettingValue;
+                break;
+                case "Contacts":
+                user.Profile = model.SettingValue;
+                break;
+                case "WorkAndEducation":
+                user.Profile = model.SettingValue;
+                break;
+                case "PlaceOfResidence":
+                user.Profile = model.SettingValue;
+                break;
+                case "PersonalInterests":
+                user.Profile = model.SettingValue;
+                break;
+                case "UserPrivacySettings":
+                user.Profile = model.SettingValue;
+                break;
+            }
+
+            await _context.SaveChangesAsync();
+
+            return new GeneralResponse(200, "Ok");
+        }
+
         private async Task<UserPrivacySetting> GetUserPrivacySettingsAsync(string email)
         {
             var res = await _context.UserPrivacySettings.SingleOrDefaultAsync(x => x.Email == email);

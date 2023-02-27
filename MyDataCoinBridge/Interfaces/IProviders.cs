@@ -6,6 +6,7 @@ using MyDataCoinBridge.Models;
 using MyDataCoinBridge.Models.Provider;
 using MyDataCoinBridge.Models.TermsOfUse;
 using MyDataCoinBridge.Models.Transaction;
+using MyDataCoinBridge.Models.WebHooks;
 
 namespace MyDataCoinBridge.Interfaces
 {
@@ -61,6 +62,7 @@ namespace MyDataCoinBridge.Interfaces
 
         public Task<GeneralResponse> GetUserInfo(UserInfoModel model);
         public Task<GeneralResponse> GetUserInfoProvicy(UserInfoModel model);
+        public Task<GeneralResponse> ChangePrivacySettings(ChangePrivacySettingsRequest model);
     }
 }
 

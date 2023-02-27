@@ -13,6 +13,7 @@ using MyDataCoinBridge.Interfaces;
 using MyDataCoinBridge.Models;
 using MyDataCoinBridge.Models.TermsOfUse;
 using MyDataCoinBridge.Models.Transaction;
+using MyDataCoinBridge.Models.WebHooks;
 using Newtonsoft.Json;
 using Swashbuckle.AspNetCore.Annotations;
 using static MyDataCoinBridge.Models.GoogleMainModel;
@@ -939,16 +940,44 @@ namespace MyDataCoinBridge.Controllers
         }
 
         /// <summary>
-        /// Control users privacy settings
+        /// Метод не рабочий
+        /// </summary>
+        // [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(GeneralResponse))]
+        // [Authorize]
+        // [Obsolete]
+        // [HttpPost("control-user-privacy")]
+        // public async Task<IActionResult> GetUserInfoProvicy([FromBody] UserInfoModel model)
+        // {
+        //     try
+        //     {
+        //         var result = await _provider.GetUserInfoProvicy(model);
+
+        //         if (result.Code == 200)
+        //         {
+        //             return Ok(result.Message);
+        //         }
+        //         else
+        //         {
+        //             return BadRequest(result.Message);
+        //         }
+        //     }
+        //     catch (Exception ex)
+        //     {
+        //         return StatusCode(500, $"Internal server error: {ex}");
+        //     }
+        // }
+
+        /// <summary>
+        /// Change users privacy settings
         /// </summary>
         [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(GeneralResponse))]
         [Authorize]
         [HttpPost("control-user-privacy")]
-        public async Task<IActionResult> GetUserInfoProvicy([FromBody] UserInfoModel model)
+        public async Task<IActionResult> SetPrivacySettings([FromBody] ChangePrivacySettingsRequest model)
         {
             try
             {
-                var result = await _provider.GetUserInfoProvicy(model);
+                var result = await _provider.ChangePrivacySettings(model);
 
                 if (result.Code == 200)
                 {
