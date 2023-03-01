@@ -1336,22 +1336,19 @@ namespace MyDataCoinBridge.Services
                 user.Profile = model.SettingValue;
                 break;
                 case "BasicData":
-                user.Profile = model.SettingValue;
+                user.BasicData = model.SettingValue;
                 break;
                 case "Contacts":
-                user.Profile = model.SettingValue;
+                user.Contacts = model.SettingValue;
                 break;
                 case "WorkAndEducation":
-                user.Profile = model.SettingValue;
+                user.WorkAndEducation = model.SettingValue;
                 break;
                 case "PlaceOfResidence":
-                user.Profile = model.SettingValue;
+                user.PlaceOfResidence = model.SettingValue;
                 break;
                 case "PersonalInterests":
-                user.Profile = model.SettingValue;
-                break;
-                case "UserPrivacySettings":
-                user.Profile = model.SettingValue;
+                user.PersonalInterests = model.SettingValue;
                 break;
             }
 
