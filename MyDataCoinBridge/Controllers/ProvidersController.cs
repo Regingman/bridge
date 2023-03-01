@@ -7,7 +7,6 @@ using System.Web;
 using Google.Apis.Auth.OAuth2.Responses;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using MyDataCoinBridge.Entities;
 using MyDataCoinBridge.Interfaces;
 using MyDataCoinBridge.Models;
@@ -616,22 +615,22 @@ namespace MyDataCoinBridge.Controllers
         /// <response code="415">Returns Unsupported Media Type</response>
         /// <response code="421">Returns User Not Found</response>
         /// <response code="500">Returns Internal Server Error</response>
-        [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(Models.GeneralResponse))]
-        [Authorize]
-        [HttpPost]
-        [Route("TransactionCreate")]
-        public async Task<IActionResult> TransactionCreate(TransactionRequest Transaction)
-        {
-            var response = await _provider.TransactionPOST(Transaction);
-            if (response == null)
-            {
-                return BadRequest();
-            }
-            else
-            {
-                return Ok(response);
-            }
-        }
+        // [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(Models.GeneralResponse))]
+        // [Authorize]
+        // [HttpPost]
+        // [Route("TransactionCreate")]
+        // public async Task<IActionResult> TransactionCreate(TransactionRequest Transaction)
+        // {
+        //     var response = await _provider.TransactionPOST(Transaction);
+        //     if (response == null)
+        //     {
+        //         return BadRequest();
+        //     }
+        //     else
+        //     {
+        //         return Ok(response);
+        //     }
+        // }
 
         /// <summary>
         /// CRUD Edit Transaction
@@ -642,22 +641,22 @@ namespace MyDataCoinBridge.Controllers
         /// <response code="415">Returns Unsupported Media Type</response>
         /// <response code="421">Returns User Not Found</response>
         /// <response code="500">Returns Internal Server Error</response>
-        [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(Models.GeneralResponse))]
-        [Authorize]
-        [HttpPut]
-        [Route("TransactionEdit/{Id}")]
-        public async Task<IActionResult> TransactionEdit(Guid Id, TransactionRequest Transaction)
-        {
-            var response = await _provider.TransactionPUT(Id, Transaction);
-            if (response == null)
-            {
-                return BadRequest();
-            }
-            else
-            {
-                return Ok(response);
-            }
-        }
+        // [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(Models.GeneralResponse))]
+        // [Authorize]
+        // [HttpPut]
+        // [Route("TransactionEdit/{Id}")]
+        // public async Task<IActionResult> TransactionEdit(Guid Id, TransactionRequest Transaction)
+        // {
+        //     var response = await _provider.TransactionPUT(Id, Transaction);
+        //     if (response == null)
+        //     {
+        //         return BadRequest();
+        //     }
+        //     else
+        //     {
+        //         return Ok(response);
+        //     }
+        // }
 
         /// <summary>
         /// CRUD Get Transaction by Id
@@ -668,22 +667,22 @@ namespace MyDataCoinBridge.Controllers
         /// <response code="415">Returns Unsupported Media Type</response>
         /// <response code="421">Returns User Not Found</response>
         /// <response code="500">Returns Internal Server Error</response>
-        [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(TransactionRequest))]
-        [Authorize]
-        [HttpGet]
-        [Route("TransactionGet/{Id}")]
-        public async Task<ActionResult<TransactionRequest>> TransactionGet(Guid Id)
-        {
-            var response = await _provider.TransactionGETBYID(Id);
-            if (response == null)
-            {
-                return BadRequest();
-            }
-            else
-            {
-                return Ok(response);
-            }
-        }
+        // [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(TransactionRequest))]
+        // [Authorize]
+        // [HttpGet]
+        // [Route("TransactionGet/{Id}")]
+        // public async Task<ActionResult<TransactionRequest>> TransactionGet(Guid Id)
+        // {
+        //     var response = await _provider.TransactionGETBYID(Id);
+        //     if (response == null)
+        //     {
+        //         return BadRequest();
+        //     }
+        //     else
+        //     {
+        //         return Ok(response);
+        //     }
+        // }
 
         /// <summary>
         /// CRUD Get Transaction List
@@ -694,22 +693,22 @@ namespace MyDataCoinBridge.Controllers
         /// <response code="415">Returns Unsupported Media Type</response>
         /// <response code="421">Returns User Not Found</response>
         /// <response code="500">Returns Internal Server Error</response>
-        [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(List<TransactionRequest>))]
-        //[Authorize]
-        [HttpGet]
-        [Route("TransactionGetList")]
-        public async Task<ActionResult<List<TransactionRequest>>> TransactionGetList()
-        {
-            var response = await _provider.TransactionGETLIST();
-            if (response == null)
-            {
-                return BadRequest();
-            }
-            else
-            {
-                return Ok(response);
-            }
-        }
+        // [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(List<TransactionRequest>))]
+        // //[Authorize]
+        // [HttpGet]
+        // [Route("TransactionGetList")]
+        // public async Task<ActionResult<List<TransactionRequest>>> TransactionGetList()
+        // {
+        //     var response = await _provider.TransactionGETLIST();
+        //     if (response == null)
+        //     {
+        //         return BadRequest();
+        //     }
+        //     else
+        //     {
+        //         return Ok(response);
+        //     }
+        // }
 
         /// <summary>
         /// CRUD Get Country List
@@ -746,22 +745,22 @@ namespace MyDataCoinBridge.Controllers
         /// <response code="415">Returns Unsupported Media Type</response>
         /// <response code="421">Returns User Not Found</response>
         /// <response code="500">Returns Internal Server Error</response>
-        [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(Models.GeneralResponse))]
-        [Authorize]
-        [HttpDelete]
-        [Route("TransactionDelete/{Id}")]
-        public async Task<IActionResult> TransactionDelete(Guid Id)
-        {
-            var response = await _provider.TransactionDELETE(Id);
-            if (response == null)
-            {
-                return BadRequest();
-            }
-            else
-            {
-                return Ok(response);
-            }
-        }
+        // [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(Models.GeneralResponse))]
+        // [Authorize]
+        // [HttpDelete]
+        // [Route("TransactionDelete/{Id}")]
+        // public async Task<IActionResult> TransactionDelete(Guid Id)
+        // {
+        //     var response = await _provider.TransactionDELETE(Id);
+        //     if (response == null)
+        //     {
+        //         return BadRequest();
+        //     }
+        //     else
+        //     {
+        //         return Ok(response);
+        //     }
+        // }
 
         /// <summary>
         /// Get the terms of use status for user from provider
@@ -772,22 +771,22 @@ namespace MyDataCoinBridge.Controllers
         /// <response code="415">Returns Unsupported Media Type</response>
         /// <response code="421">Returns User Not Found</response>
         /// <response code="500">Returns Internal Server Error</response>
-        [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(List<TransactionRequest>))]
+        // [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(List<TransactionRequest>))]
         //[Authorize]
-        [HttpGet]
-        [Route("TermsOfUse")]
-        public async Task<ActionResult<List<TransactionRequest>>> TermOfUseStatus(string fio, Guid userId, Guid provaiderId)
-        {
-            var response = await _provider.TermOfUseStatus(fio, userId, provaiderId);
-            if (response == null)
-            {
-                return BadRequest();
-            }
-            else
-            {
-                return Ok(response);
-            }
-        }
+        // [HttpGet]
+        // [Route("TermsOfUse")]
+        // public async Task<ActionResult<List<TransactionRequest>>> TermOfUseStatus(string fio, Guid userId, Guid provaiderId)
+        // {
+        //     var response = await _provider.TermOfUseStatus(fio, userId, provaiderId);
+        //     if (response == null)
+        //     {
+        //         return BadRequest();
+        //     }
+        //     else
+        //     {
+        //         return Ok(response);
+        //     }
+        // }
 
         /// <summary>
         /// Get extended status for user from provider's terms of use
@@ -913,10 +912,10 @@ namespace MyDataCoinBridge.Controllers
         }
 
         /// <summary>
-        /// Get User info for provider
+        /// Get Users personal data from data holder
         /// </summary>
         [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(GeneralResponse))]
-        [Authorize]
+        //[Authorize]
         [HttpPost("get_user_info")]
         public async Task<IActionResult> GetUserInfo([FromBody] UserInfoModel model)
         {
@@ -939,34 +938,6 @@ namespace MyDataCoinBridge.Controllers
                 return StatusCode(500, $"Internal server error: {ex}");
             }
         }
-
-        /// <summary>
-        /// Метод не рабочий
-        /// </summary>
-        // [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(GeneralResponse))]
-        // [Authorize]
-        // [Obsolete]
-        // [HttpPost("control-user-privacy")]
-        // public async Task<IActionResult> GetUserInfoProvicy([FromBody] UserInfoModel model)
-        // {
-        //     try
-        //     {
-        //         var result = await _provider.GetUserInfoProvicy(model);
-
-        //         if (result.Code == 200)
-        //         {
-        //             return Ok(result.Message);
-        //         }
-        //         else
-        //         {
-        //             return BadRequest(result.Message);
-        //         }
-        //     }
-        //     catch (Exception ex)
-        //     {
-        //         return StatusCode(500, $"Internal server error: {ex}");
-        //     }
-        // }
 
         /// <summary>
         /// Change users privacy settings
