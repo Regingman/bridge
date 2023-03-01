@@ -1025,6 +1025,35 @@ namespace MyDataCoinBridge.Services
                             var result = await response.Content.ReadAsStringAsync();
                             UserPrivacyProfileModel responseModel = JsonConvert.DeserializeObject<UserPrivacyProfileModel>(result);
 
+                            // Basic data
+                            if(responseModel.BasicData.Interests == null)
+                                responseModel.BasicData.Interests = new string[] {};
+                            if(responseModel.BasicData.Languages == null)
+                                responseModel.BasicData.Languages = new string[] {};
+                            if(responseModel.BasicData.ReligionViews == null)
+                                responseModel.BasicData.ReligionViews = new string[] {};
+                            if(responseModel.BasicData.PoliticalViews == null)
+                                responseModel.BasicData.PoliticalViews = new string[] {};
+
+                            // Contacts
+                            if(responseModel.Contacts.LinkedAccounts == null)
+                                responseModel.Contacts.LinkedAccounts = new string[] {};
+
+                            // Work and education
+                            if(responseModel.WorkAndEducation.Skills == null)
+                                responseModel.WorkAndEducation.Skills = new string[] {};
+                            
+                            // Place of residence
+                            if(responseModel.PlaceOfResidence.OtherCities == null)
+                                responseModel.PlaceOfResidence.OtherCities = new string[] {};
+
+                            // Personal interests
+                            if(responseModel.PersonalInterests.Hobby == null)
+                                responseModel.PersonalInterests.Hobby = new string[] {};
+                            if(responseModel.PersonalInterests.Sport == null)
+                                responseModel.PersonalInterests.Sport = new string[] {};
+
+
                             UserPrivacySetting settings = await GetUserPrivacySettingsAsync(model.Emails[0]);
 
                             responseModel.UserPrivacySettings = settings;

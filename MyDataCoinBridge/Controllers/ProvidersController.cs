@@ -916,7 +916,7 @@ namespace MyDataCoinBridge.Controllers
         /// Get User info for provider
         /// </summary>
         [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(GeneralResponse))]
-        //[Authorize]
+        [Authorize]
         [HttpPost("get_user_info")]
         public async Task<IActionResult> GetUserInfo([FromBody] UserInfoModel model)
         {
@@ -935,6 +935,7 @@ namespace MyDataCoinBridge.Controllers
             }
             catch (Exception ex)
             {
+                Console.WriteLine(ex.Message);
                 return StatusCode(500, $"Internal server error: {ex}");
             }
         }
@@ -990,6 +991,7 @@ namespace MyDataCoinBridge.Controllers
             }
             catch (Exception ex)
             {
+                Console.WriteLine(ex.Message);
                 return StatusCode(500, $"Internal server error: {ex}");
             }
         }

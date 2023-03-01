@@ -31,10 +31,10 @@ namespace MyDataCoinBridge.Models.WebHooks
     {
         public string LabelName_en = "Basic Data";
         public string LabelName_ru = "Базовая инфрмация";
-        public string[] Interests { get; set; }
-        public string[] Languages { get; set; }
-        public string[] ReligionViews { get; set; }
-        public string[] PoliticalViews { get; set; }
+        public string[] Interests { get; set; } = new string[] {};
+        public string[] Languages { get; set; } = new string[] {};
+        public string[] ReligionViews { get; set; } = new string[] {};
+        public string[] PoliticalViews { get; set; } = new string[] {};
 
     }
 
@@ -44,7 +44,7 @@ namespace MyDataCoinBridge.Models.WebHooks
         public string LabelName_ru = "Контакты";
         public string MobilePhone { get; set; }
         public string Address { get; set; }
-        public string[] LinkedAccounts { get; set; }
+        public string[] LinkedAccounts { get; set; } = new string[] {};
         public string Website { get; set; }
     }
 
@@ -53,7 +53,7 @@ namespace MyDataCoinBridge.Models.WebHooks
         public string LabelName_en = "Work and education";
         public string LabelName_ru = "Работа и образование";
         public string PlaceOfWork { get; set; }
-        public string[] Skills { get; set; }
+        public string[] Skills { get; set; } = new string[] {};
         public string University { get; set; }
         public string Faculty { get; set; }
     }
@@ -64,7 +64,7 @@ namespace MyDataCoinBridge.Models.WebHooks
         public string LabelName_ru = "Место проживания";
         public string CurrentCity { get; set; }
         public string BirthPlace { get; set; }
-        public string[] OtherCities { get; set; }
+        public string[] OtherCities { get; set; } = new string[] {};
     }
 
     public class PersonalInterests
@@ -72,8 +72,8 @@ namespace MyDataCoinBridge.Models.WebHooks
         public string LabelName_en = "Personal Interests";
         public string LabelName_ru = "Личные интересы";
         public string BreifDescription { get; set; }
-        public string[] Hobby { get; set; }
-        public string[] Sport { get; set; }
+        public string[] Hobby { get; set; } = new string[] {};
+        public string[] Sport { get; set; } = new string[] {};
     }
 }
 
