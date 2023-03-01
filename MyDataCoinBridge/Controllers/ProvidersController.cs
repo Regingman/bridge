@@ -915,7 +915,7 @@ namespace MyDataCoinBridge.Controllers
         /// Get Users personal data from data holder
         /// </summary>
         [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(GeneralResponse))]
-        [Authorize]
+        //[Authorize]
         [HttpPost("get_user_info")]
         public async Task<IActionResult> GetUserInfo([FromBody] UserInfoModel model)
         {
