@@ -106,7 +106,7 @@ namespace MyDataCoinBridge.Services
                 if(country == null)
                     return new ProvidersListResponse(204, "Countries Not Found");
 
-                if(list == null)
+                if(list.Count == 0)
                     return new ProvidersListResponse(200, "", country, false);
                 else
                     return new ProvidersListResponse(200, "", country, true);
