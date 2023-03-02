@@ -1,14 +1,12 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using MyDataCoinBridge.Entities;
 using MyDataCoinBridge.Interfaces;
 using MyDataCoinBridge.Models;
 using MyDataCoinBridge.Models.Transaction;
 using Swashbuckle.AspNetCore.Annotations;
 using System.Collections.Generic;
 using System.Net;
-using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace MyDataCoinBridge.Controllers
@@ -93,7 +91,7 @@ namespace MyDataCoinBridge.Controllers
         [Route("claim/{userId}")]
         public async Task<IActionResult> GetClaimStatistic(string userId)
         {
-            var result = await _provider.GetClaimStatistic(userId);
+            var result = await _provider.Claim(userId);
             return Ok(result);
         }
     }

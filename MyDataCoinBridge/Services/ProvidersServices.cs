@@ -11,6 +11,7 @@ using Firebase.Storage;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using MyDataCoin.Models;
 using MyDataCoinBridge.DataAccess;
 using MyDataCoinBridge.Entities;
 using MyDataCoinBridge.Helpers;
@@ -51,55 +52,70 @@ namespace MyDataCoinBridge.Services
             return await _context.DataProviders.SingleOrDefaultAsync(x => x.Id == id);
         }
 
-        public async Task<List<ProvaidersRequest>> GetUsersProvidersAsync(string countryCode, string userId)
+        public async Task<ProvidersListResponse> GetUsersProvidersAsync(string countryCode, string userId)
         {
-            var prodavaders = await _context.UserTermsOfUses.Where(e => e.UserId == Guid.Parse(userId)).ToListAsync();
-            var country = await _context.Countries
-                .Include(provider => provider.DataProviders)
-                .Where(x => x.CountryCode == countryCode)
-                .Select(x => new ProvaidersRequest(
-                    )
-                {
-                    CountryCode = x.CountryCode,
-                    CountryName = x.CountryName,
-                    DataProviders = x.DataProviders.Select(e => new DataProviderRequest()
-                    {
-                        Id = e.Id,
-                        Address = e.Address,
-                        CreatedAt = e.CreatedAt,
-                        Countries = e.Countries.Select(e => new CountryRequest()
-                        {
-                            CountryCode = e.CountryCode,
-                            CountryName = e.CountryName,
-                            PhoneCode = e.PhoneCode
-                        }).ToList(),
-                        Email = e.Email,
-                        Icon = e.Icon,
-                        Name = e.Name,
-                        Phone = e.Phone,
-                        RewardCategories = e.RewardCategories.Select(e => new RewardCategoryRequest()
-                        {
-                            Description = e.Description,
-                            Name = e.Name
-                        }).ToList(),
-
-                    }).ToList(),
-                    PhoneCode = x.PhoneCode
-                })
-                .ToListAsync();
-            country.ForEach(e =>
+            try
             {
-                if (e.DataProviders.Count() > 0)
-                {
-                    bool flag = false;
-                    foreach (var temp in e.DataProviders)
+                var providers = await _context.UserTermsOfUses.Where(e => e.UserId == Guid.Parse(userId)).ToListAsync();
+                var country = await _context.Countries
+                    .Include(provider => provider.DataProviders)
+                    .Where(x => x.CountryCode == countryCode)
+                    .Select(x => new ProvidersRequest(
+                        )
                     {
-                        flag = prodavaders.Where(x => x.DataProviderId == temp.Id && x.IsRegistered).Count() > 0;
-                        temp.Connected = flag;
+                        CountryCode = x.CountryCode,
+                        CountryName = x.CountryName,
+                        DataProviders = x.DataProviders.Select(e => new DataProviderRequest()
+                        {
+                            Id = e.Id, Address = e.Address, CreatedAt = e.CreatedAt,
+                            Countries = e.Countries.Select(e => new CountryRequest()
+                            {
+                                CountryCode = e.CountryCode,
+                                CountryName = e.CountryName,
+                                PhoneCode = e.PhoneCode
+                            }).ToList(),
+                            Email = e.Email, Icon = e.Icon, Name = e.Name, Phone = e.Phone,
+                            RewardCategories = e.RewardCategories.Select(e => new RewardCategoryRequest()
+                            {
+                                Description = e.Description,
+                                Name = e.Name
+                            }).ToList(),
+
+                        }).ToList(),
+                        PhoneCode = x.PhoneCode
+                    })
+                    .ToListAsync();
+                country.ForEach(e =>
+                {
+                    if (e.DataProviders.Count() > 0)
+                    {
+                        bool flag = false;
+                        foreach (var temp in e.DataProviders)
+                        {
+                            flag = providers.Where(x => x.DataProviderId == temp.Id && x.IsRegistered).Count() > 0;
+                            temp.Connected = flag;
+                        }
                     }
-                }
-            });
-            return country;
+                });
+
+                var list = await _context.BridgeTransactions.Where(e => e.UserId == userId && !e.Claim).ToListAsync();
+
+                if(providers == null)
+                    return new ProvidersListResponse(204, "Providers Not Found");
+
+                if(country == null)
+                    return new ProvidersListResponse(204, "Countries Not Found");
+
+                if(list == null)
+                    return new ProvidersListResponse(200, "", country, false);
+                else
+                    return new ProvidersListResponse(200, "", country, true);
+            }
+            catch(Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return new ProvidersListResponse(400, ex.Message);
+            }
         }
 
         public async Task<string> GetDataFromFacebookAsync(string jwtToken)
@@ -869,7 +885,7 @@ namespace MyDataCoinBridge.Services
             }).ToListAsync();
         }
 
-        public async Task<decimal> GetClaimStatistic(string userId)
+        public async Task<decimal> Claim(string userId)
         {
             var list = await _context.BridgeTransactions.Where(e => e.UserId == userId && !e.Claim).ToListAsync();
             foreach (var temp in list)

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using MyDataCoin.Models;
 using MyDataCoinBridge.Entities;
 using MyDataCoinBridge.Models;
 using MyDataCoinBridge.Models.Provider;
@@ -14,7 +15,7 @@ namespace MyDataCoinBridge.Interfaces
     {
         Task<DataProvider> GetProviderByIdAsync(Guid id);
         Task<DataProvider> GetProviderByToken(string token);
-        Task<List<ProvaidersRequest>> GetUsersProvidersAsync(string country, string userId);
+        Task<ProvidersListResponse> GetUsersProvidersAsync(string country, string userId);
         Task<GeneralResponse> GetDataFromGoogleAsync(string jwtToken);
         Task<string> GetDataFromFacebookAsync(string jwtToken);
 
@@ -48,7 +49,7 @@ namespace MyDataCoinBridge.Interfaces
         public Task<GeneralResponse> TransactionAddProvider(string token, List<TransactionProviderRequest> model);
         public Task<List<TransactionProviderResponse>> GetStatisticFromProvider(string token);
         public Task<List<TransactionProviderResponse>> GetStatisticFromProviderFromAdmin();
-        public Task<decimal> GetClaimStatistic(string userId);
+        public Task<decimal> Claim(string userId);
         public Task<GeneralResponse> Upload(Uploadrequest model);
         Task<DataProvider> LogoUpload(string path, DataProvider provider);
 
