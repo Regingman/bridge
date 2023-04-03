@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MyDataCoinBridge.DataAccess;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
@@ -12,9 +13,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace MyDataCoinBridge.Migrations
 {
     [DbContext(typeof(WebApiDbContext))]
-    partial class WebApiDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230403101727_termofuserupdate")]
+    partial class termofuserupdate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -255,38 +258,6 @@ namespace MyDataCoinBridge.Migrations
                     b.HasKey("TxId");
 
                     b.ToTable("Transactions");
-                });
-
-            modelBuilder.Entity("MyDataCoinBridge.Entities.UserPrivacySetting", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<bool>("BasicData")
-                        .HasColumnType("boolean");
-
-                    b.Property<bool>("Contacts")
-                        .HasColumnType("boolean");
-
-                    b.Property<string>("Email")
-                        .HasColumnType("text");
-
-                    b.Property<bool>("PersonalInterests")
-                        .HasColumnType("boolean");
-
-                    b.Property<bool>("PlaceOfResidence")
-                        .HasColumnType("boolean");
-
-                    b.Property<bool>("Profile")
-                        .HasColumnType("boolean");
-
-                    b.Property<bool>("WorkAndEducation")
-                        .HasColumnType("boolean");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("UserPrivacySettings");
                 });
 
             modelBuilder.Entity("MyDataCoinBridge.Entities.UserRefreshToken", b =>
