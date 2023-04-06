@@ -514,90 +514,6 @@ namespace MyDataCoinBridge.Services
             }
         }
 
-        // public async Task<TransactionRequest> TransactionPOST(TransactionRequest model)
-        // {
-        //     var tr = await _context.Transactions.FirstOrDefaultAsync(e => e.TxId == model.TxId);
-        //     {
-        //         if (tr == null)
-        //         {
-        //             tr = new Transaction()
-        //             {
-        //                 Amount = model.Amount,
-        //                 From = model.From,
-        //                 To = model.To,
-        //                 TxDate = model.TxDate,
-        //                 Type = TransactionHelpers.TransactionTypeToInt(model.Type),
-        //             };
-        //             await _context.Transactions.AddAsync(tr);
-        //             await _context.SaveChangesAsync();
-        //             model.TxId = tr.TxId;
-        //             return model;
-        //         }
-        //         else
-        //         {
-        //             return null;
-        //         }
-        //     }
-        // }
-
-        // public async Task<TransactionRequest> TransactionGETBYID(Guid id) => await _context.Transactions
-        //    .Select(e => new TransactionRequest()
-        //    {
-        //        Amount = e.Amount,
-        //        From = e.From,
-        //        To = e.To,
-        //        TxDate = e.TxDate,
-        //        Type = TransactionHelpers.TransactionType(e.Type),
-        //        TxId = e.TxId
-        //    }).FirstOrDefaultAsync(e => e.TxId == id);
-
-        // public async Task<List<TransactionRequest>> TransactionGETLIST() => await _context.Transactions
-        //     .Select(e => new TransactionRequest()
-        //     {
-        //         Amount = e.Amount,
-        //         From = e.From,
-        //         To = e.To,
-        //         TxDate = e.TxDate,
-        //         Type = TransactionHelpers.TransactionType(e.Type),
-        //         TxId = e.TxId
-        //     })
-        //     .ToListAsync();
-
-        // public async Task<TransactionRequest> TransactionPUT(Guid id, TransactionRequest model)
-        // {
-        //     var tr = await _context.Transactions.FirstOrDefaultAsync(e => e.TxId == id);
-        //     if (tr == null)
-        //     {
-        //         return null;
-        //     }
-        //     else
-        //     {
-        //         tr.Amount = model.Amount;
-        //         tr.From = model.From;
-        //         tr.To = model.To;
-        //         tr.TxDate = model.TxDate;
-        //         tr.Type = TransactionHelpers.TransactionTypeToInt(model.Type);
-        //         _context.Transactions.Update(tr);
-        //         await _context.SaveChangesAsync();
-        //         return model;
-        //     }
-        // }
-
-        // public async Task<TransactionRequest> TransactionDELETE(Guid id)
-        // {
-        //     var tr = await _context.Transactions.FirstOrDefaultAsync(e => e.TxId == id);
-        //     if (tr == null)
-        //     {
-        //         return null;
-        //     }
-        //     else
-        //     {
-        //         _context.Transactions.Remove(tr);
-        //         await _context.SaveChangesAsync();
-        //         return new TransactionRequest();
-        //     }
-        // }
-
         public async Task<TermOfUse> TermOfUseStatus(Guid userId, Guid provaiderId, List<string> email, List<string> phone)
         {
             var provaider = await _context.DataProviders.FirstOrDefaultAsync(e => e.Id == provaiderId);
@@ -637,42 +553,42 @@ namespace MyDataCoinBridge.Services
             return termResponse;
         }
 
-        // public async Task<TermOfUse> TermOfUseStatus(string userFIO, Guid userId, Guid provaiderId)
-        // {
-        //     var provaider = await _context.DataProviders.FirstOrDefaultAsync(e => e.Id == provaiderId);
-        //     if (provaider == null)
-        //     {
-        //         return null;
-        //     }
-        //     var termResponse = new TermOfUse()
-        //     {
-        //         Flag = false,
-        //         Logo = provaider.Icon,
-        //         ProviderName = provaider.Name,
-        //         Text = GetTerms(userFIO, provaider.Name),
-        //     };
-        //     var useTerm = await _context.UserTermsOfUses.FirstOrDefaultAsync(e => e.UserId == userId && e.DataProviderId == provaiderId);
-        //     if (useTerm == null)
-        //     {
-        //         useTerm = new UserTermsOfUse()
-        //         {
-        //             UserId = userId,
-        //             DataProviderId = provaiderId,
-        //             IsRegistered = false,
-        //         };
-        //         await _context.UserTermsOfUses.AddAsync(useTerm);
-        //         await _context.SaveChangesAsync();
-        //     }
-        //     else if (useTerm.IsRegistered == false)
-        //     {
-        //         termResponse.Flag = false;
-        //     }
-        //     else
-        //     {
-        //         termResponse.Flag = true;
-        //     }
-        //     return termResponse;
-        // }
+        public async Task<TermOfUse> TermOfUseStatus(string userFIO, Guid userId, Guid provaiderId)
+        {
+            var provaider = await _context.DataProviders.FirstOrDefaultAsync(e => e.Id == provaiderId);
+            if (provaider == null)
+            {
+                return null;
+            }
+            var termResponse = new TermOfUse()
+            {
+                Flag = false,
+                Logo = provaider.Icon,
+                ProviderName = provaider.Name,
+                Text = GetTerms(userFIO, provaider.Name),
+            };
+            var useTerm = await _context.UserTermsOfUses.FirstOrDefaultAsync(e => e.UserId == userId && e.DataProviderId == provaiderId);
+            if (useTerm == null)
+            {
+                useTerm = new UserTermsOfUse()
+                {
+                    UserId = userId,
+                    DataProviderId = provaiderId,
+                    IsRegistered = false,
+                };
+                await _context.UserTermsOfUses.AddAsync(useTerm);
+                await _context.SaveChangesAsync();
+            }
+            else if (useTerm.IsRegistered == false)
+            {
+                termResponse.Flag = false;
+            }
+            else
+            {
+                termResponse.Flag = true;
+            }
+            return termResponse;
+        }
 
         public async Task<bool> TermOfUseApply(Guid userId, Guid provaiderId)
         {

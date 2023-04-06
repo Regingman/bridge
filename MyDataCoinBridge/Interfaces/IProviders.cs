@@ -32,14 +32,9 @@ namespace MyDataCoinBridge.Interfaces
         public Task<RewardCategoryRequest> RewardCategoryPUT(Guid id, RewardCategoryRequest model);
         public Task<RewardCategoryRequest> RewardCategoryDELETE(Guid id);
 
-        // public Task<TransactionRequest> TransactionPOST(TransactionRequest model);
-        // public Task<TransactionRequest> TransactionGETBYID(Guid id);
-        // public Task<List<TransactionRequest>> TransactionGETLIST();
-        // public Task<TransactionRequest> TransactionPUT(Guid id, TransactionRequest model);
-        // public Task<TransactionRequest> TransactionDELETE(Guid id);
 
         public Task<TermOfUse> TermOfUseStatus(Guid userId, Guid provaiderId, List<string> email, List<string> phone);
-        //public Task<TermOfUse> TermOfUseStatus(string userFIO, Guid userId, Guid provaiderId);
+        public Task<TermOfUse> TermOfUseStatus(string userFIO, Guid userId, Guid provaiderId);
         public Task<bool> TermOfUseApply(Guid userId, Guid provaiderId);
         public Task<bool> TermOfUseCancel(Guid userId, Guid provaiderId);
         //public Task<AllDataFromStatisticRequest> GetStatistics(string userId);
