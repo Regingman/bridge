@@ -24,11 +24,6 @@ namespace MyDataCoin.Models
         public string ErrorMessage { get; set; }
 
         public List<ProvidersRequest> Providers { get; set; }
-
-        ///summary
-        /// If true, there is something to claim
-		/// </summary>
-		/// <example>true</example>
         public bool Claimable { get; set; }
     }
 }
