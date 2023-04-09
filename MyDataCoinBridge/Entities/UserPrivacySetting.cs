@@ -21,6 +21,7 @@ namespace MyDataCoinBridge.Entities
         public bool PlaceOfResidence { get; set; } = false;
 
         public bool PersonalInterests { get; set; } = false;
+        public CategoryTermsOfUse CategoryTermsOfUse { get; set; } = CategoryTermsOfUse.Monetize;
     }
 }
 

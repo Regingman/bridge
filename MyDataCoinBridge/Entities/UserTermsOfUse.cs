@@ -11,7 +11,6 @@ namespace MyDataCoinBridge.Entities
 
         public Guid UserId { get; set; }
         public Guid DataProviderId { get; set; }
-        public CategoryTermsOfUse CategoryTermsOfUse { get; set; } = CategoryTermsOfUse.Monetize;
         #nullable enable
         public DataProvider? DataProvider { get; set; }
         #nullable disable
